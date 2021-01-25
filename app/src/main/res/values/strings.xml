@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_sat_map">Satellitenkarte</string>
+    <string name="title_sat_table">Satellitentabelle</string>
+    <string name="title_accuracy_opt">Genauigkeitsoptimierung</string>
 </resources>
