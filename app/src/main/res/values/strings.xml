@@ -5,5 +5,13 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_sat_map">Satellitenkarte</string>
     <string name="title_sat_table">Satellitentabelle</string>
-    <string name="title_accuracy_opt">Genauigkeitsoptimierung</string>
+    <string name="title_accuracy_opt">Genauigkeit</string>
+    <string name="title_legend">Legende</string>
+    <string name="title_positional_data">Meine Positionsdaten</string>
+    <string name="title_time">Zeit</string>
+    <string name="title_longitude">Längengrad</string>
+    <string name="title_latitude">Breitengrad</string>
+    <string name="title_height">Höhe</string>
+    <string name="title_horizontal_acc">Horizontale Genauigkeit</string>
+    <string name="title_vertical_acc">Vertikale Genauigkeit</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.gnssnavigationstatus.ui.dashboard
+package com.example.gnssnavigationstatus.ui.table
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
 
-class DashboardFragment : Fragment() {
+class TableFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var tableViewModel: TableViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        tableViewModel =
+                ViewModelProvider(this).get(TableViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_table, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        tableViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
