@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="Galileo"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_legend"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:text="BeiDou"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
         app:layout_constraintTop_toBottomOf="@+id/legend_title"
@@ -49,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:text="GLONASS"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
         app:layout_constraintTop_toBottomOf="@+id/legend_title"
@@ -60,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="GPS"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/legend_title"
@@ -71,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="248dp"
         android:text="@string/title_positional_data"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +84,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -101,14 +108,16 @@
                 android:id="@+id/time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_time" />
+                android:text="@string/title_time"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15:00"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
 
         <TableRow
@@ -120,14 +129,16 @@
                 android:id="@+id/long_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_longitude" />
+                android:text="@string/title_longitude"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/long_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="9,0895944° W"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
 
         <TableRow
@@ -139,14 +150,16 @@
                 android:id="@+id/lat_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_latitude" />
+                android:text="@string/title_latitude"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/lat_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="49,0664009° W"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
 
         <TableRow
@@ -158,14 +171,16 @@
                 android:id="@+id/height_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_height" />
+                android:text="@string/title_height"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/height_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="43m"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
 
         <TableRow
@@ -177,14 +192,16 @@
                 android:id="@+id/horiz_acc_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_horizontal_acc" />
+                android:text="@string/title_horizontal_acc"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/horiz_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10cm"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
 
         <TableRow
@@ -196,14 +213,16 @@
                 android:id="@+id/vert_acc_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_vertical_acc" />
+                android:text="@string/title_vertical_acc"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/vert_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20cm"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:textColor="#000000" />
         </TableRow>
     </TableLayout>
 
@@ -261,5 +280,43 @@
         app:layout_constraintEnd_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/legend_title"
         app:layout_constraintVertical_bias="0.325" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:enabled="true"
+        android:src="@drawable/ic_filter_alt_24px"
+        android:tintMode="multiply"
+        app:backgroundTint="#FFFFFF"
+        app:elevation="0dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:tint="#FFFFFF" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:src="@drawable/ic_update_24px"
+        android:tintMode="multiply"
+        app:backgroundTint="#FFFFFF"
+        app:elevation="0dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:tint="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

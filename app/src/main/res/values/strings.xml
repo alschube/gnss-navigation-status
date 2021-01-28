@@ -16,4 +16,5 @@
     <string name="title_vertical_acc">Vertikale Genauigkeit</string>
     <string name="title_error_card">Aktuelle Abweichung (cm)</string>
     <string name="title_opt_button">Jetzt Optimieren</string>
+    <string name="action_settings">Einstellungen</string>
 </resources>
