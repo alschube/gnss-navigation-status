@@ -14,4 +14,6 @@
     <string name="title_height">Höhe</string>
     <string name="title_horizontal_acc">Horizontale Genauigkeit</string>
     <string name="title_vertical_acc">Vertikale Genauigkeit</string>
+    <string name="title_error_card">Aktuelle Abweichung (cm)</string>
+    <string name="title_opt_button">Jetzt Optimieren</string>
 </resources>

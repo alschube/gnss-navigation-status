@@ -22,9 +22,9 @@ class AccuracyFragment : Fragment() {
         accuracyViewModel =
                 ViewModelProvider(this).get(AccuracyViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_accuracy, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
+        //val textView: TextView = root.findViewById(R.id.text_notifications)
         accuracyViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            //textView.text = it
         })
         return root
     }

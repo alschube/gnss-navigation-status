@@ -22,9 +22,9 @@ class TableFragment : Fragment() {
         tableViewModel =
                 ViewModelProvider(this).get(TableViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_table, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        //val textView: TextView = root.findViewById(R.id.text_dashboard)
         tableViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            //textView.text = it
         })
         return root
     }
