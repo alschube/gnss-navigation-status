@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_sat_map">
+
+    <fragment
+        android:id="@+id/navigation_sat_map"
+        android:name="com.example.gnssnavigationstatus.ui.map.MapFragment"
+        android:label="@string/title_sat_map"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/navigation_sat_table"
+        android:name="com.example.gnssnavigationstatus.ui.table.TableFragment"
+        android:label="@string/title_sat_table"
+        tools:layout="@layout/fragment_table" />
+
+    <fragment
+        android:id="@+id/navigation_acc_opt"
+        android:name="com.example.gnssnavigationstatus.ui.accuracy.AccuracyFragment"
+        android:label="@string/title_accuracy_opt"
+        tools:layout="@layout/fragment_accuracy" />
+</navigation>
