@@ -12,9 +12,9 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
+    fun satellite_isCorrect() {
 
-        var sat = Satellite(21, "Galileo", 220, 55, 48)
+        var sat = Satellite(21, "Galileo", 220, 55, 48.5F)
         assertEquals(sat.id, 21)
 
     }
