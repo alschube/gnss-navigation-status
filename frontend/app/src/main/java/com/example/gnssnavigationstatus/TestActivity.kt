@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.example.gnssnavigationstatus.data.GnssData
+import com.example.gnssnavigationstatus.data.GnssDataDecoder
+import com.google.gson.JsonObject
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.*
@@ -69,7 +72,7 @@ class TestActivity : AppCompatActivity(), CoroutineScope {
         // setting up the client with the needed information
         client.ws(
                 method = HttpMethod.Get,
-                host = "192.168.178.48",
+                host = "192.168.178.44",
                 port = 8765,
                 path = "/socket"
         ) {
@@ -78,7 +81,10 @@ class TestActivity : AppCompatActivity(), CoroutineScope {
 
             val frame = incoming.receive()
             when (frame) {
-                is Frame.Text -> tv.text = frame.readText()
+                is Frame.Text -> {
+                    val data = GnssDataDecoder.decodeFromJson(frame.readText())
+                    tv.text = data.time
+                }
                 is Frame.Binary -> println(frame.readBytes())
                 // after reading the information you can decide depending on the message which action to fulfill
             }

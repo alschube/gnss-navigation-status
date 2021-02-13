@@ -1,6 +1,6 @@
 package com.example.gnssnavigationstatus
 
-import com.example.gnssnavigationstatus.model.Satellite
+import com.example.gnssnavigationstatus.data.GnssData
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,7 +14,7 @@ class ExampleUnitTest {
     @Test
     fun satellite_isCorrect() {
 
-        var sat = Satellite(21, "Galileo", 220, 55, 48.5F)
+        var sat = GnssData(21, "Galileo", 220, 55, 48.5F)
         assertEquals(sat.id, 21)
 
     }

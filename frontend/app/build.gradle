@@ -51,4 +51,5 @@ dependencies {
     implementation 'io.ktor:ktor-client-websockets:1.4.2'
     implementation 'io.ktor:ktor-client-cio:1.4.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
