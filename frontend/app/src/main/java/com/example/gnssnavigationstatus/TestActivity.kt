@@ -1,5 +1,6 @@
 package com.example.gnssnavigationstatus
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
+import com.example.gnssnavigationstatus.service.GnssDataUpdater
 import com.google.gson.JsonObject
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
@@ -32,11 +34,8 @@ import kotlin.coroutines.CoroutineContext
  */
 class TestActivity : AppCompatActivity(), CoroutineScope {
 
-    val tv by lazy { findViewById<TextView>(R.id.receiveMessageTextView) }
-
-    /** client for the communication (ktor lib)*/
-    private val client = HttpClient {
-        install(WebSockets)
+    companion object {
+        lateinit var tv: TextView
     }
 
     /** job for coroutine (multi thread) */
@@ -53,41 +52,10 @@ class TestActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-
-        val button = findViewById<Button>(R.id.button)
-
-        button.setOnClickListener(View.OnClickListener {
-            // coroutine thread start
-            launch {
-                sendMessage()
-            }
-        })
-    }
-
-    /**
-     * function for starting a websocket connection async
-     * suspend keyword
-     */
-    private suspend fun sendMessage() {
-        // setting up the client with the needed information
-        client.ws(
-                method = HttpMethod.Get,
-                host = "192.168.178.44",
-                port = 8765,
-                path = "/socket"
-        ) {
-            // message that you want to send, maybe later as a lambda function
-            send("Hello World!")
-
-            val frame = incoming.receive()
-            when (frame) {
-                is Frame.Text -> {
-                    val data = GnssDataDecoder.decodeFromJson(frame.readText())
-                    tv.text = data.time
-                }
-                is Frame.Binary -> println(frame.readBytes())
-                // after reading the information you can decide depending on the message which action to fulfill
-            }
+        tv = findViewById(R.id.receiveMessageTextView)
+        Intent(this, GnssDataUpdater::class.java).also { intent ->
+            startService(intent)
         }
+        tv.text = GnssData.getInstance().time
     }
 }

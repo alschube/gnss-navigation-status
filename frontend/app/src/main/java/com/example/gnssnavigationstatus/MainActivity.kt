@@ -1,5 +1,6 @@
 package com.example.gnssnavigationstatus
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.gnssnavigationstatus.service.GnssDataUpdater
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,5 +25,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_sat_map, R.id.navigation_sat_table, R.id.navigation_acc_opt))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        Intent(this, GnssDataUpdater::class.java).also { intent ->
+            startService(intent)
+        }
     }
 }
