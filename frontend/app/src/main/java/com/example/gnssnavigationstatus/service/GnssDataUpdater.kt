@@ -53,14 +53,14 @@ class GnssDataUpdater : Service(), CoroutineScope{
                 when (frame) {
                     is Frame.Text -> {
                         val data: GnssData = GnssDataDecoder.decodeFromJson(frame.readText())
-
+                        println(frame.readText())
                         MapFragment.timeTextView.text = data.time
                         MapFragment.longitudeTextView.text = "${data.longitude}"
                         MapFragment.latitudeTextView.text = "${data.latitude}"
                         //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
                         MapFragment.heightTextView.text = "${data.height}"
-                        MapFragment.verticalAccuracyTextView.text = "${data.v_acc}"
-                        MapFragment.horizontalAccuracyTextView.text = "${data.h_acc}"
+                        MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy}"
+                        MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy}"
                         // todo
                     }
                     is Frame.Binary -> println(frame.readBytes())

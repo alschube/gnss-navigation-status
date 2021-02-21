@@ -5,10 +5,12 @@ class GnssData() {
     var time: String? = null
     var longitude: Float? = null
     var latitude: Float? = null
-    var gnss_fix_ok: Boolean? = null
+    //var gnssFixOK Boolean? = null
     var height: Int? = null
-    var v_acc: Int? = null
-    var h_acc: Int? = null
+    var verticalAccuracy: Int? = null
+    var horizontalAccuracy: Int? = null
+    var numSatsTotal: Int? = null
+    var numSatsFixed: Int? = null
 
     companion object {
         @Volatile
