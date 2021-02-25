@@ -1,6 +1,17 @@
 package com.example.gnssnavigationstatus.data
 
-data class GnssData(var time: String, var longitude: Float, var latitude: Float, var gnssFixOK: Boolean, var height: Int, var vAcc: Int, var hAcc: Int) {
+class GnssData() {
+
+    var time: String? = null
+    var longitude: Float? = null
+    var latitude: Float? = null
+    //var gnssFixOK Boolean? = null
+    var height: Int? = null
+    var verticalAccuracy: Int? = null
+    var horizontalAccuracy: Int? = null
+    var numSatsTotal: Int? = null
+    var numSatsFixed: Int? = null
+
     companion object {
         @Volatile
         @JvmStatic
@@ -8,8 +19,8 @@ data class GnssData(var time: String, var longitude: Float, var latitude: Float,
 
         @JvmStatic
         @JvmOverloads
-        fun getInstance(time: String, longitude: Float, latitude: Float, gnssFixOK: Boolean, height: Int, vAcc: Int, hAcc: Int): GnssData = INSTANCE ?: synchronized(this) {
-            INSTANCE ?: GnssData(time, longitude, latitude, gnssFixOK, height, vAcc, hAcc).also {
+        fun getInstance(): GnssData = INSTANCE ?: synchronized(this) {
+            INSTANCE ?: GnssData().also {
                 INSTANCE = it
             }
         }
