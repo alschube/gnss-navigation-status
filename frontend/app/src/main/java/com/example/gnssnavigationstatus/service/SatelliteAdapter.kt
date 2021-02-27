@@ -75,7 +75,16 @@ class SatelliteAdapter// Provide a suitable constructor (depends on the kind of 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.idTV.text = liveData.value?.get(position)?.satelliteIdentifier
-        holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_circle_24px))
+        when (liveData.value?.get(position)?.gnssId){
+            0 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_america_flag_icon))
+            1 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_world_icon))
+            2 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_europa_flag_icon))
+            3 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_china_flag_icon))
+            4 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_japan_flag_icon))
+            5 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_japan_flag_icon))
+            6 -> holder.iconIV.setImageIcon(Icon.createWithResource(holder.itemView.context, R.drawable.ic_russia_flag_icon))
+        }
+
         holder.typeTV.text = liveData.value?.get(position)?.type.toString()
         holder.azimTV.text = liveData.value?.get(position)?.azimut.toString()
         holder.elevTV.text = liveData.value?.get(position)?.elevation.toString()
