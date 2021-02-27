@@ -2,7 +2,7 @@ from ublox_gps import UbloxGps
 from gnss_data import GnssData
 from gnss_data_encoder import GnssDataEncoder
 from satellite_data import SatelliteData
-import asyncio
+import asyncio           
 import websockets
 import websockets_routes
 import datetime
@@ -41,7 +41,8 @@ async def listen_to_messages(websocket, path):
                     satellites = []
                     for sat in temp:
                         satellite_data = SatelliteData()
-                        satellite_data.id = sat.svId
+                        satellite_data.satId = sat.svId
+                        satellite_data.gnssId = sat.gnssId
                         satellite_data.elevation = sat.elev
                         satellite_data.azimut = sat.azim
                         satellite_data.signal_strength = sat.cno
