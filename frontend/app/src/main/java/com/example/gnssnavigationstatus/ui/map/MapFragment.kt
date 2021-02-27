@@ -40,10 +40,10 @@ class MapFragment : Fragment() {
         heightTextView = root.findViewById(R.id.height_text)
         verticalAccuracyTextView = root.findViewById(R.id.vert_acc_text)
         horizontalAccuracyTextView = root.findViewById(R.id.horiz_acc_text)
-        //val textView: TextView = root.findViewById(R.id.text_home)
-        mapViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        //mapViewModel.text.observe(viewLifecycleOwner, Observer {
             //textView.text = it
-        })
+        //})
         return root
     }
 }

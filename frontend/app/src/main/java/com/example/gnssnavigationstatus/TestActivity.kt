@@ -56,6 +56,6 @@ class TestActivity : AppCompatActivity(), CoroutineScope {
         Intent(this, GnssDataUpdater::class.java).also { intent ->
             startService(intent)
         }
-        tv.text = GnssData.getInstance().time
+        //tv.text = GnssData.time
     }
 }
