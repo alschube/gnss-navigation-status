@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.IBinder
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
+import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.ui.map.MapFragment
+import com.example.gnssnavigationstatus.ui.table.TableFragment
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.*
@@ -52,8 +54,9 @@ class GnssDataUpdater : Service(), CoroutineScope{
             for (frame in incoming) {
                 when (frame) {
                     is Frame.Text -> {
-                        val data: GnssData = GnssDataDecoder.decodeFromJson(frame.readText())
-                        println(frame.readText())
+                        val data:GnssData = GnssDataDecoder.decodeFromJson(frame.readText())
+                        GnssDataHolder.updateData(data)
+
                         MapFragment.timeTextView.text = data.time
                         MapFragment.longitudeTextView.text = "${data.longitude}"
                         MapFragment.latitudeTextView.text = "${data.latitude}"
@@ -61,7 +64,9 @@ class GnssDataUpdater : Service(), CoroutineScope{
                         MapFragment.heightTextView.text = "${data.height}"
                         MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy}"
                         MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy}"
-                        // todo
+
+                        SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(data.satellites!!)
+                        TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
                     }
                     is Frame.Binary -> println(frame.readBytes())
                     // after reading the information you can decide depending on the message which action to fulfill
