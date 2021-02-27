@@ -41,15 +41,12 @@ async def listen_to_messages(websocket, path):
                     satellites = []
                     for sat in temp:
                         satellite_data = SatelliteData()
-                        satellite_data.satId = sat.svId
+                        satellite_data.svId = sat.svId
                         satellite_data.gnssId = sat.gnssId
                         satellite_data.elevation = sat.elev
                         satellite_data.azimut = sat.azim
                         satellite_data.signal_strength = sat.cno
-                        #print("id: ", sat.svId)
-                        #print("elev: ", sat.elev)
-                        #print("azim: ", sat.azim)
-                        #print("cno: ", sat.cno)
+                       
                         satellites.append(satellite_data.to_dict())
                     
                     data.satellites = satellites
