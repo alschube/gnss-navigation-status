@@ -54,7 +54,8 @@ async def listen_to_messages(websocket, path):
                     await websocket.send(gnssJSONData)
                     print(gnssJSONData)
                     data = GnssData()
-                except(AttributeError):
+                except(AttributeError) as err:
+                    print(err.with_traceback)
                     print("no data found")
                     continue
             
