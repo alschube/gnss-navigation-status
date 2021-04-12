@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_sat_map, R.id.navigation_sat_table, R.id.navigation_acc_opt))
+                R.id.navigation_sat_map, R.id.navigation_sat_table, R.id.navigation_settings))
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         Intent(this, GnssDataUpdater::class.java).also { intent ->

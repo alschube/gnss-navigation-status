@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_table" />
 
     <fragment
-        android:id="@+id/navigation_acc_opt"
-        android:name="com.example.gnssnavigationstatus.ui.accuracy.AccuracyFragment"
+        android:id="@+id/navigation_settings"
+        android:name="com.example.gnssnavigationstatus.ui.settings.SettingsFragment"
         android:label="@string/title_accuracy_opt"
         tools:layout="@layout/fragment_accuracy" />
 </navigation>
