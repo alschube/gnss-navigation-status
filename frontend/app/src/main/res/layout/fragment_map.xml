@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Galileo"
+        android:text="@string/GAL_text"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
-        android:text="BeiDou"
+        android:text="@string/BDS_text"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
-        android:text="GLONASS"
+        android:text="@string/GLO_text"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="GPS"
+        android:text="@string/GPS_text"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -199,7 +199,7 @@
                 android:id="@+id/horiz_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10cm"
+                android:text="10"
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -220,7 +220,7 @@
                 android:id="@+id/vert_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20cm"
+                android:text="20"
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
