@@ -1,10 +1,10 @@
-package com.example.gnssnavigationstatus.ui.accuracy
+package com.example.gnssnavigationstatus.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class AccuracyViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
