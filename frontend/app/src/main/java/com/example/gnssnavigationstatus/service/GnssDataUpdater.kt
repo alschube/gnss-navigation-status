@@ -2,6 +2,7 @@ package com.example.gnssnavigationstatus.service
 
 import android.app.Service
 import android.content.Intent
+import android.net.http.HttpResponseCache.install
 import android.os.IBinder
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
@@ -62,8 +63,8 @@ class GnssDataUpdater : Service(), CoroutineScope{
                         MapFragment.latitudeTextView.text = "${data.latitude}"
                         //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
                         MapFragment.heightTextView.text = "${data.height}"
-                        MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy}"
-                        MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy}"
+                        MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy?.div(10)}"
+                        MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy?.div(10)}"
 
                         SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(data.satellites!!)
                         TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
