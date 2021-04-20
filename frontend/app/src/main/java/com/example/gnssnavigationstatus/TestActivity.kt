@@ -10,10 +10,6 @@ import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
 import com.google.gson.JsonObject
-import io.ktor.client.*
-import io.ktor.client.features.websocket.*
-import io.ktor.http.*
-import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

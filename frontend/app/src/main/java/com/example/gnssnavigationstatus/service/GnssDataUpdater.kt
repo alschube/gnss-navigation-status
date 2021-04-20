@@ -4,76 +4,59 @@ import android.app.Service
 import android.content.Intent
 import android.net.http.HttpResponseCache.install
 import android.os.IBinder
-import com.example.gnssnavigationstatus.data.GnssData
-import com.example.gnssnavigationstatus.data.GnssDataDecoder
-import com.example.gnssnavigationstatus.data.GnssDataHolder
-import com.example.gnssnavigationstatus.ui.map.MapFragment
-import com.example.gnssnavigationstatus.ui.table.TableFragment
-import io.ktor.client.*
-import io.ktor.client.features.websocket.*
-import io.ktor.http.*
-import io.ktor.http.cio.websocket.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlin.coroutines.CoroutineContext
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.Socket
+import java.util.concurrent.Executors
+import com.example.gnssnavigationstatus.data.Message
+import java.io.PrintWriter
 
-class GnssDataUpdater : Service(), CoroutineScope{
 
-    /** client for the communication (ktor lib)*/
-    private val client = HttpClient {
-        install(WebSockets)
-    }
+class GnssDataUpdater : Service(){
 
-    /** job for coroutine (multi thread) */
-    private var job: Job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+    lateinit var socket: Socket
+    lateinit var out:PrintWriter
+    lateinit var inp:BufferedReader
 
     override fun onCreate() {
 
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        async {
-            listenToMessages()
+        //private val executor: Executor
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute{
+            try {
+                startConnection("192.168.178.44", 8765)
+                while (socket.isConnected) {
+                    var temp = inp.readLine()
+                    println(temp)
+                }
+            }
+            catch (e: Exception){
+                e.printStackTrace()
+            }
         }
+
+
         return START_STICKY
     }
 
-    private suspend fun listenToMessages() {
-        this.client.ws(
-                method = HttpMethod.Get,
-                host = "192.168.178.44",
-                port = 8765,
-                path = "/socket"
-        ) {
-            // message that you want to send, maybe later as a lambda function
-            send("Hello World!")
-            for (frame in incoming) {
-                when (frame) {
-                    is Frame.Text -> {
-                        val data:GnssData = GnssDataDecoder.decodeFromJson(frame.readText())
-                        GnssDataHolder.updateData(data)
+    fun startConnection(ip: String, port: Int){
+        this.socket = Socket(ip, port)
+        out = PrintWriter(socket.getOutputStream(), true)
+        inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+    }
 
-                        MapFragment.timeTextView.text = data.time
-                        MapFragment.longitudeTextView.text = "${data.longitude}"
-                        MapFragment.latitudeTextView.text = "${data.latitude}"
-                        //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
-                        MapFragment.heightTextView.text = "${data.height}"
-                        MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy?.div(10)}"
-                        MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy?.div(10)}"
+    fun sendMessage(msg: String) : String{
+        out.println(msg)
+        return inp.readLine()
+    }
 
-                        SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(data.satellites!!)
-                        TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
-                    }
-                    is Frame.Binary -> println(frame.readBytes())
-                    // after reading the information you can decide depending on the message which action to fulfill
-                }
-            }
-        }
+    fun stopConnection(){
+        inp.close()
+        out.close()
+        socket.close()
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -81,6 +64,6 @@ class GnssDataUpdater : Service(), CoroutineScope{
     }
 
     override fun onDestroy() {
-        this.client.close()
+        //stopConnection()
     }
 }
