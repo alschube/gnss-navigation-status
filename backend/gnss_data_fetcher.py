@@ -41,7 +41,7 @@ class DataFetcher:
                         self.get_geo_coords()
                         self.get_satellites()
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
-                        
+                        #print(gnssJSONData)
                         try:
                             connection.sendall(str(gnssJSONData + "\r\n").encode())
                             print("Successfully send data to client", client_address)
@@ -79,6 +79,7 @@ class DataFetcher:
         self.received_data.v_acc = raw_data.vAcc
         self.received_data.h_acc = raw_data.hAcc
         self.received_data.num_sats_fixed = raw_data.numSV
+        #print(raw_data)
         
     def get_satellites(self):
         raw_data = self.gps.satellites()
