@@ -62,7 +62,7 @@ class GnssDataUpdater : Service(), CoroutineScope{
                         MapFragment.longitudeTextView.text = "${data.longitude}"
                         MapFragment.latitudeTextView.text = "${data.latitude}"
                         //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
-                        MapFragment.heightTextView.text = "${data.height}"
+                        MapFragment.heightTextView.text = "${data.height?.div(1000)}"
                         MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy?.div(10)}"
                         MapFragment.horizontalAccuracyTextView.text = "${data.horizontalAccuracy?.div(10)}"
 
