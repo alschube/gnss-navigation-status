@@ -2,6 +2,7 @@ package com.example.gnssnavigationstatus.service
 
 import android.app.Service
 import android.content.Intent
+import android.net.http.HttpResponseCache.install
 import android.os.IBinder
 import java.io.BufferedReader
 import java.io.InputStreamReader
