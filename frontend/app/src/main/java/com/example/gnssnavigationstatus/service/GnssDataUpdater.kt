@@ -26,29 +26,10 @@ class GnssDataUpdater : Service(){
         val executor = Executors.newSingleThreadExecutor()
         executor.execute{
             try {
-                //val socket = Socket("192.168.178.44", 8765)
-                startConnection("192.168.178.44", 8766)
-                //socket.outputStream.write("Hello from the client!".toByteArray())
-                //socket.outputStream.write("Bla blubb".toByteArray())
-                val messageSender = Executors.newSingleThreadExecutor()
-                messageSender.execute {
-                    val msg = Message(Message.MessageType.GNSS_CONFIG, "Hello from the other side")
-                    //socket.outputStream.write(msg.encodeToJson().toByteArray())
-                    //sendMessage(msg.encodeToJson())
-                    //println("iwas hässliches....................")
-                    //val text = socket.inputStream.read()
-                    //println("$text------------------")
-                    while (true){
-                        sendMessage(msg.encodeToJson())
-                    }
-                }
-
-                val messageListener = Executors.newSingleThreadExecutor()
-                messageListener.execute{
-                    while (socket.isConnected){
-                        var temp = inp.readLine()
-                        println(temp)
-                    }
+                startConnection("192.168.178.44", 8765)
+                while (socket.isConnected) {
+                    var temp = inp.readLine()
+                    println(temp)
                 }
             }
             catch (e: Exception){
