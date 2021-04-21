@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.Message
+import com.example.gnssnavigationstatus.data.MessageDecoder
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -109,7 +110,13 @@ class SettingsFragment : Fragment() {
                     }
                 }
 
-                println(sendMessage(msg!!.encodeToJson()))
+                var msgFromBackend = sendMessage(msg!!.encodeToJson())
+                println(msgFromBackend)
+                var jsonFromMessage = MessageDecoder().decodeFromJson(msgFromBackend)
+                println(jsonFromMessage.type)
+                if (jsonFromMessage.content.equals("NAK")){
+                    v.isChecked = !v.isChecked
+                }
                 stopConnection()
                 startExecutor.shutdown()
             }
