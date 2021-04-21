@@ -16,7 +16,7 @@ class Message():
         pass
     
     def to_dict(self) -> dict:
-        return {"type":self.msg_type, "content":self.msg_content}
+        return {"type":self.msg_type.name, "content":self.msg_content}
     
     def encodeToJson(self):
         return json.dumps(self.to_dict(), indent=4, cls=MessageEncoder)

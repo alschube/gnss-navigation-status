@@ -9,6 +9,8 @@ from gnss_data_encoder import GnssDataEncoder
 from satellite_data import SatelliteData
 from message import Message
 from message_encoder import MessageEncoder
+from message_decoder import MessageDecoder
+from gnss_configurator import GnssConfigurator
 
 class MessageHandler:
     HOST = '192.168.178.44'  # Standard loopback interface address (localhost)
@@ -18,7 +20,9 @@ class MessageHandler:
     
     # Create a TCP/IP socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
+    message_decoder = MessageDecoder()
+    gnss_configurator = GnssConfigurator()
+    reply_message = Message()
     
     def __init__(self):
         pass
@@ -29,7 +33,28 @@ class MessageHandler:
         print('starting up on %s port %s' % server_address)
         # Listen for incoming connections
         self.s.listen(1)
+       
+    def check_msg_type(self, msg):
+        msg_type = msg["msgType"]
+        msg_content = msg["msgContent"]
+        payload_message = None
+        if(msg_type=="GNSS_CONFIG"):
+            if(msg_content=="enable GPS"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.enable_GPS))
+            elif(msg_content=="disable GPS"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.disable_GPS))
+        elif(msg_type=="RTCM_CONFIG"):
+            print("got rtcm config message")
         
+        print("Message Payload :", payload_message)
+        return payload_message
+    
+    def check_payload_message(self, payload_message):
+        if(payload_message == "ACK"):
+            return True
+        else:
+            return False
+    
     def connect(self):
         while True:
             # Wait for a connection
@@ -44,8 +69,20 @@ class MessageHandler:
                     data = data[:-3]
                     print('received "%s"' % data)
                     if data:
-                        print(len(data))
-                        connection.sendall("i received something from you\r\n".encode())
+                        print(data)
+                        msg = self.message_decoder.decodeFromJson(data)
+                        print(msg["msgType"])
+                        print(msg["msgContent"])
+                        if(self.check_payload_message(self.check_msg_type(msg))):
+                            self.reply_message.msg_type = self.reply_message.Type.GNSS_CONFIG
+                            self.reply_message.msg_content = "ACK"
+                            #messageJSONData = self.reply_message.encodeToJson()
+                            #messageJSONData = json.dumps(self.reply_message.to_dict(), indent=4, cls=MessageEncoder)
+                            messageJSONData = json.JSONEncoder(sort_keys=True, indent=4).encode(self.reply_message.to_dict())
+                            print("messageJSONData :", str(messageJSONData))
+                            connection.sendall(str(messageJSONData.replace("\n", "") + "\r\n").encode())
+                        
+                        #connection.sendall("i received something from you\r\n".encode())
                     else:
                         print('no more data from', client_address)
                         break

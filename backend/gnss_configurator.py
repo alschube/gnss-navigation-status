@@ -8,6 +8,7 @@ from ublox_gps import UbloxGps
 class GnssConfigurator:
     port = serial.Serial('/dev/serial0', baudrate=38400, timeout=1)
     gps = UbloxGps(port)
+    rec_msg = None
 
     #GPS
     enable_GPS='00 01 00 00 1f 00 31 10 01 fb 80'
@@ -47,15 +48,20 @@ class GnssConfigurator:
             self.gps.send_message(sp.CFG_CLS, self.gps.cfg_ms.get('VALSET'), bytesPayload)
             parse_tool = core.Parser([sp.CFG_CLS, sp.ACK_CLS])
             cls_name, message, payload = parse_tool.receive_from(self.gps.hard_port)
-            print(payload)
+            print("Payload :", message)
+            self.rec_msg = message
+            
         except (ValueError, IOError) as err:
             print('An error occured: ' ,err)
             print('Trying again.....')
             self.setSatelliteConfiguration(bytesPayload)
+        finally:
+            return self.rec_msg
 
     def run(self):
         #self.getSatelliteConfiguration()
-        self.setSatelliteConfiguration(self.hexToBytes(self.enable_BDS))
+        temp = self.setSatelliteConfiguration(self.hexToBytes(self.enable_BDS))
+        print("TempPayload :", temp)
 
 if __name__ == '__main__':
     gnss_configurator = GnssConfigurator()

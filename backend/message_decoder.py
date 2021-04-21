@@ -4,6 +4,6 @@ from types import SimpleNamespace
 
 class MessageDecoder():
     
-    def decodeFromJson(rawData):
+    def decodeFromJson(self, rawData):
         msg = json.loads(rawData)
         return msg
