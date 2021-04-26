@@ -1,6 +1,7 @@
 package com.example.gnssnavigationstatus.ui.settings
 
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.Message
 import com.example.gnssnavigationstatus.data.MessageDecoder
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
+import java.lang.RuntimeException
 import java.net.Socket
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+
 
 class SettingsFragment : Fragment() {
 
@@ -51,7 +56,42 @@ class SettingsFragment : Fragment() {
         this.checkBoxGLO = root.findViewById(R.id.checkBox_GLO)
         this.checkBoxBDS = root.findViewById(R.id.checkBox_BDS)
 
-        this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGAL, checkBoxGLO, checkBoxBDS)
+        this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGLO, checkBoxBDS, checkBoxGAL)
+        val initExecutor = Executors.newSingleThreadExecutor()
+        initExecutor.execute {
+            startConnection("192.168.178.44", 8764)
+            var msg: Message? = null
+            msg = Message(Message.MessageType.GNSS_CONFIG, "get config")
+            println("Message to send :" + msg.msgContent)
+            var reply = sendMessage(msg!!.encodeToJson())
+            //println(reply)
+            var replyEncoded = MessageDecoder().decodeFromJson(reply)
+            //println(replyEncoded.content)
+            //var contentMap = Gson().fromJson<Map<String, Int>>(replyEncoded.content, Map.class)
+            println("ReplyContent: " + replyEncoded.content)
+
+            println("test------------------------------------------------")
+            try {
+                val satMap: Map<String, Int> = Gson().fromJson(
+                    replyEncoded.content, object : TypeToken<HashMap<String?, Int?>?>() {}.type
+                )
+                println(satMap)
+                Looper.prepare()
+                for (checkBox in checkBoxArray) {
+                    checkBox.isChecked = convertIntToBoolean(satMap[checkBox.text]!!)
+                }
+
+            } catch (e: JsonSyntaxException) {
+                println("Error-------------------------------------------------")
+                e.printStackTrace()
+            } catch (e: RuntimeException){
+                println("Error-------------------------------------------------")
+                e.printStackTrace()
+            }
+
+            stopConnection()
+            initExecutor.shutdown()
+        }
         for (checkBox in checkBoxArray) {
             checkBox.setOnClickListener(View.OnClickListener {
                 onCheckboxClicked(checkBox)
@@ -61,6 +101,10 @@ class SettingsFragment : Fragment() {
         this.rtcmSwitch = root.findViewById(R.id.rtcm_switch)
 
         return root
+    }
+
+    fun convertIntToBoolean(i: Int): Boolean {
+        return i == 1
     }
 
     fun onCheckboxClicked(v: View) {
@@ -114,7 +158,7 @@ class SettingsFragment : Fragment() {
                 println(msgFromBackend)
                 var jsonFromMessage = MessageDecoder().decodeFromJson(msgFromBackend)
                 println(jsonFromMessage.type)
-                if (jsonFromMessage.content.equals("NAK")){
+                if (jsonFromMessage.content.equals("NAK")) {
                     v.isChecked = !v.isChecked
                 }
                 stopConnection()
@@ -143,11 +187,5 @@ class SettingsFragment : Fragment() {
             e.printStackTrace()
         }
 
-    }
-
-    fun initCheckBoxesFromBackend(satelliteEnabledData: HashMap<String, Boolean>) {
-        for (checkBox in checkBoxArray) {
-            checkBox.isChecked = satelliteEnabledData.get(checkBox.text.toString())!!
-        }
     }
 }
