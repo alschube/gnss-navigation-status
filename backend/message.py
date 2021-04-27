@@ -8,6 +8,7 @@ class Message():
         GNSS_DATA = 'GNSS_DATA'
         RTCM_CONFIG = 'RTCM_CONFIG'
         GNSS_CONFIG = 'GNSS_CONFIG'
+        GNSS_GET = 'GNSS_GET'
     
     msg_type: Type
     msg_content: str

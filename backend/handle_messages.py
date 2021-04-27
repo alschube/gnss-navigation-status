@@ -38,18 +38,36 @@ class MessageHandler:
         msg_type = msg["msgType"]
         msg_content = msg["msgContent"]
         payload_message = None
-        if(msg_type=="GNSS_CONFIG"):
+        if(msg_type=="GNSS_GET"):
+            print('Fetching satellite config.....')
+            payload_message = self.gnss_configurator.getSatelliteConfiguration()
+        elif(msg_type=="GNSS_CONFIG"):
             if(msg_content=="enable GPS"):
                 payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.enable_GPS))
             elif(msg_content=="disable GPS"):
                 payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.disable_GPS))
+            elif(msg_content=="enable BDS"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.enable_BDS))
+            elif(msg_content=="disable BDS"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.disable_BDS))
+            elif(msg_content=="enable GLO"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.enable_GLO))
+            elif(msg_content=="disable GLO"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.disable_GLO))
+            elif(msg_content=="enable GAL"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.enable_GAL))
+            elif(msg_content=="disable GAL"):
+                payload_message = self.gnss_configurator.setSatelliteConfiguration(self.gnss_configurator.hexToBytes(self.gnss_configurator.disable_GAL))
+                
         elif(msg_type=="RTCM_CONFIG"):
             print("got rtcm config message")
         
-        print("Message Payload :", payload_message)
+        #print("Message Payload :", payload_message)
         return payload_message
     
     def check_payload_message(self, payload_message):
+        if(len(payload_message) > 3):
+            return 
         if(payload_message == "ACK"):
             return True
         else:
@@ -69,19 +87,27 @@ class MessageHandler:
                     data = data[:-3]
                     print('received "%s"' % data)
                     if data:
-                        print(data)
+                        #print(data)
                         msg = self.message_decoder.decodeFromJson(data)
-                        print(msg["msgType"])
-                        print(msg["msgContent"])
-                        if(self.check_payload_message(self.check_msg_type(msg))):
-                            self.reply_message.msg_type = self.reply_message.Type.GNSS_CONFIG
-                            self.reply_message.msg_content = "ACK"
-                            #messageJSONData = self.reply_message.encodeToJson()
-                            #messageJSONData = json.dumps(self.reply_message.to_dict(), indent=4, cls=MessageEncoder)
-                            messageJSONData = json.JSONEncoder(sort_keys=True, indent=4).encode(self.reply_message.to_dict())
-                            print("messageJSONData :", str(messageJSONData))
-                            connection.sendall(str(messageJSONData.replace("\n", "") + "\r\n").encode())
+                        #print(msg["msgType"])
+                        #print(msg["msgContent"])
                         
+                        msg_payload = self.check_msg_type(msg)
+                        
+                        #print(msg_payload)
+                        if (type(msg_payload) is not str):
+                            self.reply_message.msg_type = self.reply_message.Type.GNSS_GET
+                            sat_data_dict = {"GPS":msg_payload[0], "GLONASS":msg_payload[1], "BeiDou":msg_payload[2], "Galileo":msg_payload[3]}
+                            self.reply_message.msg_content = str(sat_data_dict)
+                        else:
+                            self.reply_message.msg_type = self.reply_message.Type.GNSS_CONFIG
+                            self.reply_message.msg_content = msg_payload
+                        #messageJSONData = self.reply_message.encodeToJson()
+                        #messageJSONData = json.dumps(self.reply_message.to_dict(), indent=4, cls=MessageEncoder)
+                        messageJSONData = json.JSONEncoder(sort_keys=True, indent=4).encode(self.reply_message.to_dict())
+                        print("messageJSONData :", str(messageJSONData))
+                        connection.sendall(str(messageJSONData.replace("\n", "") + "\r\n").encode())
+                            
                         #connection.sendall("i received something from you\r\n".encode())
                     else:
                         print('no more data from', client_address)

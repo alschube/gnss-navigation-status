@@ -32,35 +32,47 @@ class GnssConfigurator:
         return hex_in_bytes
 
     def getSatelliteConfiguration(self):
-        try:
-            self.gps.send_message(sp.MON_CLS, self.gps.mon_ms.get('GNSS'))
-            parse_tool = core.Parser([sp.MON_CLS, sp.ACK_CLS])
-            cls_name, message, payload = parse_tool.receive_from(self.gps.hard_port)
-            print(payload.enabled)
-        except (ValueError, IOError) as err:
-            print('An error occured: ' ,err)
-            print('Trying again.....')
-            self.getSatelliteConfiguration()
+        while True:
+            try:
+                self.gps.send_message(sp.MON_CLS, self.gps.mon_ms.get('GNSS'))
+                parse_tool = core.Parser([sp.MON_CLS, sp.ACK_CLS])
+                cls_name, message, payload = parse_tool.receive_from(self.gps.hard_port)
+                if cls_name == 'ACK':
+                    print('Wrong message received, trying again...')
+                    raise AttributeError()
+                    #self.getSatelliteConfiguration()
+                
+                print('Payload:', payload.enabled)
+                self.rec_msg = payload.enabled
+                #print('rec_msg after fetching:', self.rec_msg)
+                if self.rec_msg != None:
+                    return self.rec_msg
+            except (ValueError, IOError) as err:
+                #print('An error occured: ' ,err)
+                #print('Trying again.....')
+                continue
+            except (AttributeError) as err:
+                continue
             
             
     def setSatelliteConfiguration(self, bytesPayload):
-        try:
-            self.gps.send_message(sp.CFG_CLS, self.gps.cfg_ms.get('VALSET'), bytesPayload)
-            parse_tool = core.Parser([sp.CFG_CLS, sp.ACK_CLS])
-            cls_name, message, payload = parse_tool.receive_from(self.gps.hard_port)
-            print("Payload :", message)
-            self.rec_msg = message
-            
-        except (ValueError, IOError) as err:
-            print('An error occured: ' ,err)
-            print('Trying again.....')
-            self.setSatelliteConfiguration(bytesPayload)
-        finally:
-            return self.rec_msg
+        while True:
+            try:
+                self.gps.send_message(sp.CFG_CLS, self.gps.cfg_ms.get('VALSET'), bytesPayload)
+                parse_tool = core.Parser([sp.CFG_CLS, sp.ACK_CLS])
+                cls_name, message, payload = parse_tool.receive_from(self.gps.hard_port)
+                print("Payload :", message)
+                self.rec_msg = message
+                if self.rec_msg != None:
+                    return self.rec_msg
+            except (ValueError, IOError) as err:
+                #print('An error occured: ' ,err)
+                #print('Trying again.....')
+                continue
 
     def run(self):
         #self.getSatelliteConfiguration()
-        temp = self.setSatelliteConfiguration(self.hexToBytes(self.enable_BDS))
+        temp = self.setSatelliteConfiguration(self.hexToBytes(self.disable_GPS))
         print("TempPayload :", temp)
 
 if __name__ == '__main__':
