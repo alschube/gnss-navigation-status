@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
+import com.example.gnssnavigationstatus.data.GnssDataHolder
 import org.w3c.dom.Text
 
 class MapFragment : Fragment() {
@@ -41,9 +42,25 @@ class MapFragment : Fragment() {
         verticalAccuracyTextView = root.findViewById(R.id.vert_acc_text)
         horizontalAccuracyTextView = root.findViewById(R.id.horiz_acc_text)
 
-        //mapViewModel.text.observe(viewLifecycleOwner, Observer {
-            //textView.text = it
-        //})
+        /*activity?.runOnUiThread(object : Runnable {
+            override fun run() {
+
+                    if (GnssDataHolder.time != null) {
+                        timeTextView.text = GnssDataHolder.time
+                        longitudeTextView.text = "${GnssDataHolder.longitude}"
+                        latitudeTextView.text = "${GnssDataHolder.latitude}"
+                        //gnssFixOKTextView.text = "${data.gnssFixOK}"
+                        heightTextView.text = "${GnssDataHolder.height?.div(1000)}"
+                        verticalAccuracyTextView.text =
+                            "${GnssDataHolder.verticalAccuracy?.div(10)}"
+                        horizontalAccuracyTextView.text =
+                            "${GnssDataHolder.horizontalAccuracy?.div(10)}"
+                    }
+
+            }
+        }
+        )*/
+
         return root
     }
 }

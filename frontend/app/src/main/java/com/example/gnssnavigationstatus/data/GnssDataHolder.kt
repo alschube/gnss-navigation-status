@@ -1,5 +1,8 @@
 package com.example.gnssnavigationstatus.data
 
+
+
+
 class GnssDataHolder {
 
     companion object {

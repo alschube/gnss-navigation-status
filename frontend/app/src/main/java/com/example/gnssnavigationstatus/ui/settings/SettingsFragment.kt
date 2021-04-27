@@ -70,7 +70,7 @@ class SettingsFragment : Fragment() {
             //var contentMap = Gson().fromJson<Map<String, Int>>(replyEncoded.content, Map.class)
             println("ReplyContent: " + replyEncoded.content)
 
-            println("test------------------------------------------------")
+            //println("test------------------------------------------------")
             try {
                 val satMap: Map<String, Int> = Gson().fromJson(
                     replyEncoded.content, object : TypeToken<HashMap<String?, Int?>?>() {}.type
