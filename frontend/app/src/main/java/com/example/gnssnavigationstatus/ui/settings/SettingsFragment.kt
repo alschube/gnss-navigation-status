@@ -61,7 +61,7 @@ class SettingsFragment : Fragment() {
         initExecutor.execute {
             startConnection("192.168.178.44", 8764)
             var msg: Message? = null
-            msg = Message(Message.MessageType.GNSS_CONFIG, "get config")
+            msg = Message(Message.MessageType.GNSS_GET, "get config")
             println("Message to send :" + msg.msgContent)
             var reply = sendMessage(msg!!.encodeToJson())
             //println(reply)
