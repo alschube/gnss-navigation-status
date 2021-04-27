@@ -76,10 +76,10 @@ class MessageHandler:
     def connect(self):
         while True:
             # Wait for a connection
-            print('waiting for a connection')
+            print('MessageHandler: waiting for a connection')
             connection, client_address = self.s.accept()
             try:
-                print('connection from', client_address)
+                print('MessageHandler: connection from', client_address)
                 # Receive the data in small chunks and retransmit it
                 while True:
                     data = str(connection.recv(2048))

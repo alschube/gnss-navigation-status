@@ -31,10 +31,10 @@ class DataFetcher:
     def connect(self):
         while True:
             # Wait for a connection
-            print('waiting for a connection')
+            print('DataFetcher: waiting for a connection')
             connection, client_address = self.sock.accept()
             try:
-                print('connection from', client_address)
+                print('DataFetcher: connection from', client_address)
                 # Receive the data in small chunks and retransmit it
                 while True:
                     try:
@@ -43,8 +43,10 @@ class DataFetcher:
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
                         #print(gnssJSONData)
                         try:
-                            connection.sendall(str(gnssJSONData + "\r\n").encode())
-                            print("Successfully send data to client", client_address)
+                            gnssJSONData = gnssJSONData.replace("\n", "")
+                            connection.sendall((gnssJSONData + "\r\n").encode())
+                            #print((gnssJSONData).encode())
+                            #print("Successfully send data to client", client_address)
                             
                         except Exception as err:
                             print(err)
