@@ -11,6 +11,7 @@ from message import Message
 from message_encoder import MessageEncoder
 from message_decoder import MessageDecoder
 from gnss_configurator import GnssConfigurator
+from rtcm_forwarder import RtcmForwarder
 
 class MessageHandler:
     HOST = '192.168.178.44'  # Standard loopback interface address (localhost)
@@ -22,7 +23,9 @@ class MessageHandler:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     message_decoder = MessageDecoder()
     gnss_configurator = GnssConfigurator()
+    rtcm_forwarder = RtcmForwarder()
     reply_message = Message()
+    isRtcmEnabled = None
     
     def __init__(self):
         pass
@@ -61,6 +64,13 @@ class MessageHandler:
                 
         elif(msg_type=="RTCM_CONFIG"):
             print("got rtcm config message")
+            if msg_content=="enable rtcm":
+                self.isRtcmEnabled = True
+            elif msg_content=="disable rtcm":
+                self.isRtcmEnabled = False
+            self.rtcm_forwarder.setRtcmEnabled(self.isRtcmEnabled)
+            payload_message = "RTCM ACK"
+            
         
         #print("Message Payload :", payload_message)
         return payload_message
@@ -99,6 +109,9 @@ class MessageHandler:
                             self.reply_message.msg_type = self.reply_message.Type.GNSS_GET
                             sat_data_dict = {"GPS":msg_payload[0], "GLONASS":msg_payload[1], "BeiDou":msg_payload[2], "Galileo":msg_payload[3]}
                             self.reply_message.msg_content = str(sat_data_dict)
+                        elif("RTCM" in msg_payload):
+                            self.reply_message.msg_type = self.reply_message.Type.RTCM_CONFIG
+                            self.reply_message.msg_content = msg_payload
                         else:
                             self.reply_message.msg_type = self.reply_message.Type.GNSS_CONFIG
                             self.reply_message.msg_content = msg_payload
@@ -117,9 +130,16 @@ class MessageHandler:
                 # Clean up the connection
                 connection.close()
             
+    def runRtcmForwarder(self):
+        #running Rtcm Forwarder on new Thread
+        thread1 = threading.Thread(target=self.rtcm_forwarder.run)
+        thread1.start()
+
     def run(self):
+        self.runRtcmForwarder()
         self.open_socket_connection()
         self.connect()
+        
 
 
 if __name__ == '__main__':

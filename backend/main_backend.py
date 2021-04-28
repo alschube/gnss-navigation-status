@@ -6,14 +6,17 @@ from handle_messages import MessageHandler
 
 def run():
     print("Starting Main Backend ...........................")
+    
+    #running Data Fetcher on new Thread
     data_fetcher = DataFetcher()
     thread1 = threading.Thread(target=data_fetcher.run)
     thread1.start()
-    #data_fetcher.run()
     
+    #running Message Handler on new Thread
     message_handler = MessageHandler()
     thread2 = threading.Thread(target=message_handler.run)
     thread2.start()
+    
 
 if __name__ == '__main__':
     run()
