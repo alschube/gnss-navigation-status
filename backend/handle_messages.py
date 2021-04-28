@@ -30,7 +30,7 @@ class MessageHandler:
     def open_socket_connection(self):
         server_address = ((self.HOST, self.PORT))
         self.s.bind(server_address)
-        print('starting up on %s port %s' % server_address)
+        print('MessageHandler: starting up on %s port %s' % server_address)
         # Listen for incoming connections
         self.s.listen(1)
        
@@ -39,7 +39,7 @@ class MessageHandler:
         msg_content = msg["msgContent"]
         payload_message = None
         if(msg_type=="GNSS_GET"):
-            print('Fetching satellite config.....')
+            print('MessageHandler: Fetching satellite config.....')
             payload_message = self.gnss_configurator.getSatelliteConfiguration()
         elif(msg_type=="GNSS_CONFIG"):
             if(msg_content=="enable GPS"):
@@ -110,7 +110,7 @@ class MessageHandler:
                             
                         #connection.sendall("i received something from you\r\n".encode())
                     else:
-                        print('no more data from', client_address)
+                        print('MessageHandler: no more data from', client_address)
                         break
                     
             finally:

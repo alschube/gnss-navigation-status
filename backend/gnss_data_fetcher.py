@@ -23,7 +23,7 @@ class DataFetcher:
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
         self.sock.bind(server_address)
-        print('starting up on %s port %s' % server_address)
+        print('DataFetcher: starting up on %s port %s' % server_address)
 
         # Listen for incoming connections
         self.sock.listen(1)
@@ -49,19 +49,20 @@ class DataFetcher:
                             #print("Successfully send data to client", client_address)
                             
                         except Exception as err:
-                            print(err)
-                            print("client", client_address," closed the connection, no more data can be sent")
+                            #print(err)
+                            print("DataFetcher: client", client_address," closed the connection, no more data can be sent")
                             break
 
                         #print(gnssJSONData)
                         
                     except(AttributeError) as err:
-                        print(err)
-                        print("no data found, trying again.....")
+                        #print(err)
+                        print("DataFetcher: no data found, trying again.....")
                         continue
 
                     except (ValueError, IOError) as err:
-                        print(err)
+                        continue
+                        
                         
             finally:
                 # Clean up the connection
