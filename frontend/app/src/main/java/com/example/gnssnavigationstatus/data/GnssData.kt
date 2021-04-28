@@ -8,7 +8,7 @@ class GnssData{
     var time: String? = null
     var longitude: Float? = null
     var latitude: Float? = null
-    //lateinit var gnssFixOK Boolean
+    var gnssFixOK: Int? = null
     var height: Int? = null
     var verticalAccuracy: Int? = null
     var horizontalAccuracy: Int? = null

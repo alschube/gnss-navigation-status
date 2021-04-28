@@ -20,10 +20,11 @@ class MapFragment : Fragment() {
         lateinit var timeTextView: TextView
         lateinit var longitudeTextView: TextView
         lateinit var latitudeTextView: TextView
-        //lateinit var gnssFixOKTextView: TextView
         lateinit var heightTextView: TextView
         lateinit var verticalAccuracyTextView: TextView
         lateinit var horizontalAccuracyTextView: TextView
+        lateinit var numberSatsTextView: TextView
+        lateinit var gnssFixOkTextView: TextView
     }
 
     override fun onCreateView(
@@ -37,29 +38,11 @@ class MapFragment : Fragment() {
         timeTextView = root.findViewById(R.id.time_text)
         longitudeTextView = root.findViewById(R.id.long_text)
         latitudeTextView = root.findViewById(R.id.lat_text)
-        // gnssFixOKTextView = root.findViewById(R.id.gnss_fix_ok_text)
         heightTextView = root.findViewById(R.id.height_text)
         verticalAccuracyTextView = root.findViewById(R.id.vert_acc_text)
         horizontalAccuracyTextView = root.findViewById(R.id.horiz_acc_text)
-
-        /*activity?.runOnUiThread(object : Runnable {
-            override fun run() {
-
-                    if (GnssDataHolder.time != null) {
-                        timeTextView.text = GnssDataHolder.time
-                        longitudeTextView.text = "${GnssDataHolder.longitude}"
-                        latitudeTextView.text = "${GnssDataHolder.latitude}"
-                        //gnssFixOKTextView.text = "${data.gnssFixOK}"
-                        heightTextView.text = "${GnssDataHolder.height?.div(1000)}"
-                        verticalAccuracyTextView.text =
-                            "${GnssDataHolder.verticalAccuracy?.div(10)}"
-                        horizontalAccuracyTextView.text =
-                            "${GnssDataHolder.horizontalAccuracy?.div(10)}"
-                    }
-
-            }
-        }
-        )*/
+        numberSatsTextView = root.findViewById(R.id.number_sats_text)
+        gnssFixOkTextView = root.findViewById(R.id.gnss_fix_ok_text)
 
         return root
     }

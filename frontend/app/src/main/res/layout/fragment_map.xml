@@ -313,4 +313,31 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
 
+    <TextView
+        android:id="@+id/gnss_fix_ok_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="308dp"
+        android:text="@string/title_gnss_fix_ok"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
+        app:layout_constraintVertical_bias="0.281" />
+
+    <TextView
+        android:id="@+id/gnss_fix_ok_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/text_gnss_fix_ok"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/gnss_fix_ok_title"
+        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
+        app:layout_constraintVertical_bias="0.233" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

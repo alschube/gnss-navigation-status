@@ -9,6 +9,7 @@ import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
 import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.ui.map.MapFragment
+import com.example.gnssnavigationstatus.ui.table.TableFragment
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
@@ -54,28 +55,22 @@ class GnssDataUpdater : Service() {
 
                     ThreadUtil.runOnUiThread {
 
-                        //println(GnssDataHolder.time)
+                        MapFragment.numberSatsTextView.text = "${GnssDataHolder.numSatsFixed} (${GnssDataHolder.numSatsTotal})"
+                        MapFragment.gnssFixOkTextView.text = "${GnssDataHolder.gnssFixOK}"
                         MapFragment.timeTextView.text = GnssDataHolder.time
                         MapFragment.longitudeTextView.text = "${GnssDataHolder.longitude}"
                         MapFragment.latitudeTextView.text = "${GnssDataHolder.latitude}"
-                        //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
                         MapFragment.heightTextView.text = "${GnssDataHolder.height?.div(1000)}"
                         MapFragment.verticalAccuracyTextView.text =
                             "${GnssDataHolder.verticalAccuracy?.div(10)}"
                         MapFragment.horizontalAccuracyTextView.text =
                             "${GnssDataHolder.horizontalAccuracy?.div(10)}"
 
+
+                        SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(GnssDataHolder.satellites!!)
+                        TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
+
                     }
-
-
-                    /*MapFragment.timeTextView.text = data.time
-                    MapFragment.longitudeTextView.text = "${data.longitude}"
-                    MapFragment.latitudeTextView.text = "${data.latitude}"
-                    //MapFragment.gnssFixOKTextView.text = "${data.gnssFixOK}"
-                    MapFragment.heightTextView.text = "${data.height?.div(1000)}"
-                    MapFragment.verticalAccuracyTextView.text = "${data.verticalAccuracy?.div(10)}"
-                    MapFragment.horizontalAccuracyTextView.text =
-                        "${data.horizontalAccuracy?.div(10)}"*/
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
