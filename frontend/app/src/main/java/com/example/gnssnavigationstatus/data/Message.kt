@@ -4,7 +4,7 @@ import com.google.gson.Gson
 
 class Message (var msgType:MessageType, var msgContent: String){
     public enum class MessageType {
-        GNSS_DATA, RTCM_CONFIG, GNSS_CONFIG
+        GNSS_DATA, RTCM_CONFIG, GNSS_CONFIG, GNSS_GET
     }
     lateinit var type:MessageType
     lateinit var content:String

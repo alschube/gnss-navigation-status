@@ -1,12 +1,15 @@
 package com.example.gnssnavigationstatus.data
 
+
+
+
 class GnssDataHolder {
 
     companion object {
         var time: String? = null
         var longitude: Float? = null
         var latitude: Float? = null
-        //lateinit var gnssFixOK Boolean
+        var gnssFixOK: Int? = null
         var height: Int? = null
         var verticalAccuracy: Int? = null
         var horizontalAccuracy: Int? = null
@@ -18,7 +21,7 @@ class GnssDataHolder {
             time = data.time
             longitude = data.longitude
             latitude = data.latitude
-            //gnssFixOK = data.gnssFixOK
+            gnssFixOK = data.gnssFixOK
             height = data.height
             verticalAccuracy = data.verticalAccuracy
             horizontalAccuracy = data.horizontalAccuracy
