@@ -9,14 +9,19 @@ class RtcmForwarder:
     ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating over UART1
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a TCP/IP socket
     
+    rtcmEnabled = False    
     
     def __init__(self):
         pass
+    
+    def setRtcmEnabled(self, bool):
+        self.rtcmEnabled = bool
+        print('RtcmForwarder: set rtcmEnabled to ', bool)
 
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
         self.sock.bind(server_address)
-        print('starting up on %s port %s' % server_address)
+        print('RtcmForwarder: starting up on %s port %s' % server_address)
 
         # Listen for incoming connections
         self.sock.listen(1)
@@ -24,19 +29,20 @@ class RtcmForwarder:
     def connect(self):
         while True:
             # Wait for a connection
-            print('waiting for a connection')
+            print('RtcmForwarder: waiting for a connection')
             connection, client_address = self.sock.accept()
             try:
-                print('connection from', client_address)
+                print('RtcmForwarder: connection from', client_address)
                 # Receive the data in small chunks and retransmit it
                 while True:
                     data = connection.recv(16)
-                    print('received "%s"' % data)
+                    print('RtcmForwarder: received "%s"' % data)
                     if data:
-                        print('sending data over uart to receiver')
-                        self.ser.write(data)
+                        if self.rtcmEnabled:
+                            print('RtcmForwarder: sending data over uart to receiver')
+                            self.ser.write(data)
                     else:
-                        print('no more data from', client_address)
+                        print('RtcmForwarder: no more data from', client_address)
                         break
                     
             finally:
