@@ -9,9 +9,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
-import com.example.gnssnavigationstatus.ui.map.MapFragment
+
 
 class MainActivity : AppCompatActivity() {
 

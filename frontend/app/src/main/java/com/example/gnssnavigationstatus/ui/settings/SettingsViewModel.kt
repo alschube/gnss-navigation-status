@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 
 class SettingsViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    private val _isChecked = MutableLiveData<Boolean>().apply {
+
     }
-    val text: LiveData<String> = _text
+    val boolean: LiveData<Boolean> = _isChecked
+
 }
