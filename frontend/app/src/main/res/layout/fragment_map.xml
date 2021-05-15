@@ -7,6 +7,16 @@
     tools:context=".ui.map.MapFragment"
     android:id="@+id/map_fragment">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment"
+        android:layout_width="352dp"
+        android:layout_height="352dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/legend_title"
         android:layout_width="wrap_content"
@@ -295,17 +305,6 @@
                 android:textColor="#000000" />
         </TableRow>
     </TableLayout>
-
-    <ImageView
-        android:id="@+id/map"
-        android:layout_width="352dp"
-        android:layout_height="303dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_karte"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
