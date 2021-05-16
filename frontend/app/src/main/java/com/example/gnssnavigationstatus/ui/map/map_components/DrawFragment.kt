@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.gnssnavigationstatus.R
+import com.example.gnssnavigationstatus.service.GnssDataUpdater
 
 class DrawFragment : Fragment() {
 
@@ -23,6 +24,9 @@ class DrawFragment : Fragment() {
         this.constraintLayout = root.findViewById(R.id.map_layout)
         var map = Map(root.context, root.width, root.height)
         this.constraintLayout.addView(map)
+        GnssDataUpdater.ThreadUtil.runOnUiThread {
+            map.invalidate()
+        }
         return root
 
     }
