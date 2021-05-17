@@ -3,47 +3,57 @@ package com.example.gnssnavigationstatus.ui.map.map_components
 import android.content.Context
 import android.graphics.*
 import android.view.View
+import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.GnssDataHolder
 import kotlin.math.cos
 import kotlin.math.sin
 
-/*
-This class draws the map
+/**
+ * This class is responsible for drawing the map
+ *
+ * @constructor
+ * @param context the application context
+ * @param width the width of the screen
+ * @param height the height of the screen
  */
 class Map(context: Context, width: Int, height: Int) : View(context) {
 
-    //create some variables used for calculation
+    /** create some variables used for calculation*/
     private var scale: Int = 5
     private var textSize: Float = 50f
     private var textSizeDoubled: Float = textSize * 2
     private var textSizeQuartered: Float = textSize * 2 / 8
     private val thinStroke: Float = 3f
     private val thickStroke: Float = 6f
-    private var widthHalved: Float = width.toFloat() / 2
-    private var heightHalved: Float = height.toFloat() / 2
+    private var centerX: Float = width.toFloat() / 2
+    private var centerY: Float = height.toFloat() / 2
     private val rotationAngle:Int = 90
     private val thirtyDegrees:Float = 30f
     private val sixtyDegrees:Float = 60f
     private val ninetyDegrees:Float = 90f
 
-    //create two more colors
+    /** create some more colors*/
     private val orange: Int = Color.rgb(251, 140, 0)
     private val dkgreen: Int = Color.rgb(0, 137, 123)
     private val lgreen: Int = Color.rgb(43, 189, 101)
     private val lblue: Int = Color.rgb(0, 228, 255)
 
-    //create a paint for each type
+    /** create a paint for each type of object */
     private var dotPaint = Paint()
     private var circlePaint = Paint()
     private var textPaint = Paint()
     private var satellitePaint = Paint()
     private var satIdTextPaint = Paint()
 
-
+    /**
+     * This Method is called once on creating the fragment
+     *
+     * @param canvas the map area
+     */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        this.widthHalved = width.toFloat() / 2
-        this.heightHalved = height.toFloat() / 2
+        this.centerX = width.toFloat() / 2
+        this.centerY = height.toFloat() / 2
 
         // defines the style of dots
         dotPaint = createPaint(Color.BLACK, thickStroke, Paint.Style.STROKE)
@@ -63,22 +73,22 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         satellitePaint = createPaint(Color.TRANSPARENT, thinStroke, Paint.Style.FILL)
 
         //draws the coordinate system
-        canvas?.drawPoint(widthHalved, heightHalved, dotPaint) //midpoint
-        canvas?.drawCircle(widthHalved, heightHalved, ninetyDegrees * scale, circlePaint)
-        canvas?.drawCircle(widthHalved, heightHalved, sixtyDegrees * scale, circlePaint)
-        canvas?.drawCircle(widthHalved, heightHalved, thirtyDegrees * scale, circlePaint)
-        canvas?.drawLine(widthHalved, textSizeDoubled, widthHalved, height - textSizeDoubled, circlePaint) //vertical line
-        canvas?.drawLine(textSizeDoubled, heightHalved, width - textSize * 2.5f, heightHalved, circlePaint) //horizontal line
+        canvas?.drawPoint(centerX, centerY, dotPaint) //midpoint
+        canvas?.drawCircle(centerX, centerY, ninetyDegrees * scale, circlePaint)
+        canvas?.drawCircle(centerX, centerY, sixtyDegrees * scale, circlePaint)
+        canvas?.drawCircle(centerX, centerY, thirtyDegrees * scale, circlePaint)
+        canvas?.drawLine(centerX, textSizeDoubled, centerX, height - textSizeDoubled, circlePaint) //vertical line
+        canvas?.drawLine(textSizeDoubled, centerY, width - textSize * 2.5f, centerY, circlePaint) //horizontal line
 
         //labels the coordinate system
-        canvas?.drawText("90°", widthHalved, heightHalved, textPaint)
-        canvas?.drawText("60°", widthHalved, (heightHalved - thirtyDegrees * scale), textPaint)
-        canvas?.drawText("30°", widthHalved, (heightHalved - sixtyDegrees * scale), textPaint)
-        canvas?.drawText("0°", widthHalved, (heightHalved - ninetyDegrees * scale), textPaint)
+        canvas?.drawText("90°", centerX, centerY, textPaint)
+        canvas?.drawText("60°", centerX, (centerY - thirtyDegrees * scale), textPaint)
+        canvas?.drawText("30°", centerX, (centerY - sixtyDegrees * scale), textPaint)
+        canvas?.drawText("0°", centerX, (centerY - ninetyDegrees * scale), textPaint)
 
-        canvas?.drawText("N", widthHalved - textSize * 3 / 8, textSize + textSize / 2, textPaint)
-        canvas?.drawText("S", widthHalved - textSizeQuartered, height - textSize, textPaint)
-        canvas?.drawText("O", width - textSizeDoubled, heightHalved + textSize * 1 / 3, textPaint)
+        canvas?.drawText("N", centerX - textSize * 3 / 8, textSize + textSize / 2, textPaint)
+        canvas?.drawText("S", centerX - textSizeQuartered, height - textSize, textPaint)
+        canvas?.drawText("O", width - textSizeDoubled, centerY + textSize * 1 / 3, textPaint)
         canvas?.drawText("W", textSize, height / 2 + textSize * 1 / 3, textPaint)
 
         // draw the satellites
@@ -92,10 +102,10 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
 
                 // find correct satellite type and the according color
                 when (sat.type) {
-                    "Galileo" -> satellitePaint.color = Color.BLUE
-                    "GLONASS" -> satellitePaint.color = dkgreen
-                    "BeiDou" -> satellitePaint.color = Color.RED
-                    "GPS" -> satellitePaint.color = orange
+                    context.getString(R.string.GAL_text) -> satellitePaint.color = Color.BLUE
+                    context.getString(R.string.GLO_text) -> satellitePaint.color = dkgreen
+                    context.getString(R.string.BDS_text) -> satellitePaint.color = Color.RED
+                    context.getString(R.string.GPS_text) -> satellitePaint.color = orange
                 }
 
                 //draw the satellite
@@ -111,8 +121,11 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         }
     }
 
-    /*
-    Method for rotating coordinates with a rotation matrix
+    /**
+     * Method for rotating coordinates with a rotation matrix
+     *
+     * @param degrees the angle to rotate around the origin
+     * @return the rotated vector of a {@link SatelliteData}
      */
     private fun rotateIdentityVector(degrees: Int): DoubleArray {
         val radian = Math.toRadians(degrees.toDouble())
@@ -136,22 +149,34 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         return result
     }
 
-    /*
-    Method for moving the points to the correct position in the coordinate system
+    /**
+     * Method for moving the points to the correct position in the coordinate system
+     *
+     * @param position the satellite position
+     * @return new position of satellite
      */
     private fun moveToMidPoint(position: DoubleArray): DoubleArray {
-        return doubleArrayOf(position[0] + widthHalved, position[1] + heightHalved)
+        return doubleArrayOf(position[0] + centerX, position[1] + centerY)
     }
 
-    /*
-    Method for scaling by a factor
+    /**
+     * Method for scaling by a factor
+     *
+     * @param position the satellite position
+     * @param factor factor the vector should be scaled by
+     * @return the scaled position
      */
     private fun scale(position: DoubleArray, factor: Int): DoubleArray {
         return doubleArrayOf(position[0] * factor, position[1] * factor)
     }
 
-    /*
-    Method for creating a new Paint with a specific style
+    /**
+     * Method for creating a new Paint with a specific style
+     *
+     * @param color the color in which the object should be drawn in
+     * @param strWidth the stroke width the object should be drawn with
+     * @param fillType the filltype of the object, e.g. FILL or STROKE
+     * @return the created Paint
      */
     private fun createPaint(color: Int, strWidth: Float, fillType: Paint.Style): Paint {
         val tempPaint = Paint()
