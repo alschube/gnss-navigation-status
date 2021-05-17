@@ -11,6 +11,8 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
 
     var scale: Int = 5
     var textSize: Float = 50f
+    val orange: Int = Color.rgb(251, 140, 0)
+    val dkgreen: Int = Color.rgb(0, 137, 123)
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -30,6 +32,11 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         textPaint.style = Paint.Style.FILL
         textPaint.strokeWidth = 3f
         textPaint.textSize = textSize
+
+        val satellitePaint = Paint()
+        satellitePaint.setColor(Color.BLACK)
+        satellitePaint.style = Paint.Style.FILL
+        satellitePaint.strokeWidth = 3f
 
         canvas?.drawPoint(width.toFloat() / 2, height.toFloat() / 2, dotPaint)
 
@@ -78,12 +85,20 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
 
                 val trueIdentityVector = scale(rotatedIdentityVector, this.scale)
                 val finalSize = scale(trueIdentityVector, 90 - sat.elevation!!)
+
+                when (sat.type) {
+                    "Galileo" -> satellitePaint.color = Color.BLUE
+                    "GLONASS" -> satellitePaint.color = dkgreen
+                    "BeiDou" -> satellitePaint.color = Color.RED
+                    "GPS" -> satellitePaint.color = orange
+                }
+
                 val positionIdentityVector = moveToMidPoint(finalSize)
                 canvas?.drawCircle(
                     positionIdentityVector[0].toFloat(),
                     positionIdentityVector[1].toFloat(),
                     5f * scale,
-                    circlePaint
+                    satellitePaint
                 )
             }
         }
