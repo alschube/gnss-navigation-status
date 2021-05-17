@@ -29,12 +29,15 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
     //create two more colors
     private val orange: Int = Color.rgb(251, 140, 0)
     private val dkgreen: Int = Color.rgb(0, 137, 123)
+    private val lgreen: Int = Color.rgb(43, 189, 101)
+    private val lblue: Int = Color.rgb(0, 228, 255)
 
     //create a paint for each type
     private var dotPaint = Paint()
     private var circlePaint = Paint()
     private var textPaint = Paint()
     private var satellitePaint = Paint()
+    private var satIdTextPaint = Paint()
 
 
     override fun onDraw(canvas: Canvas?) {
@@ -51,6 +54,10 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         //defines the style of texts
         textPaint = createPaint(Color.BLACK, thinStroke, Paint.Style.FILL)
         textPaint.textSize = textSize
+
+        //defines the style of satelliteIdentifier
+        satIdTextPaint = createPaint(Color.BLACK, 8f, Paint.Style.FILL)
+        satIdTextPaint.textSize = 40f
 
         //defines the style of the satellites
         satellitePaint = createPaint(Color.TRANSPARENT, thinStroke, Paint.Style.FILL)
@@ -99,6 +106,7 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
                     5f * scale,
                     satellitePaint
                 )
+                canvas?.drawText(sat.satelliteIdentifier.toString(), positionIdentityVector[0].toFloat() - 25, positionIdentityVector[1].toFloat()+10, satIdTextPaint)
             }
         }
     }
