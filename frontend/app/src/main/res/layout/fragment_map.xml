@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.map.MapFragment"
-    android:id="@+id/map_fragment">
+    tools:context=".ui.map.MapFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -36,22 +36,22 @@
         android:layout_width="18dp"
         android:layout_height="19dp"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_square_24px"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        android:src="@drawable/ic_circle_24px_dkgreen"
+        app:layout_constraintBottom_toBottomOf="@+id/textView20"
         app:layout_constraintEnd_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/textView20"
         app:layout_constraintVertical_bias="0.161" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="28dp"
         android:text="@string/BDS_text"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintBottom_toBottomOf="@+id/beidou_symbol"
         app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/beidou_symbol"
         app:layout_constraintVertical_bias="0.177" />
 
     <TextView
@@ -61,22 +61,22 @@
         android:layout_marginEnd="32dp"
         android:text="@string/GLO_text"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintBottom_toBottomOf="@+id/GLONASS_symbol"
         app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/GLONASS_symbol"
         app:layout_constraintVertical_bias="0.161" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/GPS_text"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintBottom_toBottomOf="@+id/GPS_symbol"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintTop_toTopOf="@+id/GPS_symbol"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView17"
@@ -85,11 +85,11 @@
         android:layout_marginStart="8dp"
         android:text="@string/GAL_text"
         android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        app:layout_constraintBottom_toBottomOf="@+id/galileo_symbol"
         app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
         app:layout_constraintHorizontal_bias="0.057"
         app:layout_constraintStart_toEndOf="@+id/galileo_symbol"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/galileo_symbol"
         app:layout_constraintVertical_bias="0.161" />
 
     <ImageView
@@ -97,7 +97,7 @@
         android:layout_width="18dp"
         android:layout_height="19dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/ic_circle_24px"
+        android:src="@drawable/ic_circle_24px_dkblue"
         app:layout_constraintBottom_toTopOf="@+id/position_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/legend_title"
@@ -108,10 +108,10 @@
         android:layout_width="18dp"
         android:layout_height="19dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_triangle_24px"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        android:src="@drawable/ic_circle_24px_orange"
+        app:layout_constraintBottom_toBottomOf="@+id/textView19"
         app:layout_constraintEnd_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/textView19"
         app:layout_constraintVertical_bias="0.177" />
 
     <ImageView
@@ -119,10 +119,10 @@
         android:layout_width="18dp"
         android:layout_height="19dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_hexagon_24px"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
+        android:src="@drawable/ic_circle_24px_brred"
+        app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toStartOf="@+id/textView20"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
+        app:layout_constraintTop_toTopOf="@+id/textView17"
         app:layout_constraintVertical_bias="0.177" />
 
     <TextView
