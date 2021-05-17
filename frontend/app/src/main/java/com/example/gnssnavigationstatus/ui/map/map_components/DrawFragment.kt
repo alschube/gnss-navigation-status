@@ -13,21 +13,21 @@ class DrawFragment : Fragment() {
 
     lateinit var constraintLayout: ConstraintLayout
 
+    companion object {
+        lateinit var map: Map
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
         val root = inflater.inflate(R.layout.fragment_draw, container, false)
         this.constraintLayout = root.findViewById(R.id.map_layout)
-        var map = Map(root.context, root.width, root.height)
+        map = Map(root.context, root.width, root.height)
         this.constraintLayout.addView(map)
-        GnssDataUpdater.ThreadUtil.runOnUiThread {
-            map.invalidate()
-        }
-        return root
 
+        return root
     }
 }

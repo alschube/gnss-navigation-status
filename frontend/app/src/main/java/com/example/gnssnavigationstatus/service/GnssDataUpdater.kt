@@ -9,6 +9,7 @@ import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
 import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.ui.map.MapFragment
+import com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment
 import com.example.gnssnavigationstatus.ui.table.TableFragment
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -70,6 +71,9 @@ class GnssDataUpdater : Service() {
                         SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(GnssDataHolder.satellites!!)
                         TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
 
+                        if (DrawFragment.map != null) {
+                            DrawFragment.map.invalidate()
+                        }
                     }
                 }
             } catch (e: Exception) {
