@@ -14,6 +14,10 @@ import com.example.gnssnavigationstatus.service.GnssDataUpdater
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        lateinit var IP: String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

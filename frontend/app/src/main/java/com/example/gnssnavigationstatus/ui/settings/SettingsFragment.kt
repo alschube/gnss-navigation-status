@@ -6,15 +6,18 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Switch
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.gnssnavigationstatus.MainActivity
 import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.Message
 import com.example.gnssnavigationstatus.data.MessageDecoder
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -24,6 +27,8 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 import java.util.concurrent.Executors
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class SettingsFragment : Fragment() {
@@ -38,9 +43,12 @@ class SettingsFragment : Fragment() {
     private lateinit var checkBoxArray: Array<CheckBox>
     private lateinit var rtcmSwitch: Switch
 
+
+    private lateinit var ipInputField: TextInputEditText
+    private lateinit var connectButton: Button
+
     var isChecked: Boolean? = null
     var isInstantiated: Boolean = false
-    var checkBoxesInitialized: Boolean = false
 
     lateinit var socket: Socket
     lateinit var out: PrintWriter
@@ -58,6 +66,10 @@ class SettingsFragment : Fragment() {
         this.checkBoxGAL = root.findViewById(R.id.checkBox_GAL)
         this.checkBoxGLO = root.findViewById(R.id.checkBox_GLO)
         this.checkBoxBDS = root.findViewById(R.id.checkBox_BDS)
+
+        ipInputField = root.findViewById(R.id.ip_input_field_text)
+        this.connectButton = root.findViewById(R.id.connect_button)
+        connectButton.setOnClickListener(View.OnClickListener { onConnectButtonClicked() })
 
         rtcmSwitch = root.findViewById(R.id.rtcm_switch)
 
@@ -94,7 +106,6 @@ class SettingsFragment : Fragment() {
                 println("Error-------------------------------------------------")
                 e.printStackTrace()
             }
-            checkBoxesInitialized = true
             stopConnection()
             initExecutor.shutdown()
         }
@@ -124,6 +135,22 @@ class SettingsFragment : Fragment() {
 
     private fun convertIntToBoolean(i: Int): Boolean {
         return i == 1
+    }
+
+    private fun onConnectButtonClicked(){
+
+        val ipPattern : Pattern = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
+                + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+                + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
+                + "|[1-9][0-9]|[0-9]))")
+        if (ipInputField.text == null || ipInputField.text.toString().isEmpty()){
+            Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
+        }
+        else if (ipPattern.matcher(ipInputField.text.toString()).matches()) {
+            Toast.makeText(context, "valid ip format", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun onSwitchChanged() {
