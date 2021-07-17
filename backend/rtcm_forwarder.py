@@ -2,7 +2,9 @@ import socket
 import serial
 
 class RtcmForwarder:
-    TCP_IP = '192.168.178.44'# local host
+    ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipdata.connect(('8.8.8.8', 80))
+    TCP_IP = ipdata.getsockname()[0]
     TCP_PORT = 8766 # Port to listen
     BUFFER_SIZE = 20
     

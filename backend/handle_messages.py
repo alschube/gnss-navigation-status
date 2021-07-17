@@ -14,7 +14,10 @@ from gnss_configurator import GnssConfigurator
 from rtcm_forwarder import RtcmForwarder
 
 class MessageHandler:
-    HOST = '192.168.178.44'  # Standard loopback interface address (localhost)
+    #HOST = '192.168.178.44'  # Standard loopback interface address (localhost)
+    ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipdata.connect(('8.8.8.8', 80))
+    HOST = ipdata.getsockname()[0]
     PORT = 8764     # Port to listen on (non-privileged ports are > 1023)
     ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1)
     gps = UbloxGps(ser)
@@ -97,7 +100,7 @@ class MessageHandler:
                     data = data[:-3]
                     print('received "%s"' % data)
                     if data:
-                        #print(data)
+                        print(data)
                         msg = self.message_decoder.decodeFromJson(data)
                         #print(msg["msgType"])
                         #print(msg["msgContent"])

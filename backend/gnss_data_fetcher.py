@@ -8,7 +8,9 @@ import serial
 import json
 
 class DataFetcher:
-    TCP_IP = '192.168.178.44'# local host
+    ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipdata.connect(('8.8.8.8', 80))
+    TCP_IP = ipdata.getsockname()[0]
     TCP_PORT = 8765 # Port to listen
     
     ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating
