@@ -40,7 +40,7 @@ class SettingsFragment : Fragment() {
 
     var isChecked: Boolean? = null
     var isInstantiated: Boolean = false
-
+    var checkBoxesInitialized: Boolean = false
 
     lateinit var socket: Socket
     lateinit var out: PrintWriter
@@ -65,16 +65,6 @@ class SettingsFragment : Fragment() {
             getString(R.string.app_name),
             Context.MODE_PRIVATE
         ).getBoolean("switch_state", false)
-        rtcmSwitch.isChecked = isChecked as Boolean
-
-
-        if (!isInstantiated && isChecked as Boolean) {
-            this.init()
-        }
-
-        rtcmSwitch.setOnClickListener {
-            onSwitchChanged()
-        }
 
         this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGLO, checkBoxBDS, checkBoxGAL)
         val initExecutor = Executors.newSingleThreadExecutor()
@@ -104,10 +94,25 @@ class SettingsFragment : Fragment() {
                 println("Error-------------------------------------------------")
                 e.printStackTrace()
             }
-
+            checkBoxesInitialized = true
             stopConnection()
             initExecutor.shutdown()
         }
+        rtcmSwitch.isChecked = isChecked as Boolean
+
+        while (!initExecutor.isTerminated) {
+            if (initExecutor.isTerminated) {
+                if (!isInstantiated && isChecked as Boolean) {
+                    this.init()
+                }
+                break;
+            }
+        }
+
+        rtcmSwitch.setOnClickListener {
+            onSwitchChanged()
+        }
+
         for (checkBox in checkBoxArray) {
             checkBox.setOnClickListener(View.OnClickListener {
                 onCheckboxClicked(checkBox)
@@ -213,7 +218,10 @@ class SettingsFragment : Fragment() {
 
     fun sendMessage(msg: String): String {
         out.println(msg)
-        return inp.readLine()
+
+        var temp = inp.readLine()
+        println(temp)
+        return temp
     }
 
     fun stopConnection() {

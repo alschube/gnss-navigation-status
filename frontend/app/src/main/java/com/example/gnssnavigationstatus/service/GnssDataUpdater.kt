@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.widget.Toast
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
 import com.example.gnssnavigationstatus.data.GnssDataHolder
@@ -14,6 +15,7 @@ import com.example.gnssnavigationstatus.ui.table.TableFragment
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
+import java.net.ConnectException
 import java.net.Socket
 import java.util.concurrent.Executors
 
@@ -76,7 +78,13 @@ class GnssDataUpdater : Service() {
                         }
                     }
                 }
-            } catch (e: Exception) {
+            } catch (e:ConnectException){
+                print("Connection failed.......")
+                //Toast.makeText(applicationContext, "Connection Failed, Reconnecting...", Toast.LENGTH_SHORT).show()
+                stopService(Intent(this, this.javaClass))
+
+            }
+            catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -107,6 +115,6 @@ class GnssDataUpdater : Service() {
     }
 
     override fun onDestroy() {
-        //stopConnection()
+        startService(Intent(this, this.javaClass))
     }
 }
