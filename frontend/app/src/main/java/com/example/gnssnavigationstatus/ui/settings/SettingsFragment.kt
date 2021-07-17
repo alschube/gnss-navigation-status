@@ -52,7 +52,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         val root = inflater.inflate(R.layout.fragment_settings, container, false)
 
         this.checkBoxGPS = root.findViewById(R.id.checkBox_GPS)
@@ -256,5 +255,10 @@ class SettingsFragment : Fragment() {
             activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
                 ?.edit()?.putBoolean("switch_state", it)?.apply()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 }

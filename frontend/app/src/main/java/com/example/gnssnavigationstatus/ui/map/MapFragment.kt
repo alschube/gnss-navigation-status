@@ -10,11 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.GnssDataHolder
+import com.example.gnssnavigationstatus.service.GnssDataUpdater
+import com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment
 import org.w3c.dom.Text
+import java.util.concurrent.Executors
 
 class MapFragment : Fragment() {
 
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var drawFragment: DrawFragment
 
     companion object {
         lateinit var timeTextView: TextView
@@ -28,12 +32,13 @@ class MapFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
+
         mapViewModel =
-                ViewModelProvider(this).get(MapViewModel::class.java)
+            ViewModelProvider(this).get(MapViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
         timeTextView = root.findViewById(R.id.time_text)
         longitudeTextView = root.findViewById(R.id.long_text)

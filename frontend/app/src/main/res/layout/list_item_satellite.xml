@@ -24,7 +24,7 @@
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/id_tv"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_circle_24px" />
+        app:srcCompat="@drawable/ic_circle_24px_brred" />
 
     <TextView
         android:id="@+id/sat_type_tv"
