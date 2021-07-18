@@ -2,10 +2,12 @@ package com.example.gnssnavigationstatus.service
 
 import android.app.Service
 import android.content.Intent
+import android.graphics.Color
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.widget.Toast
+import com.example.gnssnavigationstatus.MainActivity
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder
 import com.example.gnssnavigationstatus.data.GnssDataHolder
@@ -22,9 +24,13 @@ import java.util.concurrent.Executors
 
 class GnssDataUpdater : Service() {
 
-    lateinit var socket: Socket
+
     lateinit var out: PrintWriter
     lateinit var inp: BufferedReader
+
+    companion object {
+        lateinit var socket: Socket
+    }
 
     object ThreadUtil {
         private val handler = Handler(Looper.getMainLooper())
@@ -47,8 +53,9 @@ class GnssDataUpdater : Service() {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
-                startConnection("192.168.178.44", 8765)
+                startConnection(MainActivity.IP, 8765)
                 while (socket.isConnected) {
+                    MapFragment.connectionStatus.setTextColor(Color.GREEN)
                     val sb = StringBuilder()
                     var temp = inp.readLine()
                     //println(temp)
@@ -79,10 +86,10 @@ class GnssDataUpdater : Service() {
                     }
                 }
             } catch (e:ConnectException){
-                print("Connection failed.......")
-                //Toast.makeText(applicationContext, "Connection Failed, Reconnecting...", Toast.LENGTH_SHORT).show()
-                stopService(Intent(this, this.javaClass))
-
+                println("Connection failed.......")
+                Toast.makeText(applicationContext, "Connection failed, check your ip or internet connection!", Toast.LENGTH_LONG).show()
+                stopService(Intent(this, this::class.java))
+                MapFragment.connectionStatus.setTextColor(Color.RED)
             }
             catch (e: Exception) {
                 e.printStackTrace()
@@ -94,7 +101,7 @@ class GnssDataUpdater : Service() {
     }
 
     fun startConnection(ip: String, port: Int) {
-        this.socket = Socket(ip, port)
+        socket = Socket(ip, port)
         out = PrintWriter(socket.getOutputStream(), true)
         inp = BufferedReader(InputStreamReader(socket.getInputStream()))
     }
@@ -115,6 +122,6 @@ class GnssDataUpdater : Service() {
     }
 
     override fun onDestroy() {
-        startService(Intent(this, this.javaClass))
+        startService(Intent(this, this::class.java))
     }
 }

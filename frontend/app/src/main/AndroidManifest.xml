@@ -15,11 +15,6 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.GNSSNavigationStatus">
         <service android:name=".service.GnssDataUpdater" />
-        <activity android:name=".TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

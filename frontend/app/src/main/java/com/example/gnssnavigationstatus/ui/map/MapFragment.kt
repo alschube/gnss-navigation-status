@@ -29,6 +29,7 @@ class MapFragment : Fragment() {
         lateinit var horizontalAccuracyTextView: TextView
         lateinit var numberSatsTextView: TextView
         lateinit var gnssFixOkTextView: TextView
+        lateinit var connectionStatus:TextView
     }
 
     override fun onCreateView(
@@ -48,6 +49,7 @@ class MapFragment : Fragment() {
         horizontalAccuracyTextView = root.findViewById(R.id.horiz_acc_text)
         numberSatsTextView = root.findViewById(R.id.number_sats_text)
         gnssFixOkTextView = root.findViewById(R.id.gnss_fix_ok_text)
+        connectionStatus = root.findViewById(R.id.connection_status)
 
         return root
     }
