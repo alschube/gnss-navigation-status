@@ -1,5 +1,6 @@
 package com.example.gnssnavigationstatus
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        IP = this.getSharedPreferences(
+            getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        ).getString("ip", "").toString()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

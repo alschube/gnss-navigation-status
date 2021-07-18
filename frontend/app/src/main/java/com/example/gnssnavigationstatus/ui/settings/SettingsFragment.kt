@@ -1,6 +1,7 @@
 package com.example.gnssnavigationstatus.ui.settings
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.example.gnssnavigationstatus.data.Message
 import com.example.gnssnavigationstatus.data.MessageDecoder
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -45,6 +47,7 @@ class SettingsFragment : Fragment() {
 
 
     private lateinit var ipInputField: TextInputEditText
+    private lateinit var ipInputFieldLayout: TextInputLayout
     private lateinit var connectButton: Button
 
     var isChecked: Boolean? = null
@@ -68,6 +71,11 @@ class SettingsFragment : Fragment() {
         this.checkBoxBDS = root.findViewById(R.id.checkBox_BDS)
 
         ipInputField = root.findViewById(R.id.ip_input_field_text)
+        if(MainActivity.IP != null && MainActivity.IP.isNotEmpty()){
+            ipInputField.setText(MainActivity.IP)
+        }
+
+        ipInputFieldLayout = root.findViewById(R.id.ip_input_field)
         this.connectButton = root.findViewById(R.id.connect_button)
         connectButton.setOnClickListener(View.OnClickListener { onConnectButtonClicked() })
 
@@ -79,46 +87,8 @@ class SettingsFragment : Fragment() {
         ).getBoolean("switch_state", false)
 
         this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGLO, checkBoxBDS, checkBoxGAL)
-        val initExecutor = Executors.newSingleThreadExecutor()
-        initExecutor.execute {
-            startConnection("192.168.178.44", 8764)
-            var msg: Message? = null
-            msg = Message(Message.MessageType.GNSS_GET, "get config")
 
-            val reply = sendMessage(msg.encodeToJson())
-            val replyEncoded = MessageDecoder().decodeFromJson(reply)
-            println("ReplyContent: " + replyEncoded.content)
-
-            try {
-                val satMap: Map<String, Int> = Gson().fromJson(
-                    replyEncoded.content, object : TypeToken<HashMap<String?, Int?>?>() {}.type
-                )
-                println(satMap)
-                Looper.prepare()
-                for (checkBox in checkBoxArray) {
-                    checkBox.isChecked = convertIntToBoolean(satMap[checkBox.text]!!)
-                }
-
-            } catch (e: JsonSyntaxException) {
-                println("Error-------------------------------------------------")
-                e.printStackTrace()
-            } catch (e: RuntimeException) {
-                println("Error-------------------------------------------------")
-                e.printStackTrace()
-            }
-            stopConnection()
-            initExecutor.shutdown()
-        }
-        rtcmSwitch.isChecked = isChecked as Boolean
-
-        while (!initExecutor.isTerminated) {
-            if (initExecutor.isTerminated) {
-                if (!isInstantiated && isChecked as Boolean) {
-                    this.init()
-                }
-                break;
-            }
-        }
+        connect()
 
         rtcmSwitch.setOnClickListener {
             onSwitchChanged()
@@ -129,8 +99,58 @@ class SettingsFragment : Fragment() {
                 onCheckboxClicked(checkBox)
             })
         }
-
         return root
+    }
+
+    public fun connect(){
+        try {
+            if(GnssDataUpdater.socket.isConnected) {
+                val initExecutor = Executors.newSingleThreadExecutor()
+                initExecutor.execute {
+                    startConnection(MainActivity.IP, 8764)
+                    var msg: Message? = null
+                    msg = Message(Message.MessageType.GNSS_GET, "get config")
+
+                    val reply = sendMessage(msg.encodeToJson())
+                    val replyEncoded = MessageDecoder().decodeFromJson(reply)
+                    println("ReplyContent: " + replyEncoded.content)
+
+                    try {
+                        val satMap: Map<String, Int> = Gson().fromJson(
+                            replyEncoded.content, object : TypeToken<HashMap<String?, Int?>?>() {}.type
+                        )
+                        println(satMap)
+                        Looper.prepare()
+                        for (checkBox in checkBoxArray) {
+                            checkBox.isChecked = convertIntToBoolean(satMap[checkBox.text]!!)
+                        }
+
+                    } catch (e: JsonSyntaxException) {
+                        println("Error-------------------------------------------------")
+                        e.printStackTrace()
+                    } catch (e: RuntimeException) {
+                        println("Error-------------------------------------------------")
+                        e.printStackTrace()
+                    }
+                    stopConnection()
+                    initExecutor.shutdown()
+                }
+                rtcmSwitch.isChecked = isChecked as Boolean
+
+                while (!initExecutor.isTerminated) {
+                    if (initExecutor.isTerminated) {
+                        if (!isInstantiated && isChecked as Boolean) {
+                            this.init()
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        catch (e: UninitializedPropertyAccessException){
+            e.printStackTrace()
+        }
+
     }
 
     private fun convertIntToBoolean(i: Int): Boolean {
@@ -143,25 +163,38 @@ class SettingsFragment : Fragment() {
                 + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
                 + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
                 + "|[1-9][0-9]|[0-9]))")
-        if (ipInputField.text == null || ipInputField.text.toString().isEmpty()){
-            Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
-        }
-        else if (ipPattern.matcher(ipInputField.text.toString()).matches()) {
-            Toast.makeText(context, "valid ip format", Toast.LENGTH_SHORT).show()
+        if (ipPattern.matcher(ipInputField.text.toString()).matches()) {
+            //Toast.makeText(context, "valid ip format", Toast.LENGTH_SHORT).show()
+            ipInputFieldLayout.helperText = "Gültige IP-Adresse"
+            MainActivity.IP = ipInputField.text.toString()
+            MainActivity.IP.let {
+                activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
+                    ?.edit()?.putString("ip", it)?.apply()
+            }
+            try {
+                stopConnection()
+            }
+            catch (e: UninitializedPropertyAccessException){
+                e.printStackTrace()
+                println("Keine Verbindung vorhanden, die geschlossen werden könnte!")
+            }
+            var intent: Intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
         } else {
-            Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
+            ipInputFieldLayout.error = "Ungültige IP-Adresse"
+            //Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun onSwitchChanged() {
         var msg: Message? = null
         if (rtcmSwitch.isChecked) {
-            Toast.makeText(context, "RTCM enabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "RTCM aktiviert", Toast.LENGTH_SHORT).show()
             //isChecked = true
             isChecked = true
             msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
         } else if (!rtcmSwitch.isChecked) {
-            Toast.makeText(context, "RTCM disabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "RTCM deaktiviert", Toast.LENGTH_SHORT).show()
             //isChecked = false
             isChecked = false
             msg = Message(Message.MessageType.RTCM_CONFIG, "disable rtcm")
@@ -169,7 +202,7 @@ class SettingsFragment : Fragment() {
 
         val rtcmExecutor = Executors.newSingleThreadExecutor()
         rtcmExecutor.execute {
-            startConnection("192.168.178.44", 8764)
+            startConnection(MainActivity.IP, 8764)
             val msgFromBackend = sendMessage(msg!!.encodeToJson())
             println(msgFromBackend)
             val jsonFromMessage = MessageDecoder().decodeFromJson(msgFromBackend)
@@ -188,7 +221,7 @@ class SettingsFragment : Fragment() {
     private fun onCheckboxClicked(v: View) {
         val startExecutor = Executors.newSingleThreadExecutor()
         startExecutor.execute {
-            startConnection("192.168.178.44", 8764)
+            startConnection(MainActivity.IP, 8764)
             var msg: Message? = null
             if (v is CheckBox) {
                 val checked: Boolean = v.isChecked
@@ -267,7 +300,7 @@ class SettingsFragment : Fragment() {
         val msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
         val rtcmExecutor = Executors.newSingleThreadExecutor()
         rtcmExecutor.execute {
-            startConnection("192.168.178.44", 8764)
+            startConnection(MainActivity.IP, 8764)
             val msgFromBackend = sendMessage(msg.encodeToJson())
             println(msgFromBackend)
             val jsonFromMessage = MessageDecoder().decodeFromJson(msgFromBackend)
