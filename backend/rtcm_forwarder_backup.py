@@ -28,7 +28,7 @@ class RtcmForwarder:
         
     def run(self):
         self.startThreads()
-        #self.rtcmEnabled = True
+        self.rtcmEnabled = True
         while True:
             #check if the switch was activated and threads are not already running, then start
             if self.rtcmEnabled and self.threadsRunning == False:
