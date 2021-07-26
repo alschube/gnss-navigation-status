@@ -1,6 +1,6 @@
 import socket
 import serial
-import threading
+import multiprocessing
 
 class RtcmReceiver:
     ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -26,7 +26,7 @@ class RtcmReceiver:
         self.sock.listen(1)
         
     def connect(self):
-        t = threading.currentThread()
+        t = multiprocessing.current_process()
         while True:
             # Wait for a connection
             print('RtcmReceiver: waiting for a connection')
@@ -47,6 +47,7 @@ class RtcmReceiver:
             finally:
                 # Clean up the connection
                 connection.close()
+                self.sock.close()
             
     def run(self):
        self.createSocket()

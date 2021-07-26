@@ -69,6 +69,8 @@ class DataFetcher:
             finally:
                 # Clean up the connection
                 connection.close()
+                
+        self.sock.close()
             
     def run(self):
         self.createSocket()

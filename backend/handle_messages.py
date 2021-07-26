@@ -2,7 +2,7 @@ import socket
 import serial
 import json
 import datetime
-import threading
+import multiprocessing
 from ublox_gps import UbloxGps
 from gnss_data import GnssData
 from gnss_data_encoder import GnssDataEncoder
@@ -132,11 +132,12 @@ class MessageHandler:
             finally:
                 # Clean up the connection
                 connection.close()
+                self.s.close()
             
     def runRtcmForwarder(self):
         #running Rtcm Forwarder on new Thread
-        thread1 = threading.Thread(target=self.rtcm_forwarder.run)
-        thread1.start()
+        p = multiprocessing.Process(target=self.rtcm_forwarder.run)
+        p.start()
 
     def run(self):
         self.runRtcmForwarder()

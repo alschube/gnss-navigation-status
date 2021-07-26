@@ -1,9 +1,12 @@
 import socket
 import serial
-import threading
+import multiprocessing
 
 class PositionTransmitter:
-    TCP_IP = '192.168.178.44'# local host
+    #TCP_IP = '192.168.178.44'# local host
+    ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    ipdata.connect(('8.8.8.8', 80))
+    TCP_IP = ipdata.getsockname()[0]
     TCP_PORT = 8768 # Port to listen
     BUFFER_SIZE = 20
     
@@ -23,7 +26,7 @@ class PositionTransmitter:
         self.sock.listen(1)
         
     def connect(self):
-        t = threading.currentThread()
+        t = multiprocessing.current_process()
         while True:
             # Wait for a connection
             print('PositionTransmitter: waiting for a connection')
@@ -38,9 +41,12 @@ class PositionTransmitter:
                 print('Sender closed the connection ', err)
             except (ConnectionResetError) as err:
                 print('Sender reset the connection ', err)
+            except (OSError) as err:
+                print('Attempted to listen to closed port', err)
             finally:
                 # Clean up the connection
                 connection.close()
+        self.sock.close()
             
     def run(self):
        self.createSocket()
