@@ -7,7 +7,7 @@ class PositionTransmitter:
     ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     ipdata.connect(('8.8.8.8', 80))
     TCP_IP = ipdata.getsockname()[0]
-    TCP_PORT = 8768 # Port to listen
+    TCP_PORT = 8767 # Port to listen
     BUFFER_SIZE = 20
     
     ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating over UART1
@@ -35,7 +35,9 @@ class PositionTransmitter:
                 print('PositionTransmitter: connection from', client_address)
                 # Receive the data in small chunks and retransmit it
                 while getattr(t, "do_run", True):
-                    connection.sendall(self.ser.readline())
+                    data = self.ser.readline()
+                    print(data)
+                    connection.sendall(data)
                     
             except (BrokenPipeError) as err:
                 print('Sender closed the connection ', err)

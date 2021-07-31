@@ -9,7 +9,7 @@ class RtcmReceiver:
     TCP_PORT = 8766 # Port to listen
     BUFFER_SIZE = 20
     
-    ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating over UART1
+    ser = serial.Serial('/dev/serial1', baudrate=38400, timeout=1) # Create a serial for communicating over UART1
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a TCP/IP socket
     
     rtcmEnabled = False    

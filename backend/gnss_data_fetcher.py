@@ -12,12 +12,15 @@ class DataFetcher:
     ipdata.connect(('8.8.8.8', 80))
     TCP_IP = ipdata.getsockname()[0]
     TCP_PORT = 8765 # Port to listen
+    TCP_PORT_2 = 8767
     
     ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a TCP/IP socket
+    #sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     gps = UbloxGps(ser)
     received_data = GnssData()
+    meas_data = None
     
     def __init__(self):
         pass
@@ -25,40 +28,49 @@ class DataFetcher:
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
         self.sock.bind(server_address)
+        #self.sock2.bind((self.TCP_IP, self.TCP_PORT_2))
         print('DataFetcher: starting up on %s port %s' % server_address)
 
         # Listen for incoming connections
         self.sock.listen(1)
+        #self.sock2.listen(1)
         
     def connect(self):
         while True:
             # Wait for a connection
             print('DataFetcher: waiting for a connection')
             connection, client_address = self.sock.accept()
+            #c, addr = self.sock2.accept()
             try:
                 print('DataFetcher: connection from', client_address)
                 # Receive the data in small chunks and retransmit it
                 while True:
                     try:
+                        #self.get_raw_meas()
+                        #print(self.meas_data)
+                        #for i in range(3):
+                            #self.get_raw_meas()
+                            #c.sendall(self.meas_data)
+                        #data = self.ser.readline()
+                        #c.sendall(data)
                         self.get_geo_coords()
                         self.get_satellites()
+                        #print(data)
+                        
+                        
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
-                        #print(gnssJSONData)
                         try:
+                            #print(self.meas_data)
                             gnssJSONData = gnssJSONData.replace("\n", "")
                             connection.sendall((gnssJSONData + "\r\n").encode())
-                            #print((gnssJSONData).encode())
-                            #print("Successfully send data to client", client_address)
                             
                         except Exception as err:
-                            #print(err)
                             print("DataFetcher: client", client_address," closed the connection, no more data can be sent")
                             break
 
-                        #print(gnssJSONData)
                         
                     except(AttributeError) as err:
-                        #print(err)
+                        print(err)
                         print("DataFetcher: no data found, trying again.....")
                         continue
 
@@ -71,10 +83,15 @@ class DataFetcher:
                 connection.close()
                 
         self.sock.close()
+        #self.sock2.close()
             
     def run(self):
         self.createSocket()
         self.connect()
+      
+    def get_raw_meas(self):
+        self.meas_data = self.gps.raw_measurements()
+        #self.meas_data = self.ser.readline()
         
     def get_geo_coords(self):
         raw_data = self.gps.geo_coords()
