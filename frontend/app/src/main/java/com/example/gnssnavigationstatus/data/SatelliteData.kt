@@ -26,7 +26,6 @@ class SatelliteData {
         }
     }
     fun createSatelliteIdentifier(svId : Int?, gnssId : Int?) : String {
-        //todo catch illegal argument exception
         when (gnssId) {
             0 -> return "G$svId"
             1 -> return "S$svId"

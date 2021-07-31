@@ -95,7 +95,7 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
         // first check if data is given
         if (!GnssDataHolder.satellites.isNullOrEmpty()) {
             for (sat in GnssDataHolder.satellites!!) {
-                //for each satellite rotate its coordinates around 90 degrees and scale to coordinate system
+                //for each satellite rotate its coordinates around 90 degrees counterclockwise and scale to coordinate system
                 val rotatedIdentityVector = rotateIdentityVector(sat.azimut!!)
                 val trueIdentityVector = scale(rotatedIdentityVector, this.scale)
                 val finalSize = scale(trueIdentityVector, rotationAngle - sat.elevation!!)

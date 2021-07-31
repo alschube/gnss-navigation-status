@@ -182,7 +182,6 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
         } else {
             ipInputFieldLayout.error = "Ungültige IP-Adresse"
-            //Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
         }
     }
 
