@@ -1,59 +1,49 @@
 import socket
+import multiprocessing
 import serial
+from rtcm_receiver import RtcmReceiver
+from position_transmitter import PositionTransmitter
 
 class RtcmForwarder:
-    ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    ipdata.connect(('8.8.8.8', 80))
-    TCP_IP = ipdata.getsockname()[0]
-    TCP_PORT = 8766 # Port to listen
-    BUFFER_SIZE = 20
+    rtcmEnabled = False
+    threadsRunning = False
     
-    ser = serial.Serial('/dev/serial0', baudrate=38400, timeout=1) # Create a serial for communicating over UART1
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Create a TCP/IP socket
-    
-    rtcmEnabled = False    
-    
+    position_transmitter = PositionTransmitter()
+    rtcm_receiver = RtcmReceiver()
+
     def __init__(self):
         pass
     
     def setRtcmEnabled(self, bool):
         self.rtcmEnabled = bool
         print('RtcmForwarder: set rtcmEnabled to ', bool)
-
-    def createSocket(self):
-        server_address = ((self.TCP_IP, self.TCP_PORT))
-        self.sock.bind(server_address)
-        print('RtcmForwarder: starting up on %s port %s' % server_address)
-
-        # Listen for incoming connections
-        self.sock.listen(1)
+    
+    def startThreads(self):
+        print('.')
         
-    def connect(self):
-        while True:
-            # Wait for a connection
-            print('RtcmForwarder: waiting for a connection')
-            connection, client_address = self.sock.accept()
-            try:
-                print('RtcmForwarder: connection from', client_address)
-                # Receive the data in small chunks and retransmit it
-                while True:
-                    data = connection.recv(16)
-                    print('RtcmForwarder: received "%s"' % data)
-                    if data:
-                        if self.rtcmEnabled:
-                            print('RtcmForwarder: sending data over uart to receiver')
-                            self.ser.write(data)
-                    else:
-                        print('RtcmForwarder: no more data from', client_address)
-                        break
-                    
-            finally:
-                # Clean up the connection
-                connection.close()
-            
     def run(self):
-       self.createSocket()
-       self.connect()
+        #self.startThreads()
+        p1 = multiprocessing.Process(target=self.position_transmitter.run)
+        p2 = multiprocessing.Process(target=self.rtcm_receiver.run)
+        print('RtcmForwarder: starting both threads......')
+        p1.start()
+        p2.start()
+        
+        #self.rtcmEnabled = True
+        while True:
+            #check if the switch was activated and threads are not already running, then start
+            if self.rtcmEnabled and self.threadsRunning == False:
+                print('RtcmForwarder: running threads......')
+                self.p1.do_run = True
+                self.p2.do_run = True
+                self.threadsRunning = True
+                
+            #check if the switch was disabled and threads are running, then stop  
+            elif self.rtcmEnabled == False and self.threadsRunning == True:
+                print('RtcmForwarder: stopping threads......')
+                self.p1.do_run = False
+                self.p2.do_run = False
+                self.threadsRunning = False
 
 if __name__ == '__main__':
     rtcm_forwarder = RtcmForwarder()
