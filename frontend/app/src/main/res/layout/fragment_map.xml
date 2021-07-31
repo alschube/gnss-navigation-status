@@ -206,7 +206,7 @@
                 android:id="@+id/time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15:00"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -227,7 +227,7 @@
                 android:id="@+id/long_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,0895944° W"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -248,7 +248,7 @@
                 android:id="@+id/lat_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="49,0664009° W"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -269,7 +269,7 @@
                 android:id="@+id/height_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="43m"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -290,7 +290,7 @@
                 android:id="@+id/horiz_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
@@ -311,7 +311,7 @@
                 android:id="@+id/vert_acc_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
+                android:text=" "
                 android:textAlignment="textEnd"
                 android:textColor="#000000" />
         </TableRow>
