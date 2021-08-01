@@ -30,6 +30,9 @@ class MapFragment : Fragment() {
         lateinit var numberSatsTextView: TextView
         lateinit var gnssFixOkTextView: TextView
         lateinit var connectionStatus:TextView
+        lateinit var rtcmStatus:TextView
+        lateinit var refStation:TextView
+        lateinit var fixType:TextView
     }
 
     override fun onCreateView(
@@ -37,6 +40,7 @@ class MapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
 
         mapViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
@@ -50,6 +54,9 @@ class MapFragment : Fragment() {
         numberSatsTextView = root.findViewById(R.id.number_sats_text)
         gnssFixOkTextView = root.findViewById(R.id.gnss_fix_ok_text)
         connectionStatus = root.findViewById(R.id.connection_status)
+        fixType = root.findViewById(R.id.fix_type_text)
+        rtcmStatus = root.findViewById(R.id.rtcm_used_text)
+        refStation = root.findViewById(R.id.ref_station_text)
 
         return root
     }

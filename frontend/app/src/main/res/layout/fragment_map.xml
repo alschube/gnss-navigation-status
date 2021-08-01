@@ -1,354 +1,451 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map_fragment"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.map.MapFragment">
+    android:fillViewport="true"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="vertical">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment"
-        android:layout_width="352dp"
-        android:layout_height="352dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/legend_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_legend"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.825" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/connection_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:text="Verbunden"
-        android:textColor="#FF0000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gnss_fix_ok_title" />
-
-    <ImageView
-        android:id="@+id/GLONASS_symbol"
-        android:layout_width="18dp"
-        android:layout_height="19dp"
-        android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_circle_24px_dkgreen"
-        app:layout_constraintBottom_toBottomOf="@+id/textView20"
-        app:layout_constraintEnd_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toTopOf="@+id/textView20"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:text="@string/BDS_text"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/beidou_symbol"
-        app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
-        app:layout_constraintTop_toTopOf="@+id/beidou_symbol"
-        app:layout_constraintVertical_bias="0.177" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="@string/GLO_text"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/GLONASS_symbol"
-        app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
-        app:layout_constraintTop_toTopOf="@+id/GLONASS_symbol"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/GPS_text"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/GPS_symbol"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/GPS_symbol"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/GAL_text"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/galileo_symbol"
-        app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toEndOf="@+id/galileo_symbol"
-        app:layout_constraintTop_toTopOf="@+id/galileo_symbol"
-        app:layout_constraintVertical_bias="0.161" />
-
-    <ImageView
-        android:id="@+id/galileo_symbol"
-        android:layout_width="18dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_circle_24px_dkblue"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/legend_title"
-        app:layout_constraintVertical_bias="0.177" />
-
-    <ImageView
-        android:id="@+id/GPS_symbol"
-        android:layout_width="18dp"
-        android:layout_height="19dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_circle_24px_orange"
-        app:layout_constraintBottom_toBottomOf="@+id/textView19"
-        app:layout_constraintEnd_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toTopOf="@+id/textView19"
-        app:layout_constraintVertical_bias="0.177" />
-
-    <ImageView
-        android:id="@+id/beidou_symbol"
-        android:layout_width="18dp"
-        android:layout_height="19dp"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_circle_24px_brred"
-        app:layout_constraintBottom_toBottomOf="@+id/textView17"
-        app:layout_constraintEnd_toStartOf="@+id/textView20"
-        app:layout_constraintTop_toTopOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.177" />
-
-    <TextView
-        android:id="@+id/number_sats_used_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/title_number_sats"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
-        app:layout_constraintVertical_bias="0.296" />
-
-    <TextView
-        android:id="@+id/number_sats_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_number_sats"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toEndOf="@+id/number_sats_used_title"
-        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
-        app:layout_constraintVertical_bias="0.296" />
-
-    <TextView
-        android:id="@+id/position_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="224dp"
-        android:text="@string/title_positional_data"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="60dp"
-        android:orientation="horizontal"
-        android:stretchColumns="0,1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TableRow
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/map_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+            android:layout_height="1000dp"
+            android:orientation="vertical"
+            tools:context=".ui.map.MapFragment">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView"
+                android:name="com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment"
+                android:layout_width="352dp"
+                android:layout_height="352dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/time_title"
+                android:id="@+id/legend_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_time"
-                android:textColor="#000000" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_legend"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView" />
 
             <TextView
-                android:id="@+id/time_text"
+                android:id="@+id/connection_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15:00"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Verbunden"
+                android:textColor="#FF0000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/number_sats_text" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+            <ImageView
+                android:id="@+id/galileo_symbol"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_circle_24px_dkblue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
+
+            <ImageView
+                android:id="@+id/GLONASS_symbol"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_circle_24px_dkgreen"
+                app:layout_constraintBottom_toBottomOf="@+id/textView20"
+                app:layout_constraintEnd_toStartOf="@+id/textView19"
+                app:layout_constraintTop_toTopOf="@+id/textView20"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/long_title"
+                android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_longitude"
-                android:textColor="#000000" />
+                android:layout_marginEnd="36dp"
+                android:text="@string/BDS_text"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="@+id/beidou_symbol"
+                app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
+                app:layout_constraintTop_toTopOf="@+id/beidou_symbol"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/long_text"
+                android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,0895944° W"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+                android:layout_marginEnd="32dp"
+                android:text="@string/GLO_text"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="@+id/GLONASS_symbol"
+                app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
+                app:layout_constraintTop_toTopOf="@+id/GLONASS_symbol"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/lat_title"
+                android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_latitude"
-                android:textColor="#000000" />
+                android:layout_marginEnd="24dp"
+                android:text="@string/GPS_text"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="@+id/GPS_symbol"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/GPS_symbol"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/lat_text"
+                android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="49,0664009° W"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
+                android:layout_marginStart="8dp"
+                android:text="@string/GAL_text"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toBottomOf="@+id/galileo_symbol"
+                app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toEndOf="@+id/galileo_symbol"
+                app:layout_constraintTop_toTopOf="@+id/galileo_symbol"
+                app:layout_constraintVertical_bias="0.0" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+            <ImageView
+                android:id="@+id/beidou_symbol"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_circle_24px_brred"
+                app:layout_constraintBottom_toBottomOf="@+id/textView17"
+                app:layout_constraintEnd_toStartOf="@+id/textView20"
+                app:layout_constraintTop_toTopOf="@+id/textView17"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/GPS_symbol"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_circle_24px_orange"
+                app:layout_constraintBottom_toBottomOf="@+id/textView19"
+                app:layout_constraintEnd_toStartOf="@+id/textView18"
+                app:layout_constraintTop_toTopOf="@+id/textView19"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/height_title"
+                android:id="@+id/number_sats_used_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_height"
-                android:textColor="#000000" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_number_sats"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/galileo_symbol" />
 
             <TextView
-                android:id="@+id/height_text"
+                android:id="@+id/number_sats_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="43m"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/text_number_sats"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/galileo_symbol" />
 
             <TextView
-                android:id="@+id/horiz_acc_title"
+                android:id="@+id/position_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_horizontal_acc"
-                android:textColor="#000000" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_positional_data"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fix_type_title" />
 
             <TextView
-                android:id="@+id/horiz_acc_text"
+                android:id="@+id/position_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="3.5dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="RTCM"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
             <TextView
-                android:id="@+id/vert_acc_title"
+                android:id="@+id/rtcm_used_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_vertical_acc"
-                android:textColor="#000000" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Status:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/position_title2" />
 
             <TextView
-                android:id="@+id/vert_acc_text"
+                android:id="@+id/ref_station_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
-                android:textAlignment="textEnd"
-                android:textColor="#000000" />
-        </TableRow>
-    </TableLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Verwendete Referenzstation:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rtcm_used_title" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+            <TextView
+                android:id="@+id/rtcm_used_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Verwendet"
+                android:textColor="#FF0000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/position_title2" />
 
-    <TextView
-        android:id="@+id/gnss_fix_ok_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="308dp"
-        android:text="@string/title_gnss_fix_ok"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
-        app:layout_constraintVertical_bias="0.281" />
+            <TextView
+                android:id="@+id/ref_station_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="keine"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rtcm_used_text" />
 
-    <TextView
-        android:id="@+id/gnss_fix_ok_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:text="@string/text_gnss_fix_ok"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/position_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/gnss_fix_ok_title"
-        app:layout_constraintTop_toBottomOf="@+id/galileo_symbol"
-        app:layout_constraintVertical_bias="0.233" />
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="18dp"
+                android:orientation="horizontal"
+                android:stretchColumns="0,1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/position_title">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/time_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_time"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/time_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/long_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_longitude"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/long_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/lat_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_latitude"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/lat_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/height_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_height"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/height_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/horiz_acc_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_horizontal_acc"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/horiz_acc_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3.5dp">
+
+                    <TextView
+                        android:id="@+id/vert_acc_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_vertical_acc"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/vert_acc_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" "
+                        android:textAlignment="textEnd"
+                        android:textColor="#000000" />
+                </TableRow>
+            </TableLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <TextView
+                android:id="@+id/gnss_fix_ok_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/title_gnss_fix_ok"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/connection_status_tv" />
+
+            <TextView
+                android:id="@+id/gnss_fix_ok_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Fix gültig"
+                android:textColor="#FF0000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/connection_status" />
+
+            <TextView
+                android:id="@+id/fix_type_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Fixtyp:"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gnss_fix_ok_title" />
+
+            <TextView
+                android:id="@+id/fix_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Kein Fix"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gnss_fix_ok_text" />
+
+            <TextView
+                android:id="@+id/connection_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Verbindungsstatus:"
+                android:textColor="#000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/number_sats_used_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</ScrollView>

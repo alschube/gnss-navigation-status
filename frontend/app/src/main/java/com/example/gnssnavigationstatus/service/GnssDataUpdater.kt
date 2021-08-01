@@ -28,6 +28,10 @@ class GnssDataUpdater : Service() {
     lateinit var out: PrintWriter
     lateinit var inp: BufferedReader
 
+    private var validFix: String = ""
+    private var fixType: String = ""
+    private var rtcmUsed: String = ""
+
     companion object {
         lateinit var socket: Socket
     }
@@ -62,11 +66,44 @@ class GnssDataUpdater : Service() {
                     val data: GnssData = GnssDataDecoder.decodeFromJson(temp)
                     GnssDataHolder.updateData(data)
 
+                    when(GnssDataHolder.gnssFixOK) {
+                        0 -> {
+                            validFix = "Kein Fix"
+                            MapFragment.gnssFixOkTextView.setTextColor(Color.RED)
+                        }
+                        1 -> {
+                            validFix = "Gültiger Fix"
+                            MapFragment.gnssFixOkTextView.setTextColor(Color.GREEN)
+                        }
+                    }
+
+                    when(GnssDataHolder.fixType) {
+                        0 -> fixType = "Kein Fix"
+                        1 -> fixType = "Nur Dead Reckoning"
+                        2 -> fixType = "2D-Fix"
+                        3 -> fixType = "3D-Fix"
+                        4 -> fixType = "Gnss + Dead Reckoning"
+                        5 -> fixType = "Nur Zeit"
+                    }
+
+                    when(GnssDataHolder.msgUsed) {
+                        2 -> {
+                            rtcmUsed = "Verwendet"
+                            MapFragment.rtcmStatus.setTextColor(Color.GREEN)
+                        }
+                        else -> {
+                            rtcmUsed = "Nicht verwendet"
+                            MapFragment.rtcmStatus.setTextColor(Color.RED)
+                        }
+                    }
 
                     ThreadUtil.runOnUiThread {
 
                         MapFragment.numberSatsTextView.text = "${GnssDataHolder.numSatsFixed} (${GnssDataHolder.numSatsTotal})"
-                        MapFragment.gnssFixOkTextView.text = "${GnssDataHolder.gnssFixOK}"
+                        //MapFragment.gnssFixOkTextView.text = "${GnssDataHolder.gnssFixOK}"
+                        MapFragment.gnssFixOkTextView.text = validFix
+                        //MapFragment.fixType.text = "${GnssDataHolder.fixType}"
+                        MapFragment.fixType.text = fixType
                         MapFragment.timeTextView.text = GnssDataHolder.time
                         MapFragment.longitudeTextView.text = "${GnssDataHolder.longitude}"
                         MapFragment.latitudeTextView.text = "${GnssDataHolder.latitude}"
@@ -75,6 +112,9 @@ class GnssDataUpdater : Service() {
                             "${GnssDataHolder.verticalAccuracy?.div(10)}"
                         MapFragment.horizontalAccuracyTextView.text =
                             "${GnssDataHolder.horizontalAccuracy?.div(10)}"
+                        //MapFragment.rtcmStatus.text = "${GnssDataHolder.msgUsed}"
+                        MapFragment.rtcmStatus.text = rtcmUsed
+                        MapFragment.refStation.text = "${GnssDataHolder.refStation}"
 
 
                         SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(GnssDataHolder.satellites!!)
