@@ -1,9 +1,7 @@
 import json
 import datetime
 import serial
-#   from dataclasses import dataclass
 
-#@dataclass
 class GnssData:
 
     time: str

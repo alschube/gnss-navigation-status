@@ -1,11 +1,13 @@
-from ublox_gps import UbloxGps
+from ublox_gps.ublox_gps import UbloxGps
 from gnss_data import GnssData
 from gnss_data_encoder import GnssDataEncoder
-from satellite_data import SatelliteData        
+from satellite_data import SatelliteData
 import socket
 import datetime
+import multiprocessing
 import serial
 import json
+import sys
 
 class DataFetcher:
     ipdata = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,9 +21,15 @@ class DataFetcher:
     gps = UbloxGps(ser)
     received_data = GnssData()
     
+    RTCM = multiprocessing.Value('b', False)
+    FINISH = False
+    
     def __init__(self):
         pass
-
+        
+    def setRTCM(self, status):
+        self.RTCM.value = status
+        
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
         self.sock.bind(server_address)
@@ -32,6 +40,9 @@ class DataFetcher:
         
     def connect(self):
         while True:
+            if self.FINISH == True:
+                self.sock.close()
+                break
             # Wait for a connection
             print('DataFetcher: waiting for a connection')
             connection, client_address = self.sock.accept()
@@ -42,6 +53,9 @@ class DataFetcher:
                     try:
                         self.get_geo_coords()
                         self.get_satellites()
+                        if (self.RTCM.value == True):
+                            self.get_rtcm_status()
+                        
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
                         #print(gnssJSONData)
                         try:
@@ -65,10 +79,11 @@ class DataFetcher:
                     except (ValueError, IOError) as err:
                         continue
                         
-                        
             finally:
                 # Clean up the connection
                 connection.close()
+                
+        self.sock.close()
             
     def run(self):
         self.createSocket()
@@ -100,6 +115,10 @@ class DataFetcher:
             satellite_data.signal_strength = sat.cno
             satellites.append(satellite_data.to_dict())
         self.received_data.satellites = satellites
+        
+    def get_rtcm_status(self):
+        raw_data = self.gps.rtcm_status()
+        print(raw_data)
 
 if __name__ == '__main__':
     data_fetcher = DataFetcher()

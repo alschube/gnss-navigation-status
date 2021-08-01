@@ -2,7 +2,9 @@ import socket
 import serial
 import json
 import datetime
+import multiprocessing
 import threading
+import sys
 from ublox_gps import UbloxGps
 from gnss_data import GnssData
 from gnss_data_encoder import GnssDataEncoder
@@ -27,12 +29,15 @@ class MessageHandler:
     message_decoder = MessageDecoder()
     gnss_configurator = GnssConfigurator()
     rtcm_forwarder = RtcmForwarder()
+    dataFetcher = None
     reply_message = Message()
-    isRtcmEnabled = None
+    
+    isRtcmEnabled = False
+    FINISH = False
     
     def __init__(self):
         pass
-    
+
     def open_socket_connection(self):
         server_address = ((self.HOST, self.PORT))
         self.s.bind(server_address)
@@ -72,6 +77,7 @@ class MessageHandler:
             elif msg_content=="disable rtcm":
                 self.isRtcmEnabled = False
             self.rtcm_forwarder.setRtcmEnabled(self.isRtcmEnabled)
+            self.dataFetcher.setRTCM(self.isRtcmEnabled)
             payload_message = "RTCM ACK"
             
         
@@ -88,6 +94,10 @@ class MessageHandler:
     
     def connect(self):
         while True:
+            if self.FINISH == True:
+                rtcm_forwarder.FINISH = True
+                self.s.close()
+                break
             # Wait for a connection
             print('MessageHandler: waiting for a connection')
             connection, client_address = self.s.accept()
@@ -128,21 +138,26 @@ class MessageHandler:
                     else:
                         print('MessageHandler: no more data from', client_address)
                         break
-                    
+            
             finally:
                 # Clean up the connection
                 connection.close()
+                
+        self.s.close()
             
     def runRtcmForwarder(self):
         #running Rtcm Forwarder on new Thread
-        thread1 = threading.Thread(target=self.rtcm_forwarder.run)
-        thread1.start()
+        thread = threading.Thread(target=self.rtcm_forwarder.run)
+        thread.start()
+
+    def setMsgHandlerInst(self, fetcher):
+        self.dataFetcher = fetcher
+        print('MsgFetcher', self.dataFetcher)
 
     def run(self):
         self.runRtcmForwarder()
         self.open_socket_connection()
         self.connect()
-        
 
 
 if __name__ == '__main__':
