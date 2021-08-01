@@ -22,4 +22,4 @@ class GnssData:
         pass
 
     def to_dict(self) -> dict:
-        return {"time": self.time, "longitude": self.longitude, "latitude": self.latitude, "gnssFixOK": self.gnss_fix_ok, "fix_type": self.fix_type, "height": self.height, "verticalAccuracy": self.v_acc, "horizontalAccuracy": self.h_acc, "numSatsTotal": self.num_sats_total, "numSatsFixed": self.num_sats_fixed, "msgUsed": self.msgUsed, "refStation": self.refStation, "satellites": self.satellites} 
+        return {"time": self.time, "longitude": self.longitude, "latitude": self.latitude, "gnssFixOK": self.gnss_fix_ok, "fixType": self.fix_type, "height": self.height, "verticalAccuracy": self.v_acc, "horizontalAccuracy": self.h_acc, "numSatsTotal": self.num_sats_total, "numSatsFixed": self.num_sats_fixed, "msgUsed": self.msgUsed, "refStation": self.refStation, "satellites": self.satellites} 
