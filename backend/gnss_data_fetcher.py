@@ -20,6 +20,8 @@ class DataFetcher:
     
     gps = UbloxGps(ser)
     received_data = GnssData()
+    received_data.msgUsed = 0
+    received_data.refStation = 0
     
     RTCM = multiprocessing.Value('b', False)
     FINISH = False
@@ -57,7 +59,6 @@ class DataFetcher:
                             self.get_rtcm_status()
                         
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
-                        #print(gnssJSONData)
                         try:
                             gnssJSONData = gnssJSONData.replace("\n", "")
                             connection.sendall((gnssJSONData + "\r\n").encode())
@@ -74,6 +75,7 @@ class DataFetcher:
                     except(AttributeError) as err:
                         #print(err)
                         print("DataFetcher: no data found, trying again.....")
+                        print(err)
                         continue
 
                     except (ValueError, IOError) as err:
@@ -95,6 +97,7 @@ class DataFetcher:
         self.received_data.longitude = raw_data.lon
         self.received_data.latitude = raw_data.lat
         self.received_data.gnss_fix_ok = raw_data.flags.gnssFixOK
+        self.received_data.fix_type = raw_data.fixType
         self.received_data.height = raw_data.hMSL
         self.received_data.v_acc = raw_data.vAcc
         self.received_data.h_acc = raw_data.hAcc
@@ -118,7 +121,8 @@ class DataFetcher:
         
     def get_rtcm_status(self):
         raw_data = self.gps.rtcm_status()
-        print(raw_data)
+        self.received_data.msgUsed = raw_data.flags.msgUsed
+        self.received_data.refStation = raw_data.refStation
 
 if __name__ == '__main__':
     data_fetcher = DataFetcher()
