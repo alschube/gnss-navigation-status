@@ -50,7 +50,7 @@ class SettingsFragment : Fragment() {
     private lateinit var ipInputFieldLayout: TextInputLayout
     private lateinit var connectButton: Button
 
-    var isChecked: Boolean? = null
+    //var isChecked: Boolean? = null
     var isInstantiated: Boolean = false
 
     lateinit var socket: Socket
@@ -81,10 +81,12 @@ class SettingsFragment : Fragment() {
 
         rtcmSwitch = root.findViewById(R.id.rtcm_switch)
 
+        /**
         isChecked = requireActivity().getSharedPreferences(
             getString(R.string.app_name),
             Context.MODE_PRIVATE
         ).getBoolean("switch_state", false)
+        **/
 
         this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGLO, checkBoxBDS, checkBoxGAL)
 
@@ -135,12 +137,12 @@ class SettingsFragment : Fragment() {
                     stopConnection()
                     initExecutor.shutdown()
                 }
-                rtcmSwitch.isChecked = isChecked as Boolean
+                rtcmSwitch.isChecked = MainActivity.isChecked as Boolean
 
                 while (!initExecutor.isTerminated) {
                     if (initExecutor.isTerminated) {
-                        if (!isInstantiated && isChecked as Boolean) {
-                            this.init()
+                        if (!isInstantiated && MainActivity.isChecked as Boolean) {
+                            //this.init()
                         }
                         break;
                     }
@@ -190,13 +192,11 @@ class SettingsFragment : Fragment() {
         var msg: Message? = null
         if (rtcmSwitch.isChecked) {
             Toast.makeText(context, "RTCM aktiviert", Toast.LENGTH_SHORT).show()
-            //isChecked = true
-            isChecked = true
+            MainActivity.isChecked = true
             msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
         } else if (!rtcmSwitch.isChecked) {
             Toast.makeText(context, "RTCM deaktiviert", Toast.LENGTH_SHORT).show()
-            //isChecked = false
-            isChecked = false
+            MainActivity.isChecked = false
             msg = Message(Message.MessageType.RTCM_CONFIG, "disable rtcm")
         }
 
@@ -215,6 +215,11 @@ class SettingsFragment : Fragment() {
             }
             stopConnection()
             rtcmExecutor.shutdown()
+        }
+
+        MainActivity.isChecked?.let {
+            activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
+                ?.edit()?.putBoolean("switch_state", it)?.apply()
         }
     }
 
@@ -295,6 +300,7 @@ class SettingsFragment : Fragment() {
 
     }
 
+
     fun init() {
         //send enable message only once
         val msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
@@ -319,10 +325,6 @@ class SettingsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        isChecked?.let {
-            activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
-                ?.edit()?.putBoolean("switch_state", it)?.apply()
-        }
     }
 
     override fun onResume() {
