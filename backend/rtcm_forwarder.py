@@ -15,6 +15,7 @@ class RtcmForwarder:
     rtcmEnabled = None
     connectionEstablished = None
     FINISH = False
+    dataFetcher = None
     
     def __init__(self):
         self.rtcmEnabled = False
@@ -24,6 +25,10 @@ class RtcmForwarder:
         self.rtcmEnabled = bool
         print('RtcmForwarder: set rtcmEnabled to ', bool)
         print('RtcmForwarder: sending data over uart to receiver')
+        
+    def setFetcherInst(self, fetcher):
+        self.dataFetcher = fetcher
+        print('MsgFetcher', self.dataFetcher)
         
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
@@ -43,6 +48,7 @@ class RtcmForwarder:
             connection, client_address = self.sock.accept()
             try:
                 print('RtcmForwarder: connection from', client_address)
+                self.dataFetcher.setConnectionStatus(True)
                 # Receive the data in small chunks and retransmit it
                 while True:
                     data = connection.recv(16)
@@ -57,6 +63,7 @@ class RtcmForwarder:
             finally:
                 # Clean up the connection
                 connection.close()
+                self.dataFetcher.setConnectionStatus(False)
                 
         self.sock.close()
             
