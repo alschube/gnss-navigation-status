@@ -35,5 +35,10 @@ class GnssDataHolder {
             refStation = data.refStation
             satellites = data.satellites
         }
+
+        fun resetRTCMData(){
+            msgUsed = 0
+            refStation = 0
+        }
     }
 }

@@ -78,6 +78,7 @@ class MessageHandler:
                 self.isRtcmEnabled = False
             self.rtcm_forwarder.setRtcmEnabled(self.isRtcmEnabled)
             self.dataFetcher.setRTCM(self.isRtcmEnabled)
+            self.dataFetcher.resetRTCMData()
             payload_message = "RTCM ACK"
             
         
@@ -149,6 +150,8 @@ class MessageHandler:
         #running Rtcm Forwarder on new Thread
         thread = threading.Thread(target=self.rtcm_forwarder.run)
         thread.start()
+        
+        self.rtcm_forwarder.setFetcherInst(self.dataFetcher)
 
     def setMsgHandlerInst(self, fetcher):
         self.dataFetcher = fetcher

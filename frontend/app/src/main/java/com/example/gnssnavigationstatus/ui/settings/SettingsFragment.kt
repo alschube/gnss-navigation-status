@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.MainActivity
 import com.example.gnssnavigationstatus.R
+import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.data.Message
 import com.example.gnssnavigationstatus.data.MessageDecoder
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
@@ -50,7 +51,7 @@ class SettingsFragment : Fragment() {
     private lateinit var ipInputFieldLayout: TextInputLayout
     private lateinit var connectButton: Button
 
-    var isChecked: Boolean? = null
+    //var isChecked: Boolean? = null
     var isInstantiated: Boolean = false
 
     lateinit var socket: Socket
@@ -63,6 +64,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        Toast.makeText(context, "Lade Konfiguration.....", Toast.LENGTH_SHORT).show()
         val root = inflater.inflate(R.layout.fragment_settings, container, false)
 
         this.checkBoxGPS = root.findViewById(R.id.checkBox_GPS)
@@ -81,10 +83,12 @@ class SettingsFragment : Fragment() {
 
         rtcmSwitch = root.findViewById(R.id.rtcm_switch)
 
+        /**
         isChecked = requireActivity().getSharedPreferences(
             getString(R.string.app_name),
             Context.MODE_PRIVATE
         ).getBoolean("switch_state", false)
+        **/
 
         this.checkBoxArray = arrayOf(checkBoxGPS, checkBoxGLO, checkBoxBDS, checkBoxGAL)
 
@@ -135,12 +139,12 @@ class SettingsFragment : Fragment() {
                     stopConnection()
                     initExecutor.shutdown()
                 }
-                rtcmSwitch.isChecked = isChecked as Boolean
+                rtcmSwitch.isChecked = MainActivity.isChecked as Boolean
 
                 while (!initExecutor.isTerminated) {
                     if (initExecutor.isTerminated) {
-                        if (!isInstantiated && isChecked as Boolean) {
-                            this.init()
+                        if (!isInstantiated && MainActivity.isChecked as Boolean) {
+                            //this.init()
                         }
                         break;
                     }
@@ -178,11 +182,13 @@ class SettingsFragment : Fragment() {
                 e.printStackTrace()
                 println("Keine Verbindung vorhanden, die geschlossen werden könnte!")
             }
+            GnssDataUpdater.ThreadUtil.runOnUiThread {
+            Toast.makeText(context, "App wird neu gestartet", Toast.LENGTH_SHORT).show()
+            }
             var intent: Intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
         } else {
             ipInputFieldLayout.error = "Ungültige IP-Adresse"
-            //Toast.makeText(context, "Please insert a valid ip adress", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -190,14 +196,13 @@ class SettingsFragment : Fragment() {
         var msg: Message? = null
         if (rtcmSwitch.isChecked) {
             Toast.makeText(context, "RTCM aktiviert", Toast.LENGTH_SHORT).show()
-            //isChecked = true
-            isChecked = true
+            MainActivity.isChecked = true
             msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
         } else if (!rtcmSwitch.isChecked) {
             Toast.makeText(context, "RTCM deaktiviert", Toast.LENGTH_SHORT).show()
-            //isChecked = false
-            isChecked = false
+            MainActivity.isChecked = false
             msg = Message(Message.MessageType.RTCM_CONFIG, "disable rtcm")
+            GnssDataHolder.resetRTCMData()
         }
 
         val rtcmExecutor = Executors.newSingleThreadExecutor()
@@ -209,12 +214,17 @@ class SettingsFragment : Fragment() {
             println(jsonFromMessage.type)
             if (jsonFromMessage.content.equals("RTCM NAK")) {
                 GnssDataUpdater.ThreadUtil.runOnUiThread {
+                    Toast.makeText(context, "Einstellung konnte nicht übernommen werden, versuche es erneut.", Toast.LENGTH_SHORT).show()
                     rtcmSwitch.isChecked = !rtcmSwitch.isChecked
                 }
-
             }
             stopConnection()
             rtcmExecutor.shutdown()
+        }
+
+        MainActivity.isChecked?.let {
+            activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
+                ?.edit()?.putBoolean("switch_state", it)?.apply()
         }
     }
 
@@ -262,6 +272,7 @@ class SettingsFragment : Fragment() {
                 val jsonFromMessage = MessageDecoder().decodeFromJson(msgFromBackend)
                 println(jsonFromMessage.type)
                 if (jsonFromMessage.content == "NAK") {
+                    Toast.makeText(context, "Einstellung konnte nicht übernommen werden, versuche es erneut.", Toast.LENGTH_SHORT).show()
                     v.isChecked = !v.isChecked
                 }
                 stopConnection()
@@ -295,6 +306,7 @@ class SettingsFragment : Fragment() {
 
     }
 
+
     fun init() {
         //send enable message only once
         val msg = Message(Message.MessageType.RTCM_CONFIG, "enable rtcm")
@@ -319,10 +331,6 @@ class SettingsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        isChecked?.let {
-            activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
-                ?.edit()?.putBoolean("switch_state", it)?.apply()
-        }
     }
 
     override fun onResume() {

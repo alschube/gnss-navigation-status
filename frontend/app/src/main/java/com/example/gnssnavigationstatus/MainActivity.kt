@@ -11,12 +11,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
+import com.example.gnssnavigationstatus.ui.settings.SettingsFragment
 
 
 class MainActivity : AppCompatActivity() {
 
     companion object{
         lateinit var IP: String
+        var isChecked: Boolean? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,16 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.app_name),
             Context.MODE_PRIVATE
         ).getString("ip", "").toString()
+
+        isChecked = this.getSharedPreferences(
+            getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        ).getBoolean("switch_state", false)
+
+        if(isChecked == true) {
+            var frag = SettingsFragment()
+            frag.init()
+        }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

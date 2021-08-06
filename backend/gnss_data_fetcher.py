@@ -24,6 +24,7 @@ class DataFetcher:
     received_data.refStation = 0
     
     RTCM = multiprocessing.Value('b', False)
+    CONNECTION_ESTABLISHED = multiprocessing.Value('b', False)
     FINISH = False
     
     def __init__(self):
@@ -31,6 +32,13 @@ class DataFetcher:
         
     def setRTCM(self, status):
         self.RTCM.value = status
+        
+    def setConnectionStatus(self, status):
+        self.CONNECTION_ESTABLISHED.value = status
+        
+    def resetRTCMData(self):
+        self.received_data.msgUsed = 0
+        self.received_data.refStation = 0
         
     def createSocket(self):
         server_address = ((self.TCP_IP, self.TCP_PORT))
@@ -55,7 +63,8 @@ class DataFetcher:
                     try:
                         self.get_geo_coords()
                         self.get_satellites()
-                        if (self.RTCM.value == True):
+                        if (self.RTCM.value == True and self.CONNECTION_ESTABLISHED.value == True):
+                            print('DataFetcher: starting to poll rtcm data')
                             self.get_rtcm_status()
                         
                         gnssJSONData = json.dumps(self.received_data.to_dict(), indent=4, cls=GnssDataEncoder)
