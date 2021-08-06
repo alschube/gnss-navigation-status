@@ -62,7 +62,6 @@ class GnssDataUpdater : Service() {
                     MapFragment.connectionStatus.setTextColor(Color.GREEN)
                     val sb = StringBuilder()
                     var temp = inp.readLine()
-                    //println(temp)
                     val data: GnssData = GnssDataDecoder.decodeFromJson(temp)
                     GnssDataHolder.updateData(data)
 
@@ -100,9 +99,7 @@ class GnssDataUpdater : Service() {
                     ThreadUtil.runOnUiThread {
 
                         MapFragment.numberSatsTextView.text = "${GnssDataHolder.numSatsFixed} (${GnssDataHolder.numSatsTotal})"
-                        //MapFragment.gnssFixOkTextView.text = "${GnssDataHolder.gnssFixOK}"
                         MapFragment.gnssFixOkTextView.text = validFix
-                        //MapFragment.fixType.text = "${GnssDataHolder.fixType}"
                         MapFragment.fixType.text = fixType
                         MapFragment.timeTextView.text = GnssDataHolder.time
                         MapFragment.longitudeTextView.text = "${GnssDataHolder.longitude}"
@@ -112,7 +109,6 @@ class GnssDataUpdater : Service() {
                             "${GnssDataHolder.verticalAccuracy?.div(10)}"
                         MapFragment.horizontalAccuracyTextView.text =
                             "${GnssDataHolder.horizontalAccuracy?.div(10)}"
-                        //MapFragment.rtcmStatus.text = "${GnssDataHolder.msgUsed}"
                         MapFragment.rtcmStatus.text = rtcmUsed
                         MapFragment.refStation.text = "${GnssDataHolder.refStation}"
 
@@ -127,7 +123,13 @@ class GnssDataUpdater : Service() {
                 }
             } catch (e:ConnectException){
                 println("Connection failed.......")
-                Toast.makeText(applicationContext, "Connection failed, check your ip or internet connection!", Toast.LENGTH_LONG).show()
+                ThreadUtil.runOnUiThread {
+                    Toast.makeText(
+                        applicationContext,
+                        "Verbindung fehlgeschlagen, überprüfe deine IP Einstellungen oder die Internetverbindung!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 stopService(Intent(this, this::class.java))
                 MapFragment.connectionStatus.setTextColor(Color.RED)
             }
