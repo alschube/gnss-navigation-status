@@ -1,8 +1,10 @@
 package com.example.gnssnavigationstatus.data
 
-import java.util.ArrayList
-import kotlin.properties.Delegates
-
+/**
+ * class for creating Gnss data objects
+ *
+ * @constructor Create empty Gnss data
+ */
 class GnssData{
 
     var time: String? = null

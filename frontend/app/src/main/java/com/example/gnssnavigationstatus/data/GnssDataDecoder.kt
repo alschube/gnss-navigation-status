@@ -2,6 +2,11 @@ package com.example.gnssnavigationstatus.data
 
 import com.google.gson.Gson
 
+/**
+ * Gnss data decoder
+ * This class decodes a Json String into a Gnss Data Object
+ *
+ */
 class GnssDataDecoder {
     companion object {
         fun decodeFromJson(rawData: String) : GnssData {

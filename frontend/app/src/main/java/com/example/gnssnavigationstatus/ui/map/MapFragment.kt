@@ -6,20 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.gnssnavigationstatus.R
-import com.example.gnssnavigationstatus.data.GnssDataHolder
-import com.example.gnssnavigationstatus.service.GnssDataUpdater
-import com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment
-import org.w3c.dom.Text
-import java.util.concurrent.Executors
 
+/**
+ * Map fragment
+ *
+ * The first fragment
+ * This contains the drawFragment with its map and textviews for visualizing the
+ * gnss and satellite data
+ *
+ */
 class MapFragment : Fragment() {
 
     private lateinit var mapViewModel: MapViewModel
-    private lateinit var drawFragment: DrawFragment
 
+    /** create some static textViews*/
     companion object {
         lateinit var timeTextView: TextView
         lateinit var longitudeTextView: TextView
@@ -35,16 +37,30 @@ class MapFragment : Fragment() {
         lateinit var fixType:TextView
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
         mapViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_map, container, false)
+
+        /** initialize the textViews*/
         timeTextView = root.findViewById(R.id.time_text)
         longitudeTextView = root.findViewById(R.id.long_text)
         latitudeTextView = root.findViewById(R.id.lat_text)

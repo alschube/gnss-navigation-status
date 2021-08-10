@@ -1,5 +1,6 @@
 package com.example.gnssnavigationstatus.ui.map.map_components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.view.View
@@ -16,6 +17,7 @@ import kotlin.math.sin
  * @param width the width of the screen
  * @param height the height of the screen
  */
+@SuppressLint("ViewConstructor")
 class Map(context: Context, width: Int, height: Int) : View(context) {
 
     /** create some variables used for calculation*/
