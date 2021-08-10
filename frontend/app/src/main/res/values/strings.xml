@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">GNSS Navigation Status</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_sat_map">Satellitenkarte</string>
     <string name="title_sat_table">Satellitentabelle</string>
     <string name="title_legend">Legende</string>
@@ -21,7 +18,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="title_settings">Einstellungen</string>
     <string name="title_used_systems">Verwendete Satellitensysteme</string>
-    <string name="title_optimization">Optimieren</string>
+    <string name="title_optimization">Genauigkeitsoptimierung</string>
     <string name="GPS_text">GPS</string>
     <string name="GLO_text">GLONASS</string>
     <string name="BDS_text">BeiDou</string>
@@ -34,4 +31,25 @@
     <string name="table_header_azim">AZIM</string>
     <string name="table_header_elev">ELEV</string>
     <string name="table_header_signal_strength">C/N</string>
+    <string name="title_ip_address">IP-Adresse des Rovers</string>
+    <string name="connect_button_text">Verbinden</string>
+    <string name="id_tv_text">id_tv</string>
+    <string name="icon_descr">Placeholder for Satellite Icon</string>
+    <string name="satellite_type_text">satellitentyp</string>
+    <string name="azimut_text">azim</string>
+    <string name="elevation_text">elev</string>
+    <string name="signal_strength_text">cn</string>
+    <string name="connection_status_text">Verbunden</string>
+    <string name="galileo_symbol_descr">galileo_symbol</string>
+    <string name="glonass_symbol_descr">glonass_symbol</string>
+    <string name="beidou_symbol_descr">beidou_symbol</string>
+    <string name="gps_symbol_descr">gps_symbol</string>
+    <string name="title_rtcm">RTCM</string>
+    <string name="title_status">Status:</string>
+    <string name="title_ref_station">Verwendete Referenzstation:</string>
+    <string name="title_rtcm_used">Verwendet</string>
+    <string name="ref_station_text">keine</string>
+    <string name="title_fix_type">Fixtyp:</string>
+    <string name="text_fix_type">Kein Fix</string>
+    <string name="title_connection_status">Verbindungsstatus:</string>
 </resources>

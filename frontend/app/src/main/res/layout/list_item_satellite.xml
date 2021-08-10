@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,7 +12,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:text="id_tv" />
+        android:text="@string/id_tv_text" />
 
     <ImageView
         android:id="@+id/icon_iv"
@@ -24,7 +23,8 @@
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/id_tv"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_circle_24px_brred" />
+        app:srcCompat="@drawable/ic_circle_24px_brred"
+        android:contentDescription="@string/icon_descr" />
 
     <TextView
         android:id="@+id/sat_type_tv"
@@ -34,7 +34,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/icon_iv"
-        android:text="satellitentyp" />
+        android:text="@string/satellite_type_text" />
 
     <TextView
         android:id="@+id/azimut_tv"
@@ -44,7 +44,7 @@
         android:layout_marginStart="250dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:text="azim"
+        android:text="@string/azimut_text"
         android:textAlignment="center" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/azimut_tv"
-        android:text="elev"
+        android:text="@string/elevation_text"
         android:textAlignment="center" />
 
     <TextView
@@ -68,6 +68,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/elevation_tv"
-        android:text="cn"
+        android:text="@string/signal_strength_text"
         android:textAlignment="center" />
 </RelativeLayout>

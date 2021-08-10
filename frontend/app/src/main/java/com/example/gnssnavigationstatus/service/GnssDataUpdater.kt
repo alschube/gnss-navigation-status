@@ -1,6 +1,8 @@
 package com.example.gnssnavigationstatus.service
 
+import android.annotation.SuppressLint
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
@@ -21,21 +23,27 @@ import java.net.ConnectException
 import java.net.Socket
 import java.util.concurrent.Executors
 
-
+/**
+ * Gnss data updater class
+ *
+ * This service runs permanently in the background
+ * and updates the textViews with new data
+ *
+ */
 class GnssDataUpdater : Service() {
 
+    /** create some variables for communication*/
+    private lateinit var out: PrintWriter
+    private lateinit var inp: BufferedReader
+    private var port:Int = 8765
+    companion object { lateinit var socket: Socket }
 
-    lateinit var out: PrintWriter
-    lateinit var inp: BufferedReader
-
+    /** create variables for fix and rtcm status*/
     private var validFix: String = ""
     private var fixType: String = ""
     private var rtcmUsed: String = ""
 
-    companion object {
-        lateinit var socket: Socket
-    }
-
+    /** create a ThreadUtil object for doing some things on the UI thread*/
     object ThreadUtil {
         private val handler = Handler(Looper.getMainLooper())
 
@@ -48,23 +56,38 @@ class GnssDataUpdater : Service() {
         }
     }
 
-    override fun onCreate() {
-
-    }
-
+    /**
+    Called by the system every time a client explicitly starts the service by calling
+     * {@link android.content.Context#startService}, providing the arguments it supplied and a
+     * unique integer token representing the start request.  Do not call this method directly.
+     *
+     * @param intent The Intent supplied to {@link android.content.Context#startService},
+     * as given.  This may be null if the service is being restarted after
+     * its process has gone away, and it had previously returned anything
+     * except {@link #START_STICKY_COMPATIBILITY}.
+     * @param flags Additional data about this start request.
+     * @param startId A unique integer representing this specific request to
+     * start.  Use with {@link #stopSelfResult(int)}.
+     *
+     * @return The return value indicates what semantics the system should
+     * use for the service's current started state.  It may be one of the
+     * constants associated with the {@link #START_CONTINUATION_MASK} bits.
+     */
+    @SuppressLint("SetTextI18n")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //private val executor: Executor
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
-                startConnection(MainActivity.IP, 8765)
+                startConnection(MainActivity.IP, port)
                 while (socket.isConnected) {
                     MapFragment.connectionStatus.setTextColor(Color.GREEN)
-                    val sb = StringBuilder()
-                    var temp = inp.readLine()
+
+                    /** read incoming data and create gnss data from it*/
+                    val temp = inp.readLine()
                     val data: GnssData = GnssDataDecoder.decodeFromJson(temp)
                     GnssDataHolder.updateData(data)
 
+                    /** check whether a gnssFix is established or not and set the text and its color according to this*/
                     when(GnssDataHolder.gnssFixOK) {
                         0 -> {
                             validFix = "Kein Fix"
@@ -76,6 +99,7 @@ class GnssDataUpdater : Service() {
                         }
                     }
 
+                    /** check which type of fix is established*/
                     when(GnssDataHolder.fixType) {
                         0 -> fixType = "Kein Fix"
                         1 -> fixType = "Nur Dead Reckoning"
@@ -85,6 +109,7 @@ class GnssDataUpdater : Service() {
                         5 -> fixType = "Nur Zeit"
                     }
 
+                    /** check if rtcm is currently used and set the text and color according to this*/
                     when(GnssDataHolder.msgUsed) {
                         2 -> {
                             rtcmUsed = "Verwendet"
@@ -96,6 +121,7 @@ class GnssDataUpdater : Service() {
                         }
                     }
 
+                    /** updating the text of all textViews here*/
                     ThreadUtil.runOnUiThread {
 
                         MapFragment.numberSatsTextView.text = "${GnssDataHolder.numSatsFixed} (${GnssDataHolder.numSatsTotal})"
@@ -116,9 +142,7 @@ class GnssDataUpdater : Service() {
                         SatelliteAdapter.satelliteList = SatelliteAdapter.reInit(GnssDataHolder.satellites!!)
                         TableFragment.dataList.postValue(SatelliteAdapter.satelliteList)
 
-                        if (DrawFragment.map != null) {
-                            DrawFragment.map.invalidate()
-                        }
+                        DrawFragment.map.invalidate()
                     }
                 }
             } catch (e:ConnectException){
@@ -142,27 +166,44 @@ class GnssDataUpdater : Service() {
         return START_STICKY
     }
 
-    fun startConnection(ip: String, port: Int) {
+    /**
+     * Start connection with given ip and port
+     *
+     * @param ip the ip to connect to
+     * @param port the port to open
+     */
+    private fun startConnection(ip: String, port: Int) {
         socket = Socket(ip, port)
         out = PrintWriter(socket.getOutputStream(), true)
         inp = BufferedReader(InputStreamReader(socket.getInputStream()))
+        MainActivity.isConnected = true
     }
 
-    fun sendMessage(msg: String): String {
-        out.println(msg)
-        return inp.readLine()
-    }
-
-    fun stopConnection() {
-        inp.close()
-        out.close()
-        socket.close()
-    }
-
+    /**
+     * Return the communication channel to the service.  May return null if
+     * clients can not bind to the service.  The returned
+     * {@link android.os.IBinder} is usually for a complex interface
+     * that has been <a href="{@docRoot}guide/components/aidl.html">described using
+     * aidl</a>.
+     *
+     * @param intent The Intent that was used to bind to this service,
+     * as given to {@link android.content.Context#bindService
+     * Context.bindService}.  Note that any extras that were included with
+     * the Intent at that point will <em>not</em> be seen here.
+     *
+     * @return Return an IBinder through which clients can call on to the
+     *         service.
+     */
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
+    /**
+     * Called by the system to notify a Service that it is no longer used and is being removed.  The
+     * service should clean up any resources it holds (threads, registered
+     * receivers, etc) at this point.  Upon return, there will be no more calls
+     * in to this Service object and it is effectively dead.  Do not call this method directly.
+     */
     override fun onDestroy() {
         startService(Intent(this, this::class.java))
     }

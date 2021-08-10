@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Verbunden"
+                android:text="@string/connection_status_text"
                 android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/number_sats_text" />
@@ -65,7 +65,8 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_circle_24px_dkblue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
+                app:layout_constraintTop_toBottomOf="@+id/legend_title"
+                android:contentDescription="@string/galileo_symbol_descr" />
 
             <ImageView
                 android:id="@+id/GLONASS_symbol"
@@ -76,7 +77,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView20"
                 app:layout_constraintEnd_toStartOf="@+id/textView19"
                 app:layout_constraintTop_toTopOf="@+id/textView20"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:contentDescription="@string/glonass_symbol_descr" />
 
             <TextView
                 android:id="@+id/textView20"
@@ -137,7 +139,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView17"
                 app:layout_constraintEnd_toStartOf="@+id/textView20"
                 app:layout_constraintTop_toTopOf="@+id/textView17"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:contentDescription="@string/beidou_symbol_descr" />
 
             <ImageView
                 android:id="@+id/GPS_symbol"
@@ -148,7 +151,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView19"
                 app:layout_constraintEnd_toStartOf="@+id/textView18"
                 app:layout_constraintTop_toTopOf="@+id/textView19"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:contentDescription="@string/gps_symbol_descr" />
 
             <TextView
                 android:id="@+id/number_sats_used_title"
@@ -192,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:text="RTCM"
+                android:text="@string/title_rtcm"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -204,7 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Status:"
+                android:text="@string/title_status"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/position_title2" />
@@ -215,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Verwendete Referenzstation:"
+                android:text="@string/title_ref_station"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rtcm_used_title" />
@@ -226,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Verwendet"
+                android:text="@string/title_rtcm_used"
                 android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/position_title2" />
@@ -237,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="keine"
+                android:text="@string/ref_station_text"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rtcm_used_text" />
@@ -272,7 +276,7 @@
                         android:id="@+id/time_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -293,7 +297,7 @@
                         android:id="@+id/long_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -314,7 +318,7 @@
                         android:id="@+id/lat_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -335,7 +339,7 @@
                         android:id="@+id/height_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -356,7 +360,7 @@
                         android:id="@+id/horiz_acc_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -377,7 +381,7 @@
                         android:id="@+id/vert_acc_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" "
+                        android:text="@string/empty_string"
                         android:textAlignment="textEnd"
                         android:textColor="#000000" />
                 </TableRow>
@@ -407,7 +411,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Fix gültig"
+                android:text="@string/empty_string"
                 android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/connection_status" />
@@ -418,7 +422,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Fixtyp:"
+                android:text="@string/title_fix_type"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gnss_fix_ok_title" />
@@ -429,7 +433,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="Kein Fix"
+                android:text="@string/text_fix_type"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gnss_fix_ok_text" />
@@ -440,7 +444,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Verbindungsstatus:"
+                android:text="@string/title_connection_status"
                 android:textColor="#000000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/number_sats_used_title" />

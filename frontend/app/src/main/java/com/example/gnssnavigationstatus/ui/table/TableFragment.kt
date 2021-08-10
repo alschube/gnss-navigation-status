@@ -15,7 +15,13 @@ import com.example.gnssnavigationstatus.data.GnssDataHolder
 import com.example.gnssnavigationstatus.data.SatelliteData
 import com.example.gnssnavigationstatus.service.SatelliteAdapter
 
-
+/**
+ * Table fragment
+ *
+ * The second fragment
+ * This displays the received satellites in a table
+ *
+ */
 class TableFragment : Fragment() {
 
     private lateinit var tableViewModel: TableViewModel
@@ -25,6 +31,19 @@ class TableFragment : Fragment() {
         var dataList: MutableLiveData<List<SatelliteData>> = MutableLiveData()
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

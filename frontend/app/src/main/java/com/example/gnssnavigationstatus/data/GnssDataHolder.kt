@@ -1,8 +1,9 @@
 package com.example.gnssnavigationstatus.data
 
-
-
-
+/**
+ * Gnss data holder
+ * This class holds the current gnss data values and is used for visualizing them
+ */
 class GnssDataHolder {
 
     companion object {
