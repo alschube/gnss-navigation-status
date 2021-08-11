@@ -37,8 +37,8 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
     /** create some more colors*/
     private val orange: Int = Color.rgb(251, 140, 0)
     private val dkgreen: Int = Color.rgb(0, 137, 123)
-    private val lgreen: Int = Color.rgb(43, 189, 101)
-    private val lblue: Int = Color.rgb(0, 228, 255)
+    private val lgreen: Int = Color.rgb(109, 201, 69)
+    private val lblue: Int = Color.rgb(93, 194, 244)
 
     /** create a paint for each type of object */
     private var dotPaint = Paint()
@@ -104,8 +104,8 @@ class Map(context: Context, width: Int, height: Int) : View(context) {
 
                 // find correct satellite type and the according color
                 when (sat.type) {
-                    context.getString(R.string.GAL_text) -> satellitePaint.color = Color.BLUE
-                    context.getString(R.string.GLO_text) -> satellitePaint.color = dkgreen
+                    context.getString(R.string.GAL_text) -> satellitePaint.color = lblue
+                    context.getString(R.string.GLO_text) -> satellitePaint.color = lgreen
                     context.getString(R.string.BDS_text) -> satellitePaint.color = Color.RED
                     context.getString(R.string.GPS_text) -> satellitePaint.color = orange
                 }

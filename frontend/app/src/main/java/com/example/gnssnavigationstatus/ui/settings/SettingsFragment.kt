@@ -3,6 +3,7 @@ package com.example.gnssnavigationstatus.ui.settings
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color.parseColor
 import android.os.Bundle
 import android.os.Looper
@@ -21,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import com.jakewharton.processphoenix.ProcessPhoenix
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -54,6 +56,7 @@ class SettingsFragment : Fragment() {
     private lateinit var checkBoxArray: Array<CheckBox>
     private lateinit var rtcmSwitch: Switch
     private lateinit var dialog: AlertDialog
+    //private lateinit var prefs:SharedPreferences
 
     /** create a text input field and a connect button for the ip address functionality*/
     private lateinit var ipInputField: TextInputEditText
@@ -180,6 +183,7 @@ class SettingsFragment : Fragment() {
         }
         catch (e: UninitializedPropertyAccessException){
             e.printStackTrace()
+            println("Connection failed, socket could not be opened .....")
         }
 
     }
@@ -202,40 +206,44 @@ class SettingsFragment : Fragment() {
      * and for restarting the connection if has changed
      */
     private fun onConnectButtonClicked(){
-        // this regex pattern is for validating the given ip
-        val ipPattern : Pattern = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
-                + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
-                + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
-                + "|[1-9][0-9]|[0-9]))")
-        if (ipPattern.matcher(ipInputField.text.toString()).matches()) {
-            //if regex did match
-            ipInputFieldLayout.helperText = "Gültige IP-Adresse"
-            MainActivity.IP = ipInputField.text.toString()
-            MainActivity.IP.let {
-                activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
-                    ?.edit()?.putString("ip", it)?.apply()
+        //first check if some changes were made
+        if(ipInputField.text.toString() != MainActivity.IP) {
+            // this regex pattern is for validating the given ip
+            val ipPattern: Pattern = Pattern.compile(
+                "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
+                        + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+                        + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
+                        + "|[1-9][0-9]|[0-9]))"
+            )
+            if (ipPattern.matcher(ipInputField.text.toString()).matches()) {
+                //if regex did match
+                ipInputFieldLayout.helperText = "Gültige IP-Adresse"
+
+                //store ip in shared preferences
+                MainActivity.IP = ipInputField.text.toString()
+                MainActivity.prefs.edit().putString("ip", ipInputField.text.toString()).apply()
+
+                // stop the current connection if there is one
+                if (MainActivity.isConnected) {
+                    stopConnection()
+                }
+
+                //inform the user
+                GnssDataUpdater.ThreadUtil.runOnUiThread {
+                    Toast.makeText(context, "App wird neu gestartet", Toast.LENGTH_SHORT).show()
+                }
+
+                // restart
+                MainActivity.isConnected = false
+                var intent: Intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+
+            } else { // regex did not match
+                ipInputFieldLayout.error = "Ungültige IP-Adresse"
             }
-
-            // stop the current connection if there is one
-            if (MainActivity.isConnected){stopConnection()}
-
-            //inform the user
-            GnssDataUpdater.ThreadUtil.runOnUiThread {
-            Toast.makeText(context, "App wird neu gestartet", Toast.LENGTH_SHORT).show()
-            }
-
-            // restart
-            var intent: Intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
-            exitProcess(0)
-
-            // this process phoenix library is used
-            // in case to restart our application
-
-            //ProcessPhoenix.triggerRebirth(context);
-
-        } else { // regex did not match
-            ipInputFieldLayout.error = "Ungültige IP-Adresse"
+        }
+        else {
+            GnssDataUpdater.ThreadUtil.runOnUiThread { Toast.makeText(context, "IP Adresse wurde nicht geändert!", Toast.LENGTH_SHORT).show() }
         }
     }
 
@@ -278,10 +286,7 @@ class SettingsFragment : Fragment() {
         }
 
         // save the current configuration to shared preferences
-        MainActivity.isChecked?.let {
-            activity?.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
-                ?.edit()?.putBoolean("switch_state", it)?.apply()
-        }
+        MainActivity.prefs.edit().putBoolean("switch_state", MainActivity.isChecked!!).apply()
     }
 
     /**
@@ -386,13 +391,14 @@ class SettingsFragment : Fragment() {
         try {
             inp.close()
             out.close()
+            //this.socket.shutdownInput()
             socket.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
         catch (e: UninitializedPropertyAccessException){
-            e.printStackTrace()
-            println("Cannot close connection cause it is not initialized")
+            //e.printStackTrace()
+            println("No connection.....")
         }
 
     }
@@ -488,14 +494,5 @@ class SettingsFragment : Fragment() {
     private fun dismissDialog() {
         dialog.dismiss()
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-    }
-
-    /**
-     * This is called when the fragment is destroyed
-     *
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        stopConnection()
     }
 }
