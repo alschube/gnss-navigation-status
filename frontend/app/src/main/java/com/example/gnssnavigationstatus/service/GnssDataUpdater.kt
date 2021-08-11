@@ -17,6 +17,7 @@ import com.example.gnssnavigationstatus.ui.map.MapFragment
 import com.example.gnssnavigationstatus.ui.map.map_components.DrawFragment
 import com.example.gnssnavigationstatus.ui.table.TableFragment
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.ConnectException
@@ -80,6 +81,10 @@ class GnssDataUpdater : Service() {
             try {
                 startConnection(MainActivity.IP, port)
                 while (socket.isConnected) {
+                    if(!MainActivity.isConnected && MainActivity.IP.isNotEmpty()){
+                        stopConnection()
+                        break
+                    }
                     MapFragment.connectionStatus.setTextColor(Color.GREEN)
 
                     /** read incoming data and create gnss data from it*/
@@ -146,14 +151,7 @@ class GnssDataUpdater : Service() {
                     }
                 }
             } catch (e:ConnectException){
-                println("Connection failed.......")
-                ThreadUtil.runOnUiThread {
-                    Toast.makeText(
-                        applicationContext,
-                        "Verbindung fehlgeschlagen, überprüfe deine IP Einstellungen oder die Internetverbindung!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                println("Connection failed, socket could not be opened .......")
                 stopService(Intent(this, this::class.java))
                 MapFragment.connectionStatus.setTextColor(Color.RED)
             }
@@ -161,7 +159,6 @@ class GnssDataUpdater : Service() {
                 e.printStackTrace()
             }
         }
-
 
         return START_STICKY
     }
@@ -177,6 +174,25 @@ class GnssDataUpdater : Service() {
         out = PrintWriter(socket.getOutputStream(), true)
         inp = BufferedReader(InputStreamReader(socket.getInputStream()))
         MainActivity.isConnected = true
+    }
+
+    /**
+     * Stop the connection
+     *
+     */
+    private fun stopConnection() {
+        try {
+            inp.close()
+            out.close()
+            socket.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        catch (e: UninitializedPropertyAccessException){
+            e.printStackTrace()
+            println("Cannot close connection cause it is not initialized")
+        }
+
     }
 
     /**
@@ -205,6 +221,9 @@ class GnssDataUpdater : Service() {
      * in to this Service object and it is effectively dead.  Do not call this method directly.
      */
     override fun onDestroy() {
+        if (MainActivity.IP.isNotEmpty()){
+            stopConnection()
+        }
         startService(Intent(this, this::class.java))
     }
 }

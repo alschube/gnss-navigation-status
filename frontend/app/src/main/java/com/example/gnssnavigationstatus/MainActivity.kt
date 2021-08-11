@@ -3,7 +3,9 @@ package com.example.gnssnavigationstatus
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat.startActivity
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         var isChecked: Boolean? = null
         var isConnected: Boolean = false
         lateinit var instance:MainActivity
+        lateinit var prefs: SharedPreferences
     }
 
 
@@ -50,7 +53,11 @@ class MainActivity : AppCompatActivity() {
 
         instance = this
 
+        prefs = this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
         loadPreferences()
+        if (IP.isEmpty()){
+            Toast.makeText(this, "Bitte konfigurieren Sie ihre Rover-IP-Adresse in den Einstellungen, um eine Verbindung herzustellen.", Toast.LENGTH_LONG).show()
+        }
 
         if(isChecked == true) {
             val frag = SettingsFragment()
@@ -80,11 +87,13 @@ class MainActivity : AppCompatActivity() {
      *
      */
     override fun onDestroy() {
+        savePreferences()
         super.onDestroy()
-        IP.let {
-            this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
-                ?.edit()?.putString("ip", it)?.apply()
-        }
+    }
+
+    private fun savePreferences(){
+        prefs.edit().putString("ip", IP).apply()
+        prefs.edit().putBoolean("switch_state", isChecked!!).apply()
     }
 
     /**
@@ -92,16 +101,8 @@ class MainActivity : AppCompatActivity() {
      *
      */
     private fun loadPreferences(){
-        IP = this.getSharedPreferences(
-            getString(R.string.app_name),
-            Context.MODE_PRIVATE
-        ).getString("ip", "").toString()
-        println("Getting last stored ip address: $IP")
-
-        isChecked = this.getSharedPreferences(
-            getString(R.string.app_name),
-            Context.MODE_PRIVATE
-        ).getBoolean("switch_state", false)
+        IP = prefs.getString("ip", "").toString()
+        isChecked = prefs.getBoolean("switch_state", false)
     }
 
 
