@@ -81,8 +81,6 @@ class MessageHandler:
             self.dataFetcher.resetRTCMData()
             payload_message = "RTCM ACK"
             
-        
-        #print("Message Payload :", payload_message)
         return payload_message
     
     def check_payload_message(self, payload_message):
@@ -109,16 +107,11 @@ class MessageHandler:
                     data = str(connection.recv(2048))
                     data = data[2:]
                     data = data[:-3]
-                    print('received "%s"' % data)
                     if data:
-                        print(data)
+                        print('received "%s"' % data)
                         msg = self.message_decoder.decodeFromJson(data)
-                        #print(msg["msgType"])
-                        #print(msg["msgContent"])
-                        
                         msg_payload = self.check_msg_type(msg)
                         
-                        #print(msg_payload)
                         if (type(msg_payload) is not str):
                             self.reply_message.msg_type = self.reply_message.Type.GNSS_GET
                             sat_data_dict = {"GPS":msg_payload[0], "GLONASS":msg_payload[1], "BeiDou":msg_payload[2], "Galileo":msg_payload[3]}
@@ -129,13 +122,10 @@ class MessageHandler:
                         else:
                             self.reply_message.msg_type = self.reply_message.Type.GNSS_CONFIG
                             self.reply_message.msg_content = msg_payload
-                        #messageJSONData = self.reply_message.encodeToJson()
-                        #messageJSONData = json.dumps(self.reply_message.to_dict(), indent=4, cls=MessageEncoder)
+                        
                         messageJSONData = json.JSONEncoder(sort_keys=True, indent=4).encode(self.reply_message.to_dict())
-                        print("messageJSONData :", str(messageJSONData))
                         connection.sendall(str(messageJSONData.replace("\n", "") + "\r\n").encode())
-                            
-                        #connection.sendall("i received something from you\r\n".encode())
+
                     else:
                         print('MessageHandler: no more data from', client_address)
                         break

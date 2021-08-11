@@ -40,11 +40,9 @@ class GnssConfigurator:
                 if cls_name == 'ACK':
                     print('Wrong message received, trying again...')
                     raise AttributeError()
-                    #self.getSatelliteConfiguration()
                 
                 print('Payload:', payload.enabled)
                 self.rec_msg = payload.enabled
-                #print('rec_msg after fetching:', self.rec_msg)
                 if self.rec_msg != None:
                     return self.rec_msg
             except (ValueError, IOError) as err:
