@@ -1,7 +1,13 @@
 # gnss-navigation-status
 
+## Table of Contents
+1. [What does this programm do?](#what-does-this-programm-do?)
+2. [Installation guide (Backend)](#installation-guide-(backend))
+3. [Quick Start Guide (Frontend)](#quick-start-guide-(frontend))
+4. [RTCM + NTRIP Configuration](#rtcm-+-ntrip-configuration)
+
 ## What does this programm do?
-***
+
 Short description
 
 ## Installation guide (Backend)
@@ -37,7 +43,9 @@ $ sudo raspi-config
 
 ### __3. Python Version__
 ***
-Next step is installing the correct python version. As this programm uses some packages that require version 3.8.4 (minimum) you have to install it
+
+__Make sure you have at least Python Version 3.7 installed. If so, you can skip this step.__
+Otherwise follow the instructions below to install Python 3.8.4.
 
 
 The first step is to install some required packages:
@@ -119,10 +127,35 @@ python main_backend.py
 
 The program can be interrupted by pressing the key combination Ctrl + C twice.
 
-## Installation guide (Frontend)
+## Quick Start Guide (Frontend)
 
-To set up the frontend simply install the apk that is found in the frontend folder on your smartphone
+* To set up the frontend simply install the apk that is found in the frontend folder on your smartphone
 
-When you first open the app you have to configure the ip address of your raspberry pi in the settings tab. 
+* When you first open the app you have to configure the ip address of your raspberry pi in the settings tab. After clicking the connect Button a connection should be established.
 
-After clicking the connect Button a connection should be established.
+* In order to configure which satellite systems should be used you can check or uncheck them under the Settings Tab
+
+* In order to use RTCM correction you have to run an ntrip client and connect to a base station (see Chapter RTCM) and you need to activate it in the app in the Settings Tab
+
+## RTCM + NTRIP
+
+If you want to use RTCM corrections you have to install an ntrip client on your raspberry pi or laptop. I used rtknavi from the rtklib which can be downloaded from http://www.rtklib.com/
+
+By clicking on the "I" on the top you can create a new input stream.
+
+Check (2) Base Station, select NTRIP Client as type and click on the first '...' Button.
+
+There you have to enter your credentials and the Mountpoint you wish to use.
+If you click on Ntrip... you can select the desired Mountpoint from a list, copy and paste it into the input field.
+
+After that you can click OK and you have set the to Transmit NMEA GPGGA to Base Station to "Latitude/Longitude" and provide your current position as accurate as possible (you can read the longitude and latitude that the app calculates).
+
+After that you need to output the received RTCM data. For that you have to click on the "L" Button in the upper right corner.
+
+Check (7) Base Station and TCP Client as Type. Open the Options by clicking on the '...' Button right beside it.
+There you have to type your raspberry pi's ip address and the port of the TCP Server (the backend), it is 8766.
+
+You can confirm and go back to main window.
+If you click start, the ntrip client tries to communicate with the base station and transmitts your position in order to get correction data. This can take up to some minutes. If you see bars in the diagram in the center below, it is working.
+
+You can now activate rtcm in the app (if not already done) and see how the calculated position gets more and more accurate.
