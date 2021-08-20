@@ -51,7 +51,9 @@ $ git clone https://example.com
 ***
 Ensure that the device is set up correctly and that GPIO Remote is activated.
 You can do this via GUI (see picture below)
-![Raspberry Pi Config](https://gpiozero.readthedocs.io/en/stable/_images/raspi-config.png) or you can do it on the command line and enable  Remote GPIO. 
+![Raspberry Pi Config](https://gpiozero.readthedocs.io/en/stable/_images/raspi-config.png)
+
+or you can do it on the command line and enable  Remote GPIO. 
 ``` 
 $ sudo raspi-config 
 ```
