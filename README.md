@@ -5,7 +5,7 @@
 Short description
 
 ## Installation guide (Backend)
-***
+
 Follow these steps to set up the backend on your raspberry pi.
 
 
@@ -87,11 +87,10 @@ Use the following command to load the new settings so that they take effect.
 $ source ~/.bashrc
 ``` 
 
-### __4. Additional Python Packages__
+### __4. Additional Python Package__
 ***
-In order to run the programm you also need some additional python packages to install:
+In order to run the programm you also need some additional python package to install:
 ```
-pip3 install sparkfun-qwiic
 pip3 install serial
 ```
 
@@ -121,4 +120,9 @@ python main_backend.py
 The program can be interrupted by pressing the key combination Ctrl + C twice.
 
 ## Installation guide (Frontend)
-***
+
+To set up the frontend simply install the apk that is found in the frontend folder on your smartphone
+
+When you first open the app you have to configure the ip address of your raspberry pi in the settings tab. 
+
+After clicking the connect Button a connection should be established.
