@@ -33,17 +33,17 @@ Follow these steps to set up the backend on your raspberry pi.
 ### __1. Cloning the Repository__
 ***
 If you do not have git installed, install it first
-```
+```shell
 $ sudo apt update
 $ sudo apt install git
 ```
 
 Go to the directory where you want to clone the repository
-```
+```shell
 $ cd desiredFolder/
 ```
 First clone the repository to your raspberry pi device via
-```
+```shell
 $ git clone https://example.com
 ```
 
@@ -54,7 +54,7 @@ You can do this via GUI (see picture below)
 ![Raspberry Pi Config](https://gpiozero.readthedocs.io/en/stable/_images/raspi-config.png)
 
 or you can do it on the command line and enable  Remote GPIO. 
-``` 
+``` shell
 $ sudo raspi-config 
 ```
 
@@ -65,57 +65,57 @@ __Make sure you have at least Python Version 3.7 installed. If so, you can skip 
 
 Otherwise follow the instructions below to install Python 3.8.4.
 The first step is to install some required packages:
-``` 
+```shell
 $ sudo apt install libffi-dev libbz2-dev liblzma-dev libsqlite3-dev libncurses5-
 dev libgdbm-dev zlib1g-dev libreadline-dev libssl-dev tk-dev build-essential libncursesw5-dev libc6-dev openssl
 ```
 
 To download version 3.8.4, type the following command:
-``` 
+``` shell
 $ wget https://www.python.org/ftp/python/3.8.4/Python-3.8.4.tar.xz
 ``` 
 
 These are unpacked with:
-``` 
+``` shell
 $ tar xf Python-3.8.4.tar.x
 ``` 
 
 Navigate to the unzipped folder:
-``` 
+``` shell
 $ cd Python-3.8.4
 ``` 
 
 And prepares the configuration. This process can take a few minutes.
-``` 
+``` shell
 $ ./configure
 ``` 
 
 The installation file is created via:
-``` 
+``` shell
 $ make -j -l 4
 ``` 
 
 After all, you install them with:
-``` 
+``` shell
 $ sudo make altinstall
 ``` 
 
 In order not to have to enter python3.8 or pip3.8 all the time, you can add aliases.
-``` 
+``` shell
 $ echo "alias python3=python3.8" >> ~/.bashrc
 $ echo "alias pip3=pip3.8" >> ~/.bashrc
 ``` 
 
 Use the following command to load the new settings so that they take effect.
-``` 
+``` shell
 $ source ~/.bashrc
 ``` 
 
 ### __4. Additional Python Package__
 ***
 In order to run the programm you also need some additional python package to install:
-```
-pip3 install serial
+``` shell
+$ pip3 install serial
 ```
 
 ### __5. Receiver Firmware__
@@ -151,16 +151,16 @@ To do so, the provided setup.py script is sending several messages one after the
 The script can be found in the backend folder.
 
 Simply run it by opening cmd in the backend folder and typing:
-```
-python setup.py
+```shell
+$ python setup.py
 ```
 
 ### __7. Starting and Stopping__
 ***
 
 To finally run the backend, go to the backend folder and run it via:
-```
-python main_backend.py
+```shell
+$ python main_backend.py
 ```
 
 The program can be interrupted by pressing the key combination Ctrl + C twice.
