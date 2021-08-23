@@ -42,6 +42,7 @@
 #
 # pylint: disable=line-too-long, bad-whitespace, invalid-name, too-many-public-methods
 #
+# Extended by Aline Schubert on 23.08.2021
 
 import struct
 import serial
