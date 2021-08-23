@@ -8,6 +8,8 @@ import com.google.gson.Gson
  * @property msgType the type of the message
  * @property msgContent the actual content of the message
  * @constructor Create a Message with the given type and content
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class Message (var msgType:MessageType, var msgContent: String){
     enum class MessageType {

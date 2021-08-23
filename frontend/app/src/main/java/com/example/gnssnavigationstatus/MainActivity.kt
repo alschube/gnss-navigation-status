@@ -24,6 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  *
  * This activity is responsible for creating the navigation bar,
  * the fragments and for storing and loading shared preferences
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class MainActivity : AppCompatActivity() {
 

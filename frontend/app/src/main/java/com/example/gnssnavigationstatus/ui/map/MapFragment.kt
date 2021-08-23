@@ -16,6 +16,7 @@ import com.example.gnssnavigationstatus.R
  * This contains the drawFragment with its map and textviews for visualizing the
  * gnss and satellite data
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class MapFragment : Fragment() {
 

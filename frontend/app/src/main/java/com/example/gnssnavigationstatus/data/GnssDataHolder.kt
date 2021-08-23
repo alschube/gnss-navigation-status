@@ -3,6 +3,8 @@ package com.example.gnssnavigationstatus.data
 /**
  * Gnss data holder
  * This class holds the current gnss data values and is used for visualizing them
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class GnssDataHolder {
 

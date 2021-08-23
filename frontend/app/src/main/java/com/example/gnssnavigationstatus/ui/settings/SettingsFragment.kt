@@ -44,6 +44,7 @@ import kotlin.system.exitProcess
  * the given ip address is then stored in shared preferences, that on the next startup it can
  * connect immediately
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class SettingsFragment : Fragment() {
 

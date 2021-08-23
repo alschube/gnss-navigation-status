@@ -30,6 +30,7 @@ import java.util.concurrent.Executors
  * This service runs permanently in the background
  * and updates the textViews with new data
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class GnssDataUpdater : Service() {
 

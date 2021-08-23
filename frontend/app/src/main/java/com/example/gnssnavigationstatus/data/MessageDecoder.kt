@@ -8,6 +8,7 @@ import com.google.gson.Gson
  * This class is used for decoding incoming messages to a message object that
  * can be interpreted.
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class MessageDecoder {
 

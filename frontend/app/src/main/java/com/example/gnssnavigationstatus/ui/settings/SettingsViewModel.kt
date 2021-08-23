@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
  * It also handles the communication of the Activity / Fragment with the rest of the application
  * (e.g. calling the business logic classes).
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class SettingsViewModel : ViewModel() {
 

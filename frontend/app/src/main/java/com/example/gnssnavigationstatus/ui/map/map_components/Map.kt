@@ -21,6 +21,8 @@ import androidx.annotation.RequiresApi
  * @param context the application context
  * @param width the width of the screen
  * @param height the height of the screen
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 @SuppressLint("ViewConstructor")
 @RequiresApi(Build.VERSION_CODES.R)

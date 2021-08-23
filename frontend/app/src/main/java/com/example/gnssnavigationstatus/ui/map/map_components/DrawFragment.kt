@@ -11,6 +11,7 @@ import com.example.gnssnavigationstatus.R
 /**
  * Draw fragment that holds the map
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class DrawFragment : Fragment() {
 

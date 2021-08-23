@@ -3,6 +3,7 @@ package com.example.gnssnavigationstatus.data
 /**
  * This class is used for creating Satellite data objects
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class SatelliteData {
 

@@ -4,6 +4,8 @@ package com.example.gnssnavigationstatus.data
  * class for creating Gnss data objects
  *
  * @constructor Create empty Gnss data
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class GnssData{
 

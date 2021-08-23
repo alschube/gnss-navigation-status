@@ -21,6 +21,7 @@ import com.example.gnssnavigationstatus.service.SatelliteAdapter
  * The second fragment
  * This displays the received satellites in a table
  *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class TableFragment : Fragment() {
 

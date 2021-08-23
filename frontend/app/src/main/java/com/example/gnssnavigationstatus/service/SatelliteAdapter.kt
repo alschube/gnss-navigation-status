@@ -14,6 +14,8 @@ import com.example.gnssnavigationstatus.data.SatelliteData
  * Satellite adapter class for managing the satellite recyclerView
  *
  * @property liveData the satellite list
+ *
+ * Developed by Aline Schubert in the period from January to August 2021.
  */
 class SatelliteAdapter // Provide a suitable constructor
 (private var liveData: MutableLiveData<List<SatelliteData>>) : RecyclerView.Adapter<SatelliteAdapter.MyViewHolder>() {
