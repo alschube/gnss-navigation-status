@@ -1,5 +1,7 @@
 """Predefined message classes"""
 
+# Updated by Aline Schubert on 23.08.2021
+
 from . import core
 
 __all__ = ['ACK_CLS', 'CFG_CLS', 'ESF_CLS', 'INF_CLS', 'MGA_CLS', 'MON_CLS',
