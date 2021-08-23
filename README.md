@@ -7,7 +7,7 @@
     - [2.1. Cloning the Repository](#1-cloning-the-repository)
     - [2.2. Interface Configuration](#2-interface-configuration)
     - [2.3. Python Version](#3-python-version)
-    - [2.4. Additional Python Package](#4-additional-python-package)
+    - [2.4. Additional Python Package](#4-additional-python-packages)
     - [2.5. Receiver Firmware](#5-receiver-firmware)
     - [2.6. Receiver Configuration](#6-receiver-configuration)
     - [2.7. Starting and Stopping](#7-starting-and-stopping)
@@ -21,15 +21,35 @@
 
 ### __1. What does this programm do?__
 
-This project was developed in the context of my bachelor thesis at the University of Applied Sciences in Heilbronn.
+This project was developed in the context of my bachelor's thesis for the Applied Computer Science degree programme at Heilbronn University.
 
-The required data is received by the u-blox ZED-F9R pHAT and then passed on to the Raspberry Pi via UART to be further processed in the backend and sent on to the frontend application (android).
+The required data, such as position and Satellites are received by the u-blox ZED-F9R pHAT and then passed on to the Raspberry Pi via UART to be further processed in the backend and sent on to the frontend application (Android).
 
-The backend serves an interface for the frontend to communicate with the receiver to configure it.
+The backend also serves as an interface for the frontend to communicate with the receiver to configure it. You can configure if which satellite systems you want to use to calculate your position or if you want to use rtcm data.
 
-The Ublox Python Package was used for the implementation and extended by some additional functions, which were not provided by u-blox.
+The Ublox Python Package by SparkFun Electronics was used for the implementation and extended with some additional functions, which were not provided.
+
+In order to use RTCM correction data, a connection to an RTCM provider is established via NTRIP Client and the correction data received is sent back to the pHAT, which then computes a centimetre-precise position.
 
 ### __2. Requirements__
+
+To run this programm you'll need at least the following hardware:
+
+Frontend:
+* Android Smartphone (Minimum API Level 30: Android 11.0)
+
+Backend:
+* Raspberry Pi 4 - 4GB Model
+* SparkFun GPS-RTK Dead Reckoning pHAT for Raspberry Pi
+* 15W USB-C power supply
+* Micro SD card with Raspberry Pi OS installed
+* keyboard and mouse
+* GNSS Multi-Band Antenna (SMA)
+* Interface Cable SMA to U.FL
+
+Other: (Only if you wish to use rtcm)
+* Credentials with a RTCM provider such as SAPOS
+* NTRIP Client such as RTKNAVI
 
 ## Installation guide (Backend)
 
@@ -117,11 +137,12 @@ Use the following command to load the new settings so that they take effect.
 $ source ~/.bashrc
 ``` 
 
-### __4. Additional Python Package__
+### __4. Additional Python Packages__
 ***
-In order to run the programm you also need some additional python package to install:
+In order to run the programm you also need some additional python packages to install:
 ``` shell
 $ pip3 install serial
+$ pip3 install spidev
 ```
 
 ### __5. Receiver Firmware__
