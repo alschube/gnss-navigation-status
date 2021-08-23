@@ -199,7 +199,7 @@ The program can be interrupted by pressing the key combination Ctrl + C twice.
 
 ## Quick Start Guide (Frontend)
 
-* To set up the frontend simply install the __apk that is found under \gnss-navigation-status\frontend\app\release__
+* To set up the frontend simply install the __apk that is found under \gnss-navigation-status\frontend\app\release__ or under Releases (Version 1.0)
 
 * When you first open the app you have to configure the ip address of your raspberry pi in the settings tab. After clicking the connect Button a connection should be established.
 
