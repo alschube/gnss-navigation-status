@@ -53,7 +53,9 @@ Other: (Only if you wish to use rtcm)
 
 ## Installation guide (Backend)
 
-Follow these steps to set up the backend on your raspberry pi.
+If you need help with setting up your raspberry pi for the first time, please check out this [tutorial](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up)
+
+Once your raspberry pi is ready, follow these steps to set up the backend.
 
 
 ### __1. Cloning the Repository__
@@ -64,19 +66,20 @@ $ sudo apt update
 $ sudo apt install git
 ```
 
-Go to the directory where you want to clone the repository
+Go to the directory where you want to clone the repository to
 ```shell
 $ cd desiredFolder/
 ```
-First clone the repository to your raspberry pi device via
+Clone it via
 ```shell
 $ git clone git@github.com:alschube/gnss-navigation-status.git
 ```
 
 ### __2. Interface Configuration__
 ***
-Ensure that the device is set up correctly and that GPIO Remote is activated.
-You can do this via GUI (see picture below)
+Ensure that GPIO Remote is activated.
+
+You can do this via GUI under Settings > Interfaces (see picture below)
 ![Raspberry Pi Config](https://gpiozero.readthedocs.io/en/stable/_images/raspi-config.png)
 
 or you can do it on the command line and enable  Remote GPIO. 
@@ -87,9 +90,10 @@ $ sudo raspi-config
 ### __3. Python Version__
 ***
 
-__Make sure you have at least Python Version 3.7 installed. If so, you can skip this step.__
+__Make sure you have at least Python Version 3.7 installed. If so, you can skip this step and go to the [next chapter](#4-additional-python-packages).__
 
-Otherwise follow the instructions below to install Python 3.8.4.
+Otherwise follow the instructions below to install Python 3.8.4, which i worked with.
+
 The first step is to install some required packages:
 ```shell
 $ sudo apt install libffi-dev libbz2-dev liblzma-dev libsqlite3-dev libncurses5-
