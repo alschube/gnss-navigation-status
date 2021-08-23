@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_sat_map"
+        android:icon="@drawable/ic_baseline_explore_24"
+        android:title="@string/title_sat_map" />
+
+    <item
+        android:id="@+id/navigation_sat_table"
+        android:icon="@drawable/ic_baseline_toc_24"
+        android:title="@string/title_sat_table" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/title_settings" />
+
+</menu>
