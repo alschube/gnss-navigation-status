@@ -150,7 +150,8 @@ $ pip3 install spidev
 ```
 
 ### __5. Receiver Firmware__
-If you got a new ZED-F9R you probably need to update the firmware version. Sometimes they are delivered with a test firmware version only and need to be updated as it was in my case.
+__If you got a new ZED-F9R you probably need to update the firmware version.__
+Sometimes they are delivered with a test firmware version only and need to be updated as it was in my case.
 
 To do so, download the latest firmware version from [ZED-F9R Module Firmware](https://www.u-blox.com/en/product/zed-f9r-module?field_file_category=223&field_file_lifecycle=All&field_file_legacy_single=0&edit-submit-product-information=Go#tab-documentation-resources). You'll find it under Documentation & Resources > Firmware Update > ZED-F9R HPS 1.20 firmware
 
@@ -198,13 +199,13 @@ The program can be interrupted by pressing the key combination Ctrl + C twice.
 
 ## Quick Start Guide (Frontend)
 
-* To set up the frontend simply install the apk that is found in the frontend folder on your smartphone
+* To set up the frontend simply install the __apk that is found under \gnss-navigation-status\frontend\app\release__
 
 * When you first open the app you have to configure the ip address of your raspberry pi in the settings tab. After clicking the connect Button a connection should be established.
 
 * In order to configure which satellite systems should be used you can check or uncheck them under the Settings Tab
 
-* In order to use RTCM correction you have to run an ntrip client and connect to a base station (see Chapter RTCM) and you need to activate it in the app in the Settings Tab
+* In order to use RTCM correction you have to run an ntrip client and connect to a base station (see [RTCM Chapter](#rtcm-and-ntrip-configuration)) and you need to activate it in the app in the Settings Tab
 
 ## RTCM and NTRIP Configuration
 
