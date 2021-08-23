@@ -1,6 +1,8 @@
 # GNSS Navigation Status
 ## Table of Contents
-1. [What does this programm do?](#what-does-this-programm-do)
+1. [Overview](#overview)
+    - [1.1. What does this programm do?](#1-what-does-this-programm-do)
+    - [1.2. Requirements](#2-requirements)
 2. [Installation guide (Backend)](#installation-guide-backend)
     - [2.1. Cloning the Repository](#1-cloning-the-repository)
     - [2.2. Interface Configuration](#2-interface-configuration)
@@ -15,7 +17,9 @@
 
 ***
 
-## What does this programm do?
+## Overview
+
+### __1. What does this programm do?__
 
 This project was developed in the context of my bachelor thesis at the University of Applied Sciences in Heilbronn.
 
@@ -24,6 +28,8 @@ The required data is received by the u-blox ZED-F9R pHAT and then passed on to t
 The backend serves an interface for the frontend to communicate with the receiver to configure it.
 
 The Ublox Python Package was used for the implementation and extended by some additional functions, which were not provided by u-blox.
+
+### __2. Requirements__
 
 ## Installation guide (Backend)
 
@@ -44,7 +50,7 @@ $ cd desiredFolder/
 ```
 First clone the repository to your raspberry pi device via
 ```shell
-$ git clone https://example.com
+$ git clone git@github.com:alschube/gnss-navigation-status.git
 ```
 
 ### __2. Interface Configuration__
