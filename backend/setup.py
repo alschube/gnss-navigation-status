@@ -12,44 +12,10 @@
 # Written by Aline Schubert, 2021
 
 """
-CFG-MSGOUT-UBX_NAV_PVT_UART1
-Ram layer config message:
-b5 62 06 8a 09 00 00 01 00 00 07 00 91 20 01 53 48 
+This script is responsible for enabling all required messages and ports when executed
+in order to run the app correctly.
 
-Flash layer config message:
-b5 62 06 8a 09 00 00 04 00 00 07 00 91 20 01 56 60 
-
-
-CFG-MSGOUT-UBX_NAV_SAT_UART1
-Ram layer config message:
-b5 62 06 8a 09 00 00 01 00 00 16 00 91 20 01 62 93 
-
-Flash layer config message:
-b5 62 06 8a 09 00 00 04 00 00 16 00 91 20 01 65 ab 
-
-
-CFG-MSGOUT-UBX_RXM_RTCM_UART1
-Ram layer config message:
-b5 62 06 8a 09 00 00 01 00 00 69 02 91 20 01 b7 3a 
-
-Flash layer config message:
-b5 62 06 8a 09 00 00 04 00 00 69 02 91 20 01 ba 52 
-
-
-CFG-UART1INPROT-RTCM3X
-Ram layer config message:
-b5 62 06 8a 09 00 00 01 00 00 04 00 73 10 01 22 bf 
-
-Flash layer config message:
-b5 62 06 8a 09 00 00 04 00 00 04 00 73 10 01 25 d7 
-
-
-CFG-UART1OUTPROT-UBX
-Ram layer config message:
-b5 62 06 8a 09 00 00 01 00 00 01 00 74 10 01 20 b3
-
-Flash layer config message:
-b5 62 06 8a 09 00 00 04 00 00 01 00 74 10 01 23 cb 
+This has to be done only once when the receiver is not configured.
 """
 
 import serial
@@ -77,6 +43,12 @@ CFG_MSGOUT_UBX_NAV_PVT_UART1_RAM = '00 01 00 00 07 00 91 20 01 53 48'
 CFG_MSGOUT_UBX_NAV_PVT_UART1_FLASH = '00 04 00 00 07 00 91 20 01 56 60'
 
 def createMsgArray():
+    """
+    This method creates a list for all messages to send
+    
+    :return: the list
+    :rtype: list
+    """
     msgList = [CFG_UART1OUTPROT_UBX_RAM, CFG_UART1OUTPROT_UBX_FLASH,
                CFG_UART1INPROT_RTCM3X_RAM, CFG_UART1INPROT_RTCM3X_FLASH,
                CFG_MSGOUT_UBX_RXM_RTCM_UART1_RAM,CFG_MSGOUT_UBX_RXM_RTCM_UART1_FLASH,
@@ -97,24 +69,34 @@ def hexToBytes(byteString):
     """
 
     hex_in_bytes = bytes.fromhex(byteString)
-    print('Converted to: ', hex_in_bytes)
     return hex_in_bytes
 
 def sendMessage(bytesPayload):
-    try:
-        gps.send_message(sp.CFG_CLS, gps.cfg_ms.get('VALSET'), bytesPayload)
-        parse_tool = core.Parser([sp.CFG_CLS, sp.ACK_CLS])
-        cls_name, message, payload = parse_tool.receive_from(gps.hard_port)
-        print("Payload :", message)
-        rec_msg = message
-        if rec_msg != None:
-            return rec_msg
-    except (ValueError, IOError) as err:
-        print('An error occured: ' ,err)
+    """
+    This method sends the required configuration messages to the receiver
+    
+    :param bytesPayload: the bytes to send
+    """
+    while True:
+        try:
+            gps.send_message(sp.CFG_CLS, gps.cfg_ms.get('VALSET'), bytesPayload)
+            parse_tool = core.Parser([sp.CFG_CLS, sp.ACK_CLS])
+            cls_name, message, payload = parse_tool.receive_from(gps.hard_port)
+            print("Payload: ", message)
+            if message == 'ACK':
+                print('Success\n')
+                break
+        except (ValueError, IOError) as err:
+            print('An error occured, trying again...')
+            continue
 
 def run():
+    """
+    This method runs this script
+    """
     messages = createMsgArray()
     for m in messages:
+        print('Sending: ', m)
         sendMessage(hexToBytes(m))
 
 if __name__ == '__main__':
