@@ -2,13 +2,11 @@ package com.example.gnssnavigationstatus.service
 
 import android.annotation.SuppressLint
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.widget.Toast
 import com.example.gnssnavigationstatus.MainActivity
 import com.example.gnssnavigationstatus.data.GnssData
 import com.example.gnssnavigationstatus.data.GnssDataDecoder

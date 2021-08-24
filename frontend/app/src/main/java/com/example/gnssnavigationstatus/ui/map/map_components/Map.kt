@@ -8,10 +8,7 @@ import com.example.gnssnavigationstatus.R
 import com.example.gnssnavigationstatus.data.GnssDataHolder
 import kotlin.math.cos
 import kotlin.math.sin
-import android.os.Build
-import android.view.WindowManager
-import android.view.WindowMetrics
-import androidx.annotation.RequiresApi
+import com.example.gnssnavigationstatus.MainActivity.Companion.viewRight
 
 
 /**
@@ -25,12 +22,7 @@ import androidx.annotation.RequiresApi
  * Developed by Aline Schubert in the period from January to August 2021.
  */
 @SuppressLint("ViewConstructor")
-@RequiresApi(Build.VERSION_CODES.R)
 class Map(context: Context, width: Int, height: Int) : View(context) {
-
-    private var wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    private var metrics:WindowMetrics = wm.currentWindowMetrics
-    private var viewRight = metrics.bounds.right
 
     /** create some variables used for calculation*/
     private var scale: Int = viewRight / 250

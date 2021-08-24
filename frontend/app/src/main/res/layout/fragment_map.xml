@@ -72,88 +72,79 @@
                 android:id="@+id/GLONASS_symbol"
                 android:layout_width="18dp"
                 android:layout_height="19dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/glonass_symbol_descr"
                 android:src="@drawable/ic_circle_24px_lgreen"
-                app:layout_constraintBottom_toBottomOf="@+id/textView20"
                 app:layout_constraintEnd_toStartOf="@+id/textView19"
-                app:layout_constraintTop_toTopOf="@+id/textView20"
-                app:layout_constraintVertical_bias="0.0"
-                android:contentDescription="@string/glonass_symbol_descr" />
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <ImageView
                 android:id="@+id/beidou_symbol"
                 android:layout_width="18dp"
                 android:layout_height="19dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/beidou_symbol_descr"
                 android:src="@drawable/ic_circle_24px_brred"
-                app:layout_constraintBottom_toBottomOf="@+id/textView17"
-                app:layout_constraintEnd_toStartOf="@+id/textView20"
-                app:layout_constraintTop_toTopOf="@+id/textView17"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <ImageView
                 android:id="@+id/GPS_symbol"
                 android:layout_width="18dp"
                 android:layout_height="19dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/gps_symbol_descr"
                 android:src="@drawable/ic_circle_24px_orange"
-                app:layout_constraintBottom_toBottomOf="@+id/textView19"
                 app:layout_constraintEnd_toStartOf="@+id/textView18"
-                app:layout_constraintTop_toTopOf="@+id/textView19"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/legend_title"
                 tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/BDS_text"
                 android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="@+id/beidou_symbol"
-                app:layout_constraintEnd_toStartOf="@+id/GLONASS_symbol"
-                app:layout_constraintTop_toTopOf="@+id/beidou_symbol"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toEndOf="@+id/beidou_symbol"
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <TextView
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 android:text="@string/GLO_text"
                 android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="@+id/GLONASS_symbol"
                 app:layout_constraintEnd_toStartOf="@+id/GPS_symbol"
-                app:layout_constraintTop_toTopOf="@+id/GLONASS_symbol"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:text="@string/GPS_text"
                 android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="@+id/GPS_symbol"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/GPS_symbol"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <TextView
                 android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/GAL_text"
                 android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="@+id/galileo_symbol"
-                app:layout_constraintEnd_toStartOf="@+id/beidou_symbol"
-                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toEndOf="@+id/galileo_symbol"
-                app:layout_constraintTop_toTopOf="@+id/galileo_symbol"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/legend_title" />
 
             <TextView
                 android:id="@+id/number_sats_used_title"

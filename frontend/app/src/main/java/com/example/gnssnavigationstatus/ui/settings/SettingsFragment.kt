@@ -1,9 +1,7 @@
 package com.example.gnssnavigationstatus.ui.settings
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color.parseColor
 import android.os.Bundle
 import android.os.Looper
@@ -22,7 +20,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.jakewharton.processphoenix.ProcessPhoenix
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -30,7 +27,6 @@ import java.io.PrintWriter
 import java.net.Socket
 import java.util.concurrent.Executors
 import java.util.regex.Pattern
-import kotlin.system.exitProcess
 
 /**
  * Settings fragment

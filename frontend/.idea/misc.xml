@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/Test/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_map.xml" value="0.67" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_draw.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_map.xml" value="0.38309215536938307" />

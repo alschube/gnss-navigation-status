@@ -1,16 +1,12 @@
 package com.example.gnssnavigationstatus
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.finishAffinity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.contentValuesOf
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -18,6 +14,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.gnssnavigationstatus.service.GnssDataUpdater
 import com.example.gnssnavigationstatus.ui.settings.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.WindowMetrics
+import android.util.DisplayMetrics
+import android.view.WindowManager
+
 
 /**
  * The Main activity of this app
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         var isConnected: Boolean = false
         lateinit var instance:MainActivity
         lateinit var prefs: SharedPreferences
+        var viewRight:Int = 0
     }
 
 
@@ -54,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         instance = this
+
+        getScreenWidth()
 
         prefs = this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
         loadPreferences()
@@ -93,6 +96,10 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    /**
+     * Save ip address and switch state to preferences
+     *
+     */
     private fun savePreferences(){
         prefs.edit().putString("ip", IP).apply()
         prefs.edit().putBoolean("switch_state", isChecked!!).apply()
@@ -105,6 +112,24 @@ class MainActivity : AppCompatActivity() {
     private fun loadPreferences(){
         IP = prefs.getString("ip", "").toString()
         isChecked = prefs.getBoolean("switch_state", false)
+    }
+
+    /**
+     * Get screen width of the smartphone in order to calculate
+     * dynamic sized views (like map components and texts)
+     *
+     * depends on the build version
+     */
+    private fun getScreenWidth(){
+        viewRight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+            val wm = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val metrics:WindowMetrics = wm.currentWindowMetrics
+            metrics.bounds.right
+        } else{
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.widthPixels
+        }
     }
 
 
