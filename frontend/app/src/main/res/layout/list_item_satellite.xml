@@ -22,9 +22,9 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/id_tv"
+        android:contentDescription="@string/icon_descr"
         android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_circle_24px_brred"
-        android:contentDescription="@string/icon_descr" />
+        app:srcCompat="@drawable/ic_circle_24px_brred" />
 
     <TextView
         android:id="@+id/sat_type_tv"
@@ -38,12 +38,13 @@
 
     <TextView
         android:id="@+id/azimut_tv"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="250dp"
+        android:layout_alignParentStart="false"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
+        android:layout_toStartOf="@id/elevation_tv"
         android:text="@string/azimut_text"
         android:textAlignment="center" />
 
@@ -51,10 +52,10 @@
         android:id="@+id/elevation_tv"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
-        android:layout_toEndOf="@+id/azimut_tv"
+        android:layout_toStartOf="@id/signal_strength_tv"
         android:text="@string/elevation_text"
         android:textAlignment="center" />
 
@@ -63,11 +64,9 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="12dp"
-        android:layout_toEndOf="@+id/elevation_tv"
         android:text="@string/signal_strength_text"
         android:textAlignment="center" />
 </RelativeLayout>

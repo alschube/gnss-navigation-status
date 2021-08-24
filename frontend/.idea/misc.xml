@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Code/Test/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_map.xml" value="0.67" />
+        <entry key="..\:/Code/Test/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_table.xml" value="0.2984375" />
+        <entry key="..\:/Code/Test/gnss-navigation-status/frontend/app/src/main/res/layout/list_item_satellite.xml" value="0.5" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_draw.xml" value="0.36666666666666664" />
         <entry key="..\:/Code/gnss-navigation-status/frontend/app/src/main/res/layout/fragment_map.xml" value="0.38309215536938307" />
