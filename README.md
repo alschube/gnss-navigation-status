@@ -72,7 +72,7 @@ $ cd desiredFolder/
 ```
 Clone it via
 ```shell
-$ git clone git@github.com:alschube/gnss-navigation-status.git
+$ git clone https://github.com/alschube/gnss-navigation-status.git
 ```
 
 ### __2. Interface Configuration__
