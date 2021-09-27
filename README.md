@@ -162,11 +162,11 @@ After downloading you need to install it via u-center software.
 
 To install the firmware, open u-center, select the COM-Port where the receiver is connected (directly connect it via usb-c to your pc) and once the connection is established you can click Tools > Firmware Update
 
-![Firmware Update](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/firmware-update.png?token=AN4NRRIWIFGU44MFVVA56ATBFDW3Q)
+![Firmware Update](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/firmware-update.png?token=AN4NRRNP7FZYPT6ZFUQI65TBLL4JE)
 
 Select the downloaded firmware file, the baudrate (typically 115200), please check 'Enter safeboot before update', 'send training sequence' and 'use chip erase' options.
 
-![Firmware Update Window](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20152556.png?token=AN4NRRLYCMCKRDMDWBHMJTLBFDWUS)
+![Firmware Update Window](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/u-center-firmware.png?token=AN4NRRK5XMGVJTOHIMA6O7LBLL4PW)
 
 Click Send and the firmware will be uploaded.
 
@@ -213,24 +213,24 @@ If you want to use RTCM corrections you have to install an ntrip client on your 
 
 By clicking on the "I" on the top you can create a new input stream.
 
-![Input Streams](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124812.png?token=AN4NRRMGIP4LJGYOQ2Q22M3BFDWM4)
+![Input Streams](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124812.png?token=AN4NRRP5MW5L5CLGIS7QPHLBLL4R6)
 
 First you have to set the _'Transmit NMEA GPGGA to Base Station'_ to _'Latitude/Longitude'_ and provide your current position as accurate as possible (e.g. the position calculated by the app).
 Also check _'(2) Base Station'_, select _'NTRIP Client'_ as type and click on the first '...' Button.
 
-![NTRIP Client Options](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124836.png?token=AN4NRRMPORSG53Y3LBQFBPTBFDWOE)
+![NTRIP Client Options](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124836.png?token=AN4NRRJBJMMYIJWRX54NUJ3BLL4TQ)
 
 There you have to enter your credentials and the Mountpoint you wish to use.
 If you click on _'Ntrip...'_ you can select the desired Mountpoint from a list, copy and paste it into the input field.
 
 After that you need to output the received RTCM data. For that you have to click on the "L" Button in the upper right corner.
 
-![Log Streams](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124906.png?token=AN4NRRJOCSXEY7HNGQPXXULBFDWSO)
+![Log Streams](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124906.png?token=AN4NRRJLSGCLOYDHNXH3AKTBLL4US)
 
 Check _'(7) Base Station'_ and _'TCP Client'_ as type. Open the Options by clicking on the '...' Button right beside it.
 There you have to type your raspberry pi's ip address and the port of the TCP Server (the backend) 8766.
 
-![TCP Client Options](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124917.png?token=AN4NRRPYW73KWTEXGQFTI2DBFDWUI)
+![TCP Client Options](https://raw.githubusercontent.com/alschube/Bachelorarbeit/dev/LaTeX%20Vorlage/Bilder/Screenshot%202021-08-20%20124917.png?token=AN4NRRKMK7X56V4HBM7EZ2DBLL4VW)
 
 You can confirm and go back to the main window.
 If you click start, the Ntrip client tries to communicate with the base station and transmitts your position in order to get correction data. This can take up to some minutes. If you see bars in the diagram in the center below, it is working.
